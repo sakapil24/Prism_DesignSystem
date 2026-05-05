@@ -1,0 +1,186 @@
+{
+  "colors": {
+    "white": "#FFFFFF",
+    "black": "#000000",
+
+    "gray": {
+      "50": "#FBFBFB",
+      "100": "#F8F9FA",
+      "150": "#EEEFF1",
+      "200": "#E6E7EA",
+      "300": "#CDCFD1",
+      "400": "#A0A2A6",
+      "500": "#808184",
+      "600": "#505154",
+      "700": "#3A3B3E",
+      "800": "#242529",
+      "900": "#1A1B1E"
+    },
+
+    "blue": {
+      "50": "#E5EEFF",
+      "100": "#D6E5FF",
+      "200": "#A8C8FF",
+      "300": "#6EA0F7",
+      "400": "#4A85F2",
+      "500": "#266DF0",
+      "600": "#1A5AD4",
+      "700": "#1248B0",
+      "800": "#0D3688",
+      "900": "#082560"
+    },
+
+    "red": {
+      "50": "#FEF2F2",
+      "100": "#FEECF3",
+      "200": "#FDDDE6",
+      "300": "#FCA5B8",
+      "400": "#F86E8A",
+      "500": "#EF4444",
+      "600": "#DC2626",
+      "700": "#B91C1C",
+      "800": "#991B1B",
+      "900": "#7F1D1D"
+    },
+
+    "amber": {
+      "50": "#FFF3CC",
+      "100": "#FFEDD5",
+      "200": "#FFE4B8",
+      "300": "#FCD34D",
+      "400": "#FBBF24",
+      "500": "#F59E0B",
+      "600": "#D97706",
+      "700": "#B45309",
+      "800": "#874D00",
+      "900": "#6B3A00"
+    },
+
+    "green": {
+      "50": "#E0FCED",
+      "100": "#D1FAE5",
+      "200": "#A7F3D0",
+      "300": "#6EE7B7",
+      "400": "#34D399",
+      "500": "#10B981",
+      "600": "#059669",
+      "700": "#047857",
+      "800": "#065F46",
+      "900": "#064E3B"
+    },
+
+    "lime": {
+      "50": "#F4FBCB",
+      "100": "#ECFCCB",
+      "200": "#D9F99D",
+      "300": "#BEF264",
+      "400": "#A3E635",
+      "500": "#84CC16"
+    },
+
+    "orange": {
+      "50": "#FEEEE1",
+      "100": "#FFEDD5",
+      "200": "#FED7AA",
+      "300": "#FDBA74",
+      "400": "#FB923C",
+      "500": "#F97516"
+    },
+
+    "pink": {
+      "50": "#FEECF3",
+      "100": "#FCE7F3",
+      "200": "#FBCFE8",
+      "300": "#F9A8D4",
+      "400": "#FA4B94",
+      "500": "#EC4899"
+    },
+
+    "purple": {
+      "50": "#F3EEFF",
+      "100": "#EDE9FE",
+      "200": "#DDD6FE",
+      "300": "#C4B5FD",
+      "400": "#9B69FF",
+      "500": "#8B5CF6"
+    },
+
+    "cyan": {
+      "50": "#E0F7FF",
+      "100": "#CFFAFE",
+      "200": "#A5F3FC",
+      "300": "#67E8F9",
+      "400": "#00B9EB",
+      "500": "#06B6D4"
+    }
+  },
+
+  "semantic": {
+    "text": {
+      "primary": "#242529",
+      "secondary": "#505154",
+      "muted": "rgba(0, 0, 0, 0.55)",
+      "faint": "rgba(0, 0, 0, 0.4)",
+      "ghost": "rgba(0, 0, 0, 0.3)",
+      "inverse": "#FFFFFF",
+      "link": "#266DF0",
+      "success": "#059669",
+      "warning": "#D97706",
+      "error": "#DC2626"
+    },
+    "surface": {
+      "page": "#FFFFFF",
+      "sidebar": "#FBFBFB",
+      "subtle": "rgba(0, 0, 0, 0.06)",
+      "muted": "#F8F9FA",
+      "elevated": "#FFFFFF",
+      "hover": "#EEEFF1",
+      "active": "#E6E7EA",
+      "selected": "#E5EEFF",
+      "overlay": "rgba(0, 0, 0, 0.4)"
+    },
+    "border": {
+      "default": "#E6E7EA",
+      "subtle": "#EEEFF1",
+      "faint": "rgba(0, 0, 0, 0.05)",
+      "strong": "#CDCFD1",
+      "focus": "rgba(38, 109, 240, 0.32)",
+      "accent": "#266DF0",
+      "error": "#DC2626"
+    },
+    "icon": {
+      "default": "#505154",
+      "muted": "rgba(0, 0, 0, 0.4)",
+      "inverse": "#FFFFFF",
+      "accent": "#266DF0"
+    },
+    "accent": {
+      "primary": "#266DF0",
+      "primaryHover": "#1A5AD4",
+      "primarySubtle": "#E5EEFF"
+    },
+    "status": {
+      "success": "#10B981",
+      "successSubtle": "#E0FCED",
+      "warning": "#F59E0B",
+      "warningSubtle": "#FFF3CC",
+      "error": "#EF4444",
+      "errorSubtle": "#FEF2F2",
+      "info": "#266DF0",
+      "infoSubtle": "#E5EEFF"
+    }
+  },
+
+  "badge": {
+    "amber": { "bg": "#FFF3CC", "text": "#874D00" },
+    "lime": { "bg": "#F4FBCB", "text": "#4D7C0F" },
+    "orange": { "bg": "#FEEEE1", "text": "#9A3412" },
+    "green": { "bg": "#E0FCED", "text": "#065F46" },
+    "gray": { "bg": "#F8F9FA", "text": "#505154" },
+    "blue": { "bg": "#E5EEFF", "text": "#0D3688" },
+    "purple": { "bg": "#F3EEFF", "text": "#6D28D9" },
+    "pink": { "bg": "#FEECF3", "text": "#9D174D" },
+    "red": { "bg": "#FEF2F2", "text": "#991B1B" },
+    "cyan": { "bg": "#E0F7FF", "text": "#0E7490" }
+  }
+}

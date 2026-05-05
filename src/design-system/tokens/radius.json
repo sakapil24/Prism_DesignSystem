@@ -1,0 +1,28 @@
+{
+  "radius": {
+    "none": "0px",
+    "sm": "4px",
+    "md": "6px",
+    "DEFAULT": "8px",
+    "lg": "9px",
+    "xl": "12px",
+    "2xl": "16px",
+    "3xl": "24px",
+    "full": "9999px"
+  },
+  "componentRadius": {
+    "button": "8px",
+    "input": "8px",
+    "badge": "7px",
+    "card": "12px",
+    "modal": "12px",
+    "popover": "12px",
+    "dropdown": "12px",
+    "tooltip": "8px",
+    "navItem": "9px",
+    "avatar": "9999px",
+    "checkbox": "4px",
+    "switch": "9999px",
+    "tab": "8px"
+  }
+}

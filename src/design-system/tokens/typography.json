@@ -1,0 +1,52 @@
+{
+  "fontFamily": {
+    "sans": "Switzer, DM Sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+    "mono": "'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', monospace"
+  },
+  "fontSize": {
+    "xs": "11px",
+    "sm": "12px",
+    "base": "14px",
+    "md": "16px",
+    "lg": "18px",
+    "xl": "20px",
+    "2xl": "24px",
+    "3xl": "28px",
+    "4xl": "32px"
+  },
+  "fontWeight": {
+    "normal": "400",
+    "medium": "500",
+    "semibold": "600",
+    "bold": "700"
+  },
+  "lineHeight": {
+    "none": "1",
+    "tight": "1.25",
+    "snug": "1.35",
+    "normal": "1.5",
+    "relaxed": "1.625"
+  },
+  "letterSpacing": {
+    "tighter": "-0.02em",
+    "tight": "-0.01em",
+    "normal": "0",
+    "wide": "0.01em",
+    "wider": "0.02em",
+    "widest": "0.05em"
+  },
+  "textStyles": {
+    "heading-xl": { "fontSize": "24px", "fontWeight": "600", "lineHeight": "1.25", "letterSpacing": "-0.02em" },
+    "heading-lg": { "fontSize": "20px", "fontWeight": "600", "lineHeight": "1.25", "letterSpacing": "-0.01em" },
+    "heading-md": { "fontSize": "16px", "fontWeight": "600", "lineHeight": "1.25" },
+    "heading-sm": { "fontSize": "14px", "fontWeight": "600", "lineHeight": "1.35" },
+    "body-lg": { "fontSize": "16px", "fontWeight": "400", "lineHeight": "1.5" },
+    "body": { "fontSize": "14px", "fontWeight": "400", "lineHeight": "1.5" },
+    "body-medium": { "fontSize": "14px", "fontWeight": "500", "lineHeight": "1.5" },
+    "body-sm": { "fontSize": "12px", "fontWeight": "400", "lineHeight": "1.5" },
+    "body-xs": { "fontSize": "11px", "fontWeight": "400", "lineHeight": "1.35" },
+    "label": { "fontSize": "12px", "fontWeight": "500", "lineHeight": "1.35" },
+    "label-sm": { "fontSize": "11px", "fontWeight": "500", "lineHeight": "1.35" },
+    "caption": { "fontSize": "11px", "fontWeight": "400", "lineHeight": "1.35" }
+  }
+}

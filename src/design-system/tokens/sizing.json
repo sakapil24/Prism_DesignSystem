@@ -1,0 +1,76 @@
+{
+  "sizing": {
+    "icon": {
+      "xs": "12px",
+      "sm": "14px",
+      "md": "16px",
+      "lg": "20px",
+      "xl": "24px"
+    },
+    "avatar": {
+      "xs": "20px",
+      "sm": "24px",
+      "md": "32px",
+      "lg": "40px",
+      "xl": "56px"
+    },
+    "button": {
+      "sm": "24px",
+      "md": "28px",
+      "lg": "32px",
+      "xl": "36px"
+    },
+    "input": {
+      "sm": "28px",
+      "md": "32px",
+      "lg": "36px"
+    },
+    "badge": {
+      "default": "22px"
+    },
+    "navItem": {
+      "default": "28px"
+    },
+    "tableRow": {
+      "default": "36px",
+      "compact": "32px"
+    }
+  },
+  "layout": {
+    "sidebar": {
+      "width": "275px",
+      "collapsedWidth": "52px"
+    },
+    "topbar": {
+      "height": "44px"
+    },
+    "detailPanel": {
+      "width": "460px"
+    },
+    "modal": {
+      "sm": "400px",
+      "md": "520px",
+      "lg": "640px",
+      "xl": "780px"
+    },
+    "maxContent": "1200px"
+  },
+  "mobile": {
+    "sidebar": {
+      "width": "260px",
+      "maxWidth": "85vw"
+    },
+    "topbar": {
+      "height": "48px"
+    },
+    "bottomNav": {
+      "height": "56px"
+    },
+    "touchTarget": {
+      "min": "44px"
+    },
+    "pagePadding": {
+      "x": "16px"
+    }
+  }
+}

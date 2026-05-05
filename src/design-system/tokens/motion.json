@@ -1,0 +1,32 @@
+{
+  "duration": {
+    "instant": "0ms",
+    "fast": "100ms",
+    "normal": "160ms",
+    "moderate": "200ms",
+    "slow": "300ms",
+    "slower": "400ms"
+  },
+  "easing": {
+    "default": "cubic-bezier(0.2, 0, 0, 1)",
+    "easeIn": "cubic-bezier(0.4, 0, 1, 1)",
+    "easeOut": "cubic-bezier(0, 0, 0.2, 1)",
+    "easeInOut": "cubic-bezier(0.4, 0, 0.2, 1)",
+    "spring": "cubic-bezier(0.34, 1.56, 0.64, 1)"
+  },
+  "transitions": {
+    "opacity": "opacity 160ms cubic-bezier(0.2, 0, 0, 1)",
+    "colors": "background-color 200ms, color 200ms, border-color 200ms",
+    "button": "background-color 200ms, color 200ms, box-shadow 200ms",
+    "transform": "transform 200ms cubic-bezier(0.2, 0, 0, 1)",
+    "all": "all 200ms cubic-bezier(0.2, 0, 0, 1)"
+  },
+  "animation": {
+    "fadeIn": { "from": { "opacity": "0" }, "to": { "opacity": "1" }, "duration": "160ms" },
+    "fadeOut": { "from": { "opacity": "1" }, "to": { "opacity": "0" }, "duration": "100ms" },
+    "slideDown": { "from": { "opacity": "0", "transform": "translateY(-4px)" }, "to": { "opacity": "1", "transform": "translateY(0)" }, "duration": "200ms" },
+    "slideUp": { "from": { "opacity": "0", "transform": "translateY(4px)" }, "to": { "opacity": "1", "transform": "translateY(0)" }, "duration": "200ms" },
+    "scaleIn": { "from": { "opacity": "0", "transform": "scale(0.96)" }, "to": { "opacity": "1", "transform": "scale(1)" }, "duration": "200ms" },
+    "spin": { "from": { "transform": "rotate(0deg)" }, "to": { "transform": "rotate(360deg)" }, "duration": "600ms" }
+  }
+}

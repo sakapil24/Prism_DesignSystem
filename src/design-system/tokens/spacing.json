@@ -1,0 +1,44 @@
+{
+  "spacing": {
+    "0": "0px",
+    "0.5": "2px",
+    "1": "4px",
+    "1.5": "6px",
+    "2": "8px",
+    "2.5": "10px",
+    "3": "12px",
+    "4": "16px",
+    "5": "20px",
+    "6": "24px",
+    "7": "28px",
+    "8": "32px",
+    "10": "40px",
+    "12": "48px",
+    "16": "64px",
+    "20": "80px"
+  },
+  "componentSpacing": {
+    "badge-px": "6px",
+    "badge-py": "1px",
+    "button-px": "8px",
+    "button-py": "4px",
+    "button-gap": "6px",
+    "input-px": "8px",
+    "input-py": "4px",
+    "card-p": "16px",
+    "nav-item-px": "8px",
+    "nav-item-gap": "6px",
+    "section-gap": "16px",
+    "page-px": "24px",
+    "page-py": "20px",
+    "modal-p": "24px"
+  },
+  "mobileSpacing": {
+    "page-px": "16px",
+    "page-py": "16px",
+    "section-gap": "12px",
+    "card-p": "12px",
+    "modal-p": "16px",
+    "bottom-nav-item-gap": "4px"
+  }
+}

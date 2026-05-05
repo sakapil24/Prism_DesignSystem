@@ -1,0 +1,16 @@
+{
+  "shadows": {
+    "none": "none",
+    "border": "rgba(0, 0, 0, 0.05) 0px 0px 0px 1px inset",
+    "borderSubtle": "rgb(238, 239, 241) 0px 1px 0px 0px",
+    "sm": "rgba(28, 40, 64, 0.04) 0px 1px 2px 0px",
+    "md": "rgba(255, 255, 255, 0) 0px 0px 0px 1px inset, rgba(28, 40, 64, 0.18) 0px 0px 2px 0px, rgba(24, 41, 75, 0.04) 0px 1px 3px 0px",
+    "lg": "rgba(28, 40, 64, 0.04) 0px 4px 8px -2px, rgba(28, 40, 64, 0.08) 0px 2px 4px -2px",
+    "xl": "rgba(0, 0, 0, 0.04) 0px 12px 30px 0px, rgba(0, 0, 0, 0.08) 0px 4px 12px 0px",
+    "primaryButton": "rgba(0, 0, 0, 0.1) 0px 0px 0px 1px inset, rgba(38, 109, 240, 0.12) 0px 2px 4px -2px, rgba(38, 109, 240, 0.08) 0px 3px 6px -2px",
+    "focusRing": "rgba(38, 109, 240, 0.32) 0px 0px 0px 2px",
+    "focusRingInset": "rgba(38, 109, 240, 0.32) 0px 0px 0px 1px inset",
+    "popover": "rgba(0, 0, 0, 0.08) 0px 8px 24px 0px, rgba(0, 0, 0, 0.06) 0px 2px 8px 0px, rgba(0, 0, 0, 0.04) 0px 0px 0px 1px",
+    "modal": "rgba(0, 0, 0, 0.1) 0px 20px 50px 0px, rgba(0, 0, 0, 0.06) 0px 4px 16px 0px"
+  }
+}

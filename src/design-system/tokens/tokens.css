@@ -1,0 +1,361 @@
+/* Prism Design System v1 — CSS Custom Properties
+ *
+ * Design system locked in design.md v1 (2026-05-05).
+ * Palette: v2 Refined Cool. Typography: Switzer (with DM Sans web fallback).
+ * Foundation reverse-engineered from CRM design system example, then
+ * re-skinned to Prism / Indian VCs brand tokens.
+ *
+ * Compatible with Tailwind CSS v4. All values are referenced via
+ * var(--token-name) throughout the component library.
+ */
+
+:root {
+  /* ─── Brand palette (locked from Indian VCs Brand Guide v1.0) ─── */
+  --brand-red:        #D21905;  /* Indian VCs Red — brand-pause only */
+  --brand-charcoal:   #191816;  /* Charcoal — primary text */
+  --brand-cocoa:      #301008;  /* Dark Cocoa — premium dark surfaces */
+  --brand-pearl:      #F8F8EE;  /* Pearl Cream — marketing canvas only */
+  --brand-clay-dark:  #810100;  /* Clay Red Dark — pressed CTA */
+  --brand-clay-light: #AB342B;  /* Clay Red Light — primary CTA */
+
+  /* ─── Cool slate neutral ramp (anchored to Charcoal at 900) ─── */
+  --color-gray-50:  #F8F9FB;
+  --color-gray-100: #EFF1F4;
+  --color-gray-150: #E8EBF0;
+  --color-gray-200: #E1E4E9;
+  --color-gray-300: #C5CAD2;
+  --color-gray-400: #969CA6;
+  --color-gray-500: #6A707A;
+  --color-gray-600: #4A4F58;
+  --color-gray-700: #30343B;
+  --color-gray-800: #20232A;
+  --color-gray-900: #191816;
+
+  /* ─── Accent (re-mapped from blue → Clay Red) ─── */
+  --color-accent-50:  #FCEEEA;
+  --color-accent-100: #F8DCD3;
+  --color-accent-200: #EBB8AC;
+  --color-accent-300: #D9897C;
+  --color-accent-400: #C25A4D;
+  --color-accent-500: #AB342B;  /* = brand-clay-light */
+  --color-accent-600: #93251D;
+  --color-accent-700: #810100;  /* = brand-clay-dark */
+  --color-accent-800: #5F0100;
+  --color-accent-900: #3D0100;
+
+  /* ─── Status colors ─── */
+  --color-red-50:    #FBE5E1;
+  --color-red-100:   #F1B7AE;
+  --color-red-500:   #D21905;  /* = brand-red */
+  --color-red-600:   #B11505;
+  --color-red-700:   #810100;
+
+  --color-amber-50:  #F8EDD2;
+  --color-amber-100: #E0C285;
+  --color-amber-500: #B27316;
+  --color-amber-600: #8E5A0F;
+  --color-amber-800: #5C3B08;
+
+  --color-green-50:  #E4F1EC;
+  --color-green-100: #A8D2BD;
+  --color-green-500: #1F8056;
+  --color-green-600: #166240;
+  --color-green-800: #0E3F2A;
+
+  --color-blue-50:   #E1ECF7;
+  --color-blue-100:  #B0C8E2;
+  --color-blue-500:  #2D5DA0;
+  --color-blue-600:  #244A82;
+  --color-blue-800:  #173258;
+
+  /* Decorative accents for status pills, avatars, charts */
+  --color-purple-50:  #F1ECFA;
+  --color-purple-400: #7B5AC9;
+  --color-pink-50:    #FBE7EE;
+  --color-pink-400:   #C44A78;
+  --color-cyan-50:    #DEEFF6;
+  --color-cyan-400:   #2E8AB0;
+  --color-orange-50:  #F8E7D8;
+  --color-orange-500: #B85F22;
+  --color-lime-50:    #ECF5D5;
+  --color-lime-500:   #5C7A1F;
+
+  /* ─── Semantic: Text ─── */
+  --text-primary:   var(--brand-charcoal);     /* #191816 */
+  --text-secondary: var(--color-gray-700);     /* #30343B */
+  --text-muted:     var(--color-gray-500);     /* #6A707A */
+  --text-faint:     var(--color-gray-400);     /* #969CA6 */
+  --text-ghost:     rgba(25, 24, 22, 0.30);
+  --text-inverse:   var(--brand-pearl);        /* #F8F8EE */
+  --text-link:      var(--brand-clay-light);   /* #AB342B */
+  --text-link-hover:var(--brand-clay-dark);    /* #810100 */
+  --text-success:   #166240;
+  --text-warning:   #8E5A0F;
+  --text-error:     var(--brand-red);          /* #D21905 */
+
+  /* ─── Semantic: Surface ─── */
+  --surface-page:     #F5F6F8;                 /* PRODUCT CANVAS — not Pearl Cream */
+  --surface-sidebar:  #FFFFFF;                 /* white sidebar on cool canvas */
+  --surface-subtle:   rgba(25, 24, 22, 0.04);
+  --surface-muted:    var(--color-gray-100);   /* #EFF1F4 */
+  --surface-elevated: #FFFFFF;
+  --surface-hover:    var(--color-gray-100);   /* #EFF1F4 */
+  --surface-active:   var(--color-gray-200);   /* #E1E4E9 */
+  --surface-selected: rgba(171, 52, 43, 0.08); /* Clay Red Light @ 8% */
+  --surface-overlay:  rgba(25, 24, 22, 0.55);
+
+  /* Marketing-only canvas */
+  --surface-marketing: var(--brand-pearl);     /* #F8F8EE */
+
+  /* ─── Semantic: Border ─── */
+  --border-default: var(--color-gray-200);     /* #E1E4E9 */
+  --border-subtle:  var(--color-gray-150);     /* #E8EBF0 */
+  --border-faint:   rgba(25, 24, 22, 0.05);
+  --border-strong:  var(--color-gray-300);     /* #C5CAD2 */
+  --border-focus:   rgba(210, 25, 5, 0.32);    /* Brand red @ 32% — focus halo */
+  --border-accent:  var(--brand-red);          /* #D21905 — Link motif (active tab, focus border) */
+  --border-error:   var(--brand-red);          /* #D21905 */
+
+  /* ─── Semantic: Icon ─── */
+  --icon-default: var(--color-gray-600);       /* #4A4F58 */
+  --icon-muted:   var(--color-gray-500);       /* #6A707A */
+  --icon-inverse: var(--brand-pearl);          /* #F8F8EE */
+  --icon-accent:  var(--brand-red);            /* #D21905 — logo, brand moments */
+
+  /* ─── Semantic: Accent (drives primary CTA) ─── */
+  --accent-primary:         var(--brand-clay-light); /* #AB342B */
+  --accent-primary-hover:   var(--brand-clay-dark);  /* #810100 */
+  --accent-primary-active:  var(--brand-clay-dark);  /* #810100 */
+  --accent-primary-subtle:  rgba(171, 52, 43, 0.08); /* Clay Red Light @ 8% */
+  --accent-primary-fg:      var(--brand-pearl);      /* #F8F8EE — text on CTA */
+
+  /* Brand-pause CTA — rare, reserved for explicit brand moments */
+  --accent-brand:    var(--brand-red);         /* #D21905 */
+  --accent-brand-fg: var(--brand-pearl);       /* #F8F8EE */
+
+  /* ─── Typography ─── */
+  --font-sans: 'Switzer', 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-serif: 'Arapey', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+  --font-mono: 'SF Mono', 'JetBrains Mono', 'Fira Code', 'Roboto Mono', monospace;
+
+  --text-xs:   11px;
+  --text-sm:   12px;
+  --text-base: 14px;
+  --text-md:   16px;
+  --text-lg:   18px;
+  --text-xl:   20px;
+  --text-2xl:  24px;
+  --text-3xl:  28px;
+  --text-4xl:  32px;
+  --text-5xl:  36px;  /* heading.section-anchor (Arapey only) */
+
+  --font-normal:   400;
+  --font-medium:   500;
+  --font-semibold: 600;
+  --font-bold:     700;
+
+  --leading-none:   1;
+  --leading-tight:  1.25;
+  --leading-snug:   1.35;
+  --leading-normal: 1.5;
+
+  --tracking-tight:   -0.01em;
+  --tracking-snug:    -0.005em;
+  --tracking-cta:     0.08em;     /* CTA buttons (uppercase Switzer Medium) */
+  --tracking-eyebrow: 0.08em;
+
+  /* ─── Spacing (4px base, 8px primary) ─── */
+  --space-0:   0px;
+  --space-0-5: 2px;
+  --space-1:   4px;
+  --space-1-5: 6px;
+  --space-2:   8px;
+  --space-2-5: 10px;
+  --space-3:   12px;
+  --space-4:   16px;
+  --space-5:   20px;
+  --space-6:   24px;
+  --space-8:   32px;
+  --space-10:  40px;
+  --space-12:  48px;
+  --space-16:  64px;
+  --space-20:  80px;
+  --space-24:  96px;
+
+  /* ─── Border Radius ─── */
+  --radius-sm:   2px;
+  --radius-md:   4px;
+  --radius:      6px;     /* default — buttons, inputs, chips */
+  --radius-lg:   8px;     /* cards, panels */
+  --radius-xl:   12px;    /* large cards */
+  --radius-2xl:  16px;
+  --radius-3xl:  24px;
+  --radius-full: 9999px;  /* pills, avatars */
+
+  /* ─── Shadows (warm — Charcoal alpha, never cool/black) ─── */
+  --shadow-border:      rgba(25, 24, 22, 0.05) 0px 0px 0px 1px inset;
+  --shadow-sm:          rgba(25, 24, 22, 0.06) 0px 1px 2px 0px;
+  --shadow-md:          rgba(25, 24, 22, 0.08) 0px 2px 8px -2px, rgba(25, 24, 22, 0.04) 0px 1px 2px 0px;
+  --shadow-lg:          rgba(25, 24, 22, 0.12) 0px 8px 24px -8px, rgba(25, 24, 22, 0.06) 0px 2px 6px -2px;
+  --shadow-xl:          rgba(25, 24, 22, 0.18) 0px 24px 48px -16px, rgba(25, 24, 22, 0.08) 0px 4px 12px -4px;
+  --shadow-primary-btn: rgba(0, 0, 0, 0.10) 0px 0px 0px 1px inset, rgba(171, 52, 43, 0.18) 0px 2px 4px -2px, rgba(171, 52, 43, 0.10) 0px 3px 6px -2px;
+  --shadow-focus-ring:  rgba(210, 25, 5, 0.32) 0px 0px 0px 2px;
+  --shadow-popover:     rgba(25, 24, 22, 0.12) 0px 8px 24px -8px, rgba(25, 24, 22, 0.06) 0px 2px 8px 0px, rgba(25, 24, 22, 0.04) 0px 0px 0px 1px;
+  --shadow-modal:       rgba(25, 24, 22, 0.18) 0px 24px 48px -16px, rgba(25, 24, 22, 0.08) 0px 4px 12px -4px;
+
+  /* ─── Motion ─── */
+  --duration-instant:    80ms;
+  --duration-fast:      150ms;
+  --duration-normal:    220ms;     /* default UI */
+  --duration-moderate:  220ms;     /* alias retained for component compat */
+  --duration-slow:      320ms;     /* modals, drawers, page enter */
+  --duration-deliberate: 480ms;    /* marketing reveals */
+
+  --ease-default:    cubic-bezier(0.2, 0, 0, 1);
+  --ease-in:         cubic-bezier(0.4, 0, 1, 1);
+  --ease-out:        cubic-bezier(0, 0, 0.2, 1);
+  --ease-entrance:   cubic-bezier(0, 0, 0, 1);
+  --ease-spring:     cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-emphasized: cubic-bezier(0.2, 0, 0, 1.2);
+
+  /* ─── Z-Index ─── */
+  --z-dropdown: 1000;
+  --z-sticky:   1100;
+  --z-overlay:  1200;
+  --z-modal:    1300;
+  --z-popover:  1400;
+  --z-toast:    1500;
+  --z-tooltip:  1600;
+
+  /* ─── Layout ─── */
+  --sidebar-width:       260px;
+  --sidebar-collapsed:    56px;
+  --topbar-height:        56px;
+  --detail-panel-width:  460px;
+
+  /* ─── Mobile Layout ─── */
+  --mobile-page-px:           16px;
+  --mobile-sidebar-max-width: 85vw;
+  --mobile-sidebar-width:     280px;
+  --bottom-nav-height:         56px;
+  --mobile-topbar-height:      48px;
+  --touch-target-min:          44px;
+
+  /* ─── Breakpoints ─── */
+  --breakpoint-sm:   640px;
+  --breakpoint-md:   768px;
+  --breakpoint-lg:  1024px;
+  --breakpoint-xl:  1280px;
+  --breakpoint-2xl: 1536px;
+}
+
+/* ─── Dark theme (scaffolded — activate when theme-parity decision lands) ─── */
+
+[data-theme="dark"] {
+  /* Surface */
+  --surface-page:     var(--brand-charcoal);   /* #191816 */
+  --surface-sidebar:  #14161A;
+  --surface-subtle:   rgba(248, 248, 238, 0.04);
+  --surface-muted:    #20232A;
+  --surface-elevated: #2A2E36;
+  --surface-hover:    #2A2E36;
+  --surface-active:   #353940;
+  --surface-selected: rgba(171, 52, 43, 0.16);
+  --surface-overlay:  rgba(0, 0, 0, 0.65);
+
+  /* Text */
+  --text-primary:    var(--brand-pearl);    /* #F8F8EE */
+  --text-secondary:  #C5CAD2;
+  --text-muted:      #969CA6;
+  --text-faint:      #6A707A;
+  --text-ghost:      rgba(248, 248, 238, 0.30);
+  --text-inverse:    var(--brand-charcoal); /* #191816 */
+  --text-link:       var(--brand-clay-light);
+  --text-link-hover: #C25A4D;
+  --text-success:    #1F8056;
+  --text-warning:    #B27316;
+  --text-error:      var(--brand-red);
+
+  /* Border */
+  --border-default: #353940;
+  --border-subtle:  #2A2E36;
+  --border-faint:   rgba(248, 248, 238, 0.06);
+  --border-strong:  #4A4F58;
+  --border-focus:   rgba(210, 25, 5, 0.4);
+  --border-accent:  var(--brand-red);
+  --border-error:   var(--brand-red);
+
+  /* Icon */
+  --icon-default: #C5CAD2;
+  --icon-muted:   #969CA6;
+  --icon-inverse: var(--brand-charcoal);
+  --icon-accent:  var(--brand-red);
+
+  /* Accent */
+  --accent-primary:        var(--brand-clay-light);
+  --accent-primary-hover:  #C25A4D;
+  --accent-primary-active: #93251D;
+  --accent-primary-subtle: rgba(171, 52, 43, 0.16);
+  --accent-primary-fg:     var(--brand-pearl);
+
+  /* Shadows (slightly heavier on dark) */
+  --shadow-border:      rgba(248, 248, 238, 0.06) 0px 0px 0px 1px inset;
+  --shadow-sm:          rgba(0, 0, 0, 0.30) 0px 1px 2px 0px;
+  --shadow-md:          rgba(248, 248, 238, 0.04) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.40) 0px 0px 2px 0px, rgba(0, 0, 0, 0.20) 0px 1px 3px 0px;
+  --shadow-lg:          rgba(0, 0, 0, 0.40) 0px 8px 24px -8px, rgba(0, 0, 0, 0.20) 0px 2px 6px -2px;
+  --shadow-xl:          rgba(0, 0, 0, 0.50) 0px 24px 48px -16px, rgba(0, 0, 0, 0.30) 0px 4px 12px -4px;
+  --shadow-primary-btn: rgba(0, 0, 0, 0.30) 0px 0px 0px 1px inset, rgba(171, 52, 43, 0.30) 0px 2px 4px -2px;
+  --shadow-focus-ring:  rgba(210, 25, 5, 0.40) 0px 0px 0px 2px;
+  --shadow-popover:     rgba(0, 0, 0, 0.50) 0px 8px 24px 0px, rgba(0, 0, 0, 0.30) 0px 2px 8px 0px, rgba(248, 248, 238, 0.06) 0px 0px 0px 1px;
+  --shadow-modal:       rgba(0, 0, 0, 0.60) 0px 24px 48px -16px, rgba(0, 0, 0, 0.30) 0px 4px 16px -4px;
+}
+
+/* ─── Rich Text Editor Styles (deferred — Tiptap not yet active) ─── */
+
+.tiptap-content {
+  outline: none;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  color: var(--text-primary);
+}
+.tiptap-content > * + * { margin-top: 0.75em; }
+.tiptap-content h1 { font-size: var(--text-2xl); font-weight: var(--font-semibold); line-height: var(--leading-tight); }
+.tiptap-content h2 { font-size: var(--text-xl);  font-weight: var(--font-semibold); line-height: var(--leading-tight); }
+.tiptap-content h3 { font-size: var(--text-md);  font-weight: var(--font-semibold); line-height: var(--leading-snug); }
+.tiptap-content ul, .tiptap-content ol { padding-left: 1.5em; }
+.tiptap-content ul { list-style-type: disc; }
+.tiptap-content ol { list-style-type: decimal; }
+.tiptap-content li > p { margin-top: 0; }
+.tiptap-content blockquote {
+  padding-left: 1em;
+  border-left: 3px solid var(--border-accent);
+  color: var(--text-secondary);
+  font-style: italic;
+}
+.tiptap-content code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  padding: 2px 4px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-muted);
+}
+.tiptap-content pre {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  background: var(--surface-muted);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  overflow-x: auto;
+}
+.tiptap-content pre code { padding: 0; background: transparent; }
+.tiptap-content a { color: var(--text-link); text-decoration: underline; text-underline-offset: 3px; }
+.tiptap-content a:hover { color: var(--text-link-hover); }
+.tiptap-content hr { border: none; border-top: 1px solid var(--border-subtle); margin: 1.5em 0; }
+.tiptap-content p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: var(--text-faint);
+  pointer-events: none;
+  height: 0;
+}
