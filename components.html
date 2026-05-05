@@ -1,0 +1,1369 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prism — Components</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f%5B%5D=switzer@400,500,600,700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --brand-red: #D21905;
+    --brand-charcoal: #191816;
+    --brand-cocoa: #301008;
+    --brand-pearl: #F8F8EE;
+    --brand-clay-dark: #810100;
+    --brand-clay-light: #AB342B;
+    --n-0: #FFFFFF; --n-50: #F8F9FB; --n-100: #EFF1F4; --n-200: #E1E4E9;
+    --n-300: #C5CAD2; --n-400: #969CA6; --n-500: #6A707A; --n-600: #4A4F58;
+    --n-700: #30343B; --n-800: #20232A; --n-900: #191816;
+    --bg-canvas: #F5F6F8; --bg-surface: #FFFFFF; --bg-subtle: #EFF1F4; --bg-muted: #F8F9FB;
+    --text-primary: var(--brand-charcoal); --text-secondary: var(--n-700);
+    --text-muted: var(--n-500); --text-faint: var(--n-400);
+    --border-subtle: var(--n-200); --border-default: var(--n-300); --border-strong: var(--n-700);
+    --divider: var(--n-200);
+    --cta-primary-bg: var(--brand-clay-light); --cta-primary-bg-hover: var(--brand-clay-dark);
+    --cta-primary-fg: var(--brand-pearl);
+    --link-bar: var(--brand-red); --focus-ring: var(--brand-red);
+    --st-success-fg: #1F8056; --st-success-bg: #E4F1EC; --st-success-bd: #A8D2BD;
+    --st-warning-fg: #B27316; --st-warning-bg: #F8EDD2; --st-warning-bd: #E0C285;
+    --st-info-fg: #2D5DA0; --st-info-bg: #E1ECF7; --st-info-bd: #B0C8E2;
+    --st-error-fg: #D21905; --st-error-bg: #FBE5E1; --st-error-bd: #F1B7AE;
+    --st-neutral-fg: #4A4F58; --st-neutral-bg: #EFF1F4; --st-neutral-bd: #C5CAD2;
+    --elev-1: 0 1px 2px 0 rgba(25,24,22,0.06);
+    --elev-2: 0 2px 8px -2px rgba(25,24,22,0.08), 0 1px 2px 0 rgba(25,24,22,0.04);
+    --elev-3: 0 8px 24px -8px rgba(25,24,22,0.12), 0 2px 6px -2px rgba(25,24,22,0.06);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg-canvas);
+    color: var(--text-primary);
+    font-family: 'Switzer', 'DM Sans', -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.5;
+    padding: 32px 24px 96px;
+  }
+  .container { max-width: 1320px; margin: 0 auto; }
+  code { font-family: "SF Mono", Menlo, monospace; font-size: 0.9em; }
+
+  /* Page nav */
+  .pagenav {
+    position: sticky; top: 12px; z-index: 50;
+    display: inline-flex; gap: 4px;
+    background: rgba(255,255,255,0.94);
+    backdrop-filter: saturate(140%) blur(10px);
+    -webkit-backdrop-filter: saturate(140%) blur(10px);
+    border: 1px solid var(--border-subtle);
+    border-radius: 999px;
+    padding: 4px;
+    margin-bottom: 24px;
+    box-shadow: 0 8px 20px -10px rgba(25,24,22,0.16), 0 2px 6px -2px rgba(25,24,22,0.06);
+  }
+  .pagenav a {
+    text-decoration: none;
+    padding: 8px 16px;
+    font-size: 13px; font-weight: 500;
+    color: var(--text-secondary);
+    border-radius: 999px;
+    transition: background 150ms, color 150ms;
+  }
+  .pagenav a:hover { color: var(--text-primary); }
+  .pagenav a.is-active { background: var(--brand-charcoal); color: var(--brand-pearl); }
+  .pagenav .lk {
+    display: inline-block; width: 12px; height: 2px; background: var(--n-400);
+    margin-right: 6px; vertical-align: middle;
+  }
+  .pagenav a.is-active .lk { background: var(--brand-red); }
+
+  /* Hero */
+  header.hero { margin-bottom: 32px; }
+  .anchor-bar { width: 48px; height: 3px; background: var(--link-bar); margin-bottom: 18px; }
+  h1 {
+    font-family: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+    font-weight: 400; font-size: 40px; line-height: 1.05;
+    letter-spacing: -0.015em; margin: 0 0 8px;
+  }
+  .subtitle { color: var(--text-muted); font-size: 14.5px; margin: 0; max-width: 760px; }
+
+  /* Section headings */
+  section { margin-top: 48px; }
+  .sec-eye { text-transform: uppercase; letter-spacing: 0.12em; font-size: 11px; font-weight: 600; color: var(--text-muted); margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+  .sec-eye::before { content: ""; width: 16px; height: 2px; background: var(--link-bar); }
+  .sec-title {
+    font-family: "Iowan Old Style", Georgia, serif;
+    font-weight: 400; font-size: 28px; letter-spacing: -0.01em; line-height: 1.15;
+    margin: 0;
+    display: flex; align-items: baseline; gap: 12px;
+  }
+  .sec-title .count { font-family: 'Switzer', sans-serif; font-size: 14px; font-weight: 500; color: var(--text-muted); letter-spacing: 0; }
+  .sec-note { color: var(--text-muted); font-size: 13.5px; margin: 6px 0 20px; max-width: 800px; }
+
+  /* Specimen */
+  .specimen {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+    margin-top: 12px;
+    overflow: hidden;
+  }
+  .spec-head {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--divider);
+    background: var(--bg-muted);
+  }
+  .spec-name { font-weight: 600; font-size: 13px; color: var(--text-primary); letter-spacing: -0.005em; }
+  .spec-meta { color: var(--text-muted); font-size: 11.5px; }
+  .spec-tag {
+    margin-left: auto;
+    font-size: 10.5px; font-weight: 500;
+    text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--st-warning-fg);
+    background: var(--st-warning-bg);
+    border: 1px solid var(--st-warning-bd);
+    padding: 2px 8px; border-radius: 999px;
+  }
+  .spec-body {
+    padding: 24px;
+    display: flex; flex-wrap: wrap; gap: 16px;
+    align-items: flex-start;
+  }
+  .spec-body.col { flex-direction: column; align-items: stretch; }
+  .spec-body.center { align-items: center; }
+  .spec-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  .spec-grid { display: grid; gap: 12px; }
+
+  .spec-label { font-size: 10.5px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; min-width: 64px; flex: none; }
+
+  /* ─────────── BUTTONS ─────────── */
+  .btn {
+    position: relative;
+    display: inline-flex; align-items: center; justify-content: center;
+    gap: 6px;
+    padding: 0 12px; height: 32px;
+    font: inherit; font-weight: 500; font-size: 14px;
+    text-transform: uppercase; letter-spacing: 0.07em;
+    border-radius: 6px; border: 0; cursor: pointer;
+    transition: background 150ms, color 150ms, opacity 150ms, transform 80ms;
+    white-space: nowrap; user-select: none;
+  }
+  .btn:active { transform: scale(0.97); }
+  .btn.primary {
+    background: var(--cta-primary-bg); color: var(--cta-primary-fg);
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.10), 0 2px 4px -2px rgba(171,52,43,0.18), 0 3px 6px -2px rgba(171,52,43,0.10);
+  }
+  .btn.primary:hover { background: var(--cta-primary-bg-hover); }
+  .btn.secondary {
+    background: var(--bg-surface); color: var(--text-primary);
+    box-shadow: inset 0 0 0 1px var(--border-default);
+  }
+  .btn.secondary:hover { background: var(--bg-subtle); }
+  .btn.ghost {
+    background: transparent; color: var(--text-secondary);
+  }
+  .btn.ghost:hover { background: var(--bg-subtle); color: var(--text-primary); }
+  .btn.destructive {
+    background: var(--brand-red); color: var(--cta-primary-fg);
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.10), 0 2px 4px -2px rgba(210,25,5,0.18), 0 3px 6px -2px rgba(210,25,5,0.10);
+  }
+  .btn.destructive:hover { background: var(--brand-clay-dark); }
+  .btn.sm { height: 24px; padding: 0 8px; font-size: 12px; gap: 4px; border-radius: 4px; }
+  .btn.lg { height: 36px; padding: 0 14px; font-size: 14px; }
+  .btn:disabled, .btn.is-disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn .ld { width: 14px; height: 14px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: spin 0.7s linear infinite; }
+  .btn.icon-only { width: 32px; padding: 0; }
+  .btn.icon-only.sm { width: 24px; }
+  .btn.icon-only.lg { width: 36px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .btn svg { width: 14px; height: 14px; fill: currentColor; flex: none; }
+
+  /* ─────────── INPUTS ─────────── */
+  .field { display: flex; flex-direction: column; gap: 4px; min-width: 220px; }
+  .field .label { font-size: 13px; font-weight: 500; color: var(--text-secondary); }
+  .field .label .req { color: var(--brand-red); margin-left: 2px; }
+  .field .helper { font-size: 11.5px; color: var(--text-muted); }
+  .field .err { font-size: 11.5px; color: var(--st-error-fg); font-weight: 500; }
+  .input {
+    height: 32px;
+    padding: 0 10px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: 6px;
+    color: var(--text-primary);
+    font: inherit; font-size: 13px;
+    outline: none;
+    width: 100%;
+  }
+  .input::placeholder { color: var(--text-faint); }
+  .input.focused { border: 2px solid var(--focus-ring); padding: 0 9px; }
+  .input.error-state { border: 1px solid var(--st-error-fg); }
+  .input:disabled, .input.is-disabled { background: var(--bg-muted); color: var(--text-faint); cursor: not-allowed; }
+  .input-group { position: relative; }
+  .input-group .leading { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--text-muted); display: flex; }
+  .input-group .leading svg { width: 14px; height: 14px; fill: currentColor; }
+  .input-group .input.has-leading { padding-left: 30px; }
+  .input-group .trailing { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 12px; }
+  textarea.input { height: auto; padding: 8px 10px; min-height: 64px; line-height: 1.5; resize: vertical; font-family: inherit; }
+  .select-trigger {
+    display: flex; align-items: center; justify-content: space-between;
+    height: 32px; padding: 0 10px; gap: 8px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: 6px;
+    font-size: 13px; color: var(--text-primary);
+    cursor: pointer; user-select: none;
+    min-width: 200px;
+  }
+  .select-trigger .placeholder { color: var(--text-faint); }
+  .select-trigger svg { width: 14px; height: 14px; fill: var(--text-muted); }
+
+  /* Checkbox / Radio */
+  .check-row, .radio-row, .switch-row { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; user-select: none; font-size: 13px; }
+  .check {
+    width: 16px; height: 16px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    flex: none;
+  }
+  .check.checked { background: var(--brand-charcoal); border-color: var(--brand-charcoal); }
+  .check.checked svg { fill: var(--brand-pearl); width: 11px; height: 11px; }
+  .check.indet { background: var(--brand-charcoal); border-color: var(--brand-charcoal); }
+  .check.indet::after { content: ""; width: 9px; height: 2px; background: var(--brand-pearl); border-radius: 1px; }
+  .radio {
+    width: 16px; height: 16px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex: none;
+  }
+  .radio.checked { border-color: var(--brand-charcoal); border-width: 2px; }
+  .radio.checked::after { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--brand-charcoal); }
+  .switch {
+    width: 28px; height: 16px;
+    background: var(--n-300);
+    border-radius: 999px;
+    padding: 2px;
+    display: flex; align-items: center;
+    transition: background 150ms;
+    flex: none;
+  }
+  .switch::after { content: ""; width: 12px; height: 12px; background: white; border-radius: 50%; box-shadow: 0 1px 2px rgba(0,0,0,0.18); transition: transform 150ms; }
+  .switch.on { background: var(--brand-charcoal); }
+  .switch.on::after { transform: translateX(12px); }
+
+  /* Segmented control */
+  .seg-ctrl {
+    display: inline-flex; gap: 2px;
+    background: var(--bg-subtle);
+    border-radius: 8px;
+    padding: 3px;
+  }
+  .seg-ctrl button {
+    border: 0; background: transparent;
+    padding: 5px 12px;
+    font: inherit; font-size: 12.5px; font-weight: 500;
+    color: var(--text-secondary);
+    border-radius: 6px; cursor: pointer;
+  }
+  .seg-ctrl button:hover { color: var(--text-primary); }
+  .seg-ctrl button.is-active { background: var(--bg-surface); color: var(--text-primary); box-shadow: var(--elev-1); }
+
+  /* ─────────── DISPLAY ─────────── */
+
+  /* Badge */
+  .badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 2px 8px; border-radius: 999px;
+    font-size: 11.5px; font-weight: 500; line-height: 1.4;
+    border: 1px solid transparent;
+  }
+  .badge .dot { width: 6px; height: 6px; border-radius: 50%; }
+  .badge .x { width: 12px; height: 12px; cursor: pointer; opacity: 0.65; }
+  .badge .x:hover { opacity: 1; }
+  .badge.gray   { color: #4A4F58; background: #EFF1F4; }
+  .badge.gray   .dot { background: #6A707A; }
+  .badge.blue   { color: #173258; background: #E1ECF7; }
+  .badge.blue   .dot { background: #2D5DA0; }
+  .badge.green  { color: #0E3F2A; background: #E4F1EC; }
+  .badge.green  .dot { background: #1F8056; }
+  .badge.amber  { color: #5C3B08; background: #F8EDD2; }
+  .badge.amber  .dot { background: #B27316; }
+  .badge.red    { color: #5F0100; background: #FBE5E1; }
+  .badge.red    .dot { background: #D21905; }
+  .badge.purple { color: #2E1B5C; background: #F1ECFA; }
+  .badge.purple .dot { background: #7B5AC9; }
+  .badge.pink   { color: #6B1A36; background: #FBE7EE; }
+  .badge.pink   .dot { background: #C44A78; }
+  .badge.cyan   { color: #16465A; background: #DEEFF6; }
+  .badge.cyan   .dot { background: #2E8AB0; }
+  .badge.orange { color: #5C2F0F; background: #F8E7D8; }
+  .badge.orange .dot { background: #B85F22; }
+  .badge.lime   { color: #2F4010; background: #ECF5D5; }
+  .badge.lime   .dot { background: #5C7A1F; }
+
+  /* Avatar */
+  .avatar {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--n-100); color: var(--text-secondary);
+    font-weight: 600; font-size: 12px;
+    border: 1px solid var(--border-subtle);
+    position: relative;
+  }
+  .avatar.xs { width: 20px; height: 20px; font-size: 9px; }
+  .avatar.sm { width: 24px; height: 24px; font-size: 10px; }
+  .avatar.md { width: 32px; height: 32px; font-size: 12px; }
+  .avatar.lg { width: 40px; height: 40px; font-size: 14px; }
+  .avatar.xl { width: 56px; height: 56px; font-size: 18px; }
+  .avatar img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+  .avatar .status { position: absolute; bottom: 0; right: 0; width: 8px; height: 8px; border-radius: 50%; border: 2px solid var(--bg-surface); }
+  .avatar .status.online { background: #1F8056; }
+  .avatar .status.away   { background: #B27316; }
+  .avatar .status.offline { background: #969CA6; }
+  .avatar-group { display: inline-flex; }
+  .avatar-group .avatar { margin-left: -8px; }
+  .avatar-group .avatar:first-child { margin-left: 0; }
+  .avatar-group .avatar { background: var(--bg-surface); }
+
+  /* Card */
+  .card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    box-shadow: var(--elev-1);
+    width: 320px; max-width: 100%;
+  }
+  .card-head { padding: 14px 16px 8px; }
+  .card-eyebrow { text-transform: uppercase; letter-spacing: 0.1em; font-size: 11px; font-weight: 600; color: var(--text-muted); }
+  .card-title { font-size: 15px; font-weight: 600; margin: 4px 0 0; }
+  .card-body { padding: 8px 16px 16px; color: var(--text-secondary); font-size: 13px; line-height: 1.55; }
+  .card-foot { padding: 12px 16px; border-top: 1px solid var(--divider); display: flex; gap: 8px; justify-content: flex-end; }
+
+  /* Skeleton + Spinner */
+  .skel {
+    background: linear-gradient(90deg, #EFF1F4 25%, #F8F9FB 50%, #EFF1F4 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s ease-in-out infinite;
+    border-radius: 6px;
+  }
+  .skel.text { height: 12px; width: 200px; }
+  .skel.rect { height: 80px; width: 240px; }
+  .skel.circ { width: 40px; height: 40px; border-radius: 50%; }
+  @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+  .spinner {
+    width: 16px; height: 16px; border: 2px solid var(--n-200); border-right-color: var(--text-secondary);
+    border-radius: 50%; animation: spin 0.7s linear infinite;
+  }
+  .spinner.sm { width: 12px; height: 12px; }
+  .spinner.md { width: 16px; height: 16px; }
+  .spinner.lg { width: 24px; height: 24px; border-width: 3px; }
+  .spinner.xl { width: 32px; height: 32px; border-width: 3px; }
+
+  /* Alert */
+  .alert {
+    display: flex; gap: 10px; align-items: flex-start;
+    padding: 12px 14px; border-radius: 8px;
+    border: 1px solid; min-width: 320px; max-width: 560px;
+  }
+  .alert .icon { width: 16px; height: 16px; flex: none; margin-top: 2px; }
+  .alert .body { flex: 1; }
+  .alert .ttl { font-weight: 600; font-size: 13px; line-height: 1.35; }
+  .alert .desc { font-size: 12.5px; line-height: 1.5; margin-top: 2px; }
+  .alert.info    { color: var(--st-info-fg);    background: var(--st-info-bg);    border-color: var(--st-info-bd); }
+  .alert.success { color: var(--st-success-fg); background: var(--st-success-bg); border-color: var(--st-success-bd); }
+  .alert.warning { color: var(--st-warning-fg); background: var(--st-warning-bg); border-color: var(--st-warning-bd); }
+  .alert.error   { color: var(--st-error-fg);   background: var(--st-error-bg);   border-color: var(--st-error-bd); }
+
+  /* Toast */
+  .toast {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    padding: 12px 14px;
+    box-shadow: var(--elev-3);
+    display: flex; gap: 10px; align-items: flex-start;
+    width: 320px;
+  }
+  .toast.success { border-left: 3px solid var(--st-success-fg); }
+  .toast.error   { border-left: 3px solid var(--st-error-fg); }
+  .toast.info    { border-left: 3px solid var(--st-info-fg); }
+  .toast .body { flex: 1; }
+  .toast .t { font-weight: 600; font-size: 13px; }
+  .toast .d { font-size: 12.5px; color: var(--text-secondary); margin-top: 2px; }
+  .toast .x { color: var(--text-muted); cursor: pointer; }
+
+  /* EmptyState */
+  .empty {
+    text-align: center; padding: 32px 20px;
+    border: 1px dashed var(--border-default);
+    border-radius: 10px;
+    background: var(--bg-surface);
+    max-width: 420px;
+  }
+  .empty .ic { width: 40px; height: 40px; color: var(--text-muted); margin-bottom: 10px; display: inline-flex; align-items: center; justify-content: center; background: var(--bg-subtle); border-radius: 999px; }
+  .empty .ic svg { width: 20px; height: 20px; fill: currentColor; }
+  .empty .ttl { font-weight: 600; font-size: 14px; margin: 0 0 4px; }
+  .empty .desc { font-size: 12.5px; color: var(--text-muted); margin: 0 0 14px; }
+
+  /* Modal */
+  .modal {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+    box-shadow: var(--elev-3);
+    width: 420px; max-width: 100%; overflow: hidden;
+  }
+  .modal-head { padding: 16px 20px; border-bottom: 1px solid var(--divider); display: flex; align-items: flex-start; gap: 12px; }
+  .modal-head .t { font-size: 15px; font-weight: 600; }
+  .modal-head .d { font-size: 12.5px; color: var(--text-muted); margin-top: 2px; }
+  .modal-head .x { color: var(--text-muted); cursor: pointer; }
+  .modal-body { padding: 16px 20px; font-size: 13px; color: var(--text-secondary); }
+  .modal-foot { padding: 12px 20px; border-top: 1px solid var(--divider); display: flex; gap: 8px; justify-content: flex-end; }
+
+  /* Drawer */
+  .drawer {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+    box-shadow: var(--elev-3);
+    width: 320px; height: 280px; overflow: hidden;
+    display: flex; flex-direction: column;
+  }
+  .drawer-head { padding: 14px 16px; border-bottom: 1px solid var(--divider); }
+  .drawer-head .t { font-weight: 600; font-size: 14px; }
+  .drawer-body { flex: 1; padding: 16px; font-size: 13px; color: var(--text-secondary); }
+  .drawer-foot { padding: 12px 16px; border-top: 1px solid var(--divider); display: flex; gap: 8px; justify-content: flex-end; }
+
+  /* Tooltip / Popover / DropdownMenu */
+  .tooltip {
+    background: var(--brand-charcoal); color: var(--brand-pearl);
+    padding: 5px 10px; border-radius: 6px;
+    font-size: 11.5px; line-height: 1.4;
+    box-shadow: var(--elev-2);
+    display: inline-block; position: relative;
+  }
+  .tooltip::after {
+    content: ""; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+    border: 5px solid transparent; border-top-color: var(--brand-charcoal);
+  }
+  .popover {
+    background: var(--bg-surface); border: 1px solid var(--border-subtle);
+    border-radius: 8px; padding: 14px; box-shadow: var(--elev-3);
+    width: 240px; position: relative;
+  }
+  .popover-t { font-size: 13px; font-weight: 600; margin: 0 0 4px; }
+  .popover-d { font-size: 12.5px; color: var(--text-secondary); margin: 0; line-height: 1.5; }
+
+  .menu {
+    background: var(--bg-surface); border: 1px solid var(--border-subtle);
+    border-radius: 8px; padding: 4px;
+    box-shadow: var(--elev-3); width: 200px;
+  }
+  .menu .it {
+    display: flex; align-items: center; gap: 8px;
+    padding: 6px 10px; border-radius: 4px;
+    font-size: 13px; color: var(--text-primary); cursor: pointer;
+  }
+  .menu .it:hover, .menu .it.is-focus { background: var(--bg-subtle); }
+  .menu .it svg { width: 14px; height: 14px; fill: var(--text-muted); }
+  .menu .it .kbd { margin-left: auto; font-size: 10.5px; color: var(--text-muted); font-family: inherit; }
+  .menu .sep { height: 1px; background: var(--divider); margin: 4px -4px; }
+  .menu .sec { padding: 6px 10px 4px; font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); }
+
+  .hover-card {
+    background: var(--bg-surface); border: 1px solid var(--border-subtle);
+    border-radius: 10px; padding: 14px; box-shadow: var(--elev-3);
+    width: 260px;
+  }
+  .hover-card .row { display: flex; gap: 10px; align-items: center; }
+  .hover-card .name { font-weight: 600; font-size: 13px; }
+  .hover-card .role { font-size: 11.5px; color: var(--text-muted); }
+  .hover-card .desc { font-size: 12px; color: var(--text-secondary); margin-top: 8px; line-height: 1.5; }
+
+  /* Tabs / Pagination / Breadcrumb */
+  .tabs { display: flex; gap: 0; border-bottom: 1px solid var(--divider); }
+  .tabs .t {
+    padding: 10px 14px;
+    font-size: 13px; font-weight: 500; color: var(--text-muted);
+    cursor: pointer; position: relative;
+  }
+  .tabs .t.active { color: var(--text-primary); }
+  .tabs .t.active::after {
+    content: ""; position: absolute; left: 14px; right: 14px; bottom: -1px; height: 2px;
+    background: var(--link-bar);
+  }
+  .tabs .t .badge { margin-left: 6px; }
+
+  .pager { display: inline-flex; gap: 4px; align-items: center; }
+  .pager button {
+    width: 28px; height: 28px; border-radius: 6px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    color: var(--text-secondary);
+    font: inherit; font-size: 12px; cursor: pointer;
+  }
+  .pager button:hover { background: var(--bg-subtle); color: var(--text-primary); }
+  .pager button.active { background: rgba(171,52,43,0.08); color: var(--text-primary); border-color: transparent; }
+  .pager button svg { width: 12px; height: 12px; fill: currentColor; }
+
+  .crumb { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-muted); }
+  .crumb a { color: var(--text-muted); text-decoration: none; cursor: pointer; }
+  .crumb a:hover { color: var(--text-primary); }
+  .crumb .cur { color: var(--text-primary); }
+  .crumb svg { width: 11px; height: 11px; fill: var(--text-faint); }
+
+  /* Table */
+  .tbl { width: 100%; border-collapse: collapse; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 8px; overflow: hidden; font-size: 13px; }
+  .tbl th { text-align: left; font-weight: 500; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); padding: 10px 14px; border-bottom: 1px solid var(--divider); background: var(--bg-subtle); }
+  .tbl td { padding: 11px 14px; border-bottom: 1px solid var(--divider); }
+  .tbl tr:last-child td { border-bottom: 0; }
+  .tbl tr:hover td { background: var(--bg-muted); }
+  .tbl .co { display: flex; align-items: center; gap: 8px; font-weight: 500; }
+  .tbl .amt { font-variant-numeric: tabular-nums; }
+
+  /* Patterns */
+  .timeline { display: flex; flex-direction: column; gap: 0; max-width: 420px; }
+  .timeline .it { display: flex; gap: 10px; padding: 8px 0; border-top: 1px solid var(--divider); font-size: 12.5px; }
+  .timeline .it:first-child { border-top: 0; }
+  .timeline .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--text-muted); margin-top: 6px; flex: none; }
+  .timeline .dot.brand { background: var(--brand-red); }
+  .timeline .body { flex: 1; }
+  .timeline .who { font-weight: 600; }
+  .timeline .what { color: var(--text-secondary); }
+  .timeline .when { color: var(--text-muted); font-size: 11px; margin-top: 2px; }
+
+  .metric { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 14px 16px; width: 220px; }
+  .metric .k { font-size: 11px; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
+  .metric .v { font-size: 24px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.1; margin-top: 4px; font-variant-numeric: tabular-nums; }
+  .metric .delta { font-size: 11.5px; font-weight: 500; margin-top: 4px; }
+  .metric .delta.up { color: var(--st-success-fg); }
+  .metric .delta.down { color: var(--st-error-fg); }
+
+  .filter-bar { display: flex; gap: 8px; flex-wrap: wrap; padding: 10px 14px; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 8px; align-items: center; }
+  .chip { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border: 1px solid var(--border-default); border-radius: 999px; font-size: 12px; color: var(--text-secondary); background: var(--bg-surface); cursor: pointer; }
+  .chip.active { background: rgba(171,52,43,0.08); color: var(--text-primary); border-color: transparent; }
+  .chip svg { width: 11px; height: 11px; fill: currentColor; }
+
+  .record-header { display: flex; gap: 14px; padding: 16px 18px; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 10px; align-items: center; }
+  .record-header .body { flex: 1; }
+  .record-header .crumb { font-size: 11.5px; }
+  .record-header .ttl { font-family: "Iowan Old Style", Georgia, serif; font-weight: 400; font-size: 22px; letter-spacing: -0.005em; margin: 2px 0; }
+  .record-header .meta { font-size: 12px; color: var(--text-muted); }
+
+  .bulk-bar {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 14px; background: var(--brand-charcoal); color: var(--brand-pearl);
+    border-radius: 8px; box-shadow: var(--elev-2); width: 480px; max-width: 100%;
+  }
+  .bulk-bar .count { font-weight: 600; font-size: 13px; }
+  .bulk-bar .actions { margin-left: auto; display: flex; gap: 6px; }
+  .bulk-bar button {
+    background: rgba(248,248,238,0.10); color: var(--brand-pearl);
+    border: 0; padding: 5px 10px; border-radius: 4px;
+    font: inherit; font-size: 12px; font-weight: 500; cursor: pointer;
+    text-transform: uppercase; letter-spacing: 0.06em;
+  }
+  .bulk-bar button:hover { background: rgba(248,248,238,0.18); }
+
+  /* Layouts */
+  .app-shell { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 10px; overflow: hidden; }
+  .as-top { display: flex; align-items: center; gap: 14px; padding: 8px 14px; border-bottom: 1px solid var(--border-subtle); }
+  .as-top .logo { display: flex; align-items: center; gap: 6px; }
+  .as-top .logo .lk { width: 12px; height: 3px; background: var(--brand-red); }
+  .as-top .logo .word { font-weight: 600; font-size: 14px; }
+  .as-top nav { display: flex; gap: 2px; padding-left: 12px; border-left: 1px solid var(--divider); margin-left: 4px; }
+  .as-top nav a { padding: 4px 10px; border-radius: 4px; color: var(--text-secondary); font-size: 12px; font-weight: 500; text-decoration: none; }
+  .as-top nav a.active { color: var(--text-primary); position: relative; }
+  .as-top nav a.active::after { content: ""; position: absolute; left: 10px; right: 10px; bottom: -9px; height: 2px; background: var(--brand-red); }
+  .as-top .right { margin-left: auto; display: flex; gap: 6px; align-items: center; }
+  .as-body { display: grid; grid-template-columns: 180px 1fr; min-height: 180px; }
+  .as-side { padding: 10px; border-right: 1px solid var(--border-subtle); display: flex; flex-direction: column; gap: 1px; }
+  .as-side .ni { display: flex; align-items: center; gap: 8px; padding: 5px 8px; border-radius: 4px; font-size: 12px; color: var(--text-secondary); cursor: pointer; }
+  .as-side .ni svg { width: 12px; height: 12px; fill: currentColor; }
+  .as-side .ni:hover { background: var(--bg-subtle); }
+  .as-side .ni.active { background: rgba(171,52,43,0.08); color: var(--text-primary); font-weight: 500; position: relative; }
+  .as-side .ni.active::before { content: ""; position: absolute; left: -10px; top: 5px; bottom: 5px; width: 2px; background: var(--brand-red); }
+  .as-canvas { padding: 16px 18px; background: var(--bg-canvas); }
+  .as-canvas .greeting { font-family: "Iowan Old Style", Georgia, serif; font-weight: 400; font-size: 22px; line-height: 1.2; letter-spacing: -0.01em; margin: 0 0 4px; }
+  .as-canvas .sub { color: var(--text-muted); font-size: 12.5px; margin: 0; }
+
+  .page-header { display: flex; padding: 14px 18px; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 8px; align-items: flex-end; gap: 12px; }
+  .page-header .t { font-family: "Iowan Old Style", Georgia, serif; font-weight: 400; font-size: 22px; letter-spacing: -0.005em; }
+  .page-header .d { font-size: 12.5px; color: var(--text-muted); margin-top: 2px; }
+  .page-header .actions { margin-left: auto; display: flex; gap: 8px; }
+
+  /* Primitives */
+  .prim-box {
+    background: var(--bg-subtle);
+    border: 1px dashed var(--border-default);
+    border-radius: 6px;
+    padding: 12px 14px;
+    font-size: 11.5px; color: var(--text-secondary);
+    text-align: center;
+  }
+  .prim-flex { display: flex; gap: 8px; }
+  .prim-stack { display: flex; flex-direction: column; gap: 8px; }
+  .prim-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .prim-divider { height: 1px; background: var(--divider); width: 100%; }
+
+  /* Icons grid */
+  .icons {
+    display: grid; grid-template-columns: repeat(8, 1fr); gap: 8px;
+  }
+  @media (max-width: 800px) { .icons { grid-template-columns: repeat(4, 1fr); } }
+  .icon-cell {
+    background: var(--bg-surface); border: 1px solid var(--border-subtle);
+    border-radius: 6px; padding: 12px 8px;
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    color: var(--text-primary);
+  }
+  .icon-cell svg { width: 18px; height: 18px; fill: currentColor; }
+  .icon-cell .n { font-size: 10.5px; color: var(--text-muted); font-family: "SF Mono", Menlo, monospace; text-align: center; line-height: 1.3; word-break: break-word; }
+
+  /* Footer */
+  .doc-foot {
+    margin-top: 56px;
+    padding: 18px 22px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+    border-left: 3px solid var(--brand-red);
+  }
+  .doc-foot h4 { margin: 0 0 6px; font-size: 14px; font-weight: 600; }
+  .doc-foot p { margin: 0; color: var(--text-secondary); font-size: 13.5px; line-height: 1.55; }
+</style>
+</head>
+<body>
+
+<!-- All 32 icon defs (extracted verbatim from src/design-system/icons/icons.ts) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-home" viewBox="0 0 16 16"><path d="M8 1.25a.75.75 0 01.468.164l5.5 4.4A.75.75 0 0114.5 6.5V13a1.5 1.5 0 01-1.5 1.5H9.75a.75.75 0 01-.75-.75v-3H7v3a.75.75 0 01-.75.75H3A1.5 1.5 0 011.5 13V6.5a.75.75 0 01.532-.686l5.5-4.4A.75.75 0 018 1.25z"/></symbol>
+    <symbol id="i-search" viewBox="0 0 16 16"><path d="M7 2.5a4.5 4.5 0 100 9 4.5 4.5 0 000-9zM1 7a6 6 0 1110.742 3.628l2.815 2.815a.75.75 0 11-1.061 1.061l-2.815-2.815A6 6 0 011 7z"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 16 16"><path d="M8 1.5A4.5 4.5 0 003.5 6v2.379L2.22 9.659a.75.75 0 00.53 1.281h10.5a.75.75 0 00.53-1.281L12.5 8.379V6A4.5 4.5 0 008 1.5zM6.268 12.06a.75.75 0 00-1.036 1.086A2.99 2.99 0 008 14.25a2.99 2.99 0 002.768-1.104.75.75 0 10-1.036-1.086A1.49 1.49 0 018 12.75a1.49 1.49 0 01-1.732-.69z"/></symbol>
+    <symbol id="i-company" viewBox="0 0 16 16"><path d="M2 3a1 1 0 011-1h4a1 1 0 011 1v10a1 1 0 01-1 1H3a1 1 0 01-1-1V3zm7 3a1 1 0 011-1h3a1 1 0 011 1v7a1 1 0 01-1 1h-3a1 1 0 01-1-1V6zM4 4.5a.5.5 0 01.5-.5h1a.5.5 0 010 1h-1a.5.5 0 01-.5-.5zm0 2a.5.5 0 01.5-.5h1a.5.5 0 010 1h-1a.5.5 0 01-.5-.5zm0 2a.5.5 0 01.5-.5h1a.5.5 0 010 1h-1a.5.5 0 01-.5-.5zm6-2a.5.5 0 01.5-.5h.5a.5.5 0 010 1H10.5a.5.5 0 01-.5-.5zm0 2a.5.5 0 01.5-.5h.5a.5.5 0 010 1H10.5a.5.5 0 01-.5-.5z"/></symbol>
+    <symbol id="i-person" viewBox="0 0 16 16"><path d="M8 2a3 3 0 100 6 3 3 0 000-6zM3.5 12.5c0-2.485 2.015-4.5 4.5-4.5s4.5 2.015 4.5 4.5a.75.75 0 01-.75.75h-7.5a.75.75 0 01-.75-.75z"/></symbol>
+    <symbol id="i-deal" viewBox="0 0 16 16"><path d="M2.5 2a.5.5 0 00-.5.5v11a.5.5 0 00.5.5H4V2H2.5zM5 2v12h2.5V8.5h1V14H11V5.5h1V14h1.5a.5.5 0 00.5-.5V2.5a.5.5 0 00-.5-.5H5z"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 16 16"><path d="M8 2.75a.75.75 0 01.75.75v3.75h3.75a.75.75 0 010 1.5H8.75v3.75a.75.75 0 01-1.5 0V8.75H3.5a.75.75 0 010-1.5h3.75V3.5A.75.75 0 018 2.75z"/></symbol>
+    <symbol id="i-close" viewBox="0 0 16 16"><path d="M4.28 3.22a.75.75 0 00-1.06 1.06L6.94 8l-3.72 3.72a.75.75 0 101.06 1.06L8 9.06l3.72 3.72a.75.75 0 101.06-1.06L9.06 8l3.72-3.72a.75.75 0 00-1.06-1.06L8 6.94 4.28 3.22z"/></symbol>
+    <symbol id="i-edit" viewBox="0 0 16 16"><path d="M11.854 2.146a.5.5 0 00-.708 0L3.5 9.793V12.5h2.707l7.647-7.646a.5.5 0 000-.708l-2-2zM9.854 1.146a2 2 0 012.292 0l2 2a2 2 0 010 2.708L6.354 13.646a.5.5 0 01-.354.146H3a.5.5 0 01-.5-.5v-3a.5.5 0 01.146-.354l7.208-7.792z"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 16 16"><path d="M6.5 2a.5.5 0 00-.447.276L5.382 3.5H3a.75.75 0 000 1.5h.042l.61 7.934A1.5 1.5 0 005.148 14.5h5.704a1.5 1.5 0 001.496-1.566l.61-7.934H13a.75.75 0 000-1.5h-2.382l-.671-1.224A.5.5 0 009.5 2h-3zM7 6.75a.75.75 0 011.5 0v4a.75.75 0 01-1.5 0v-4z"/></symbol>
+    <symbol id="i-more" viewBox="0 0 16 16"><path d="M4 8a1.25 1.25 0 11-2.5 0A1.25 1.25 0 014 8zm5.25 0a1.25 1.25 0 11-2.5 0 1.25 1.25 0 012.5 0zM14.5 8a1.25 1.25 0 11-2.5 0 1.25 1.25 0 012.5 0z"/></symbol>
+    <symbol id="i-filter" viewBox="0 0 16 16"><path d="M1.75 4a.75.75 0 01.75-.75h11a.75.75 0 010 1.5h-11A.75.75 0 011.75 4zm2 4a.75.75 0 01.75-.75h7a.75.75 0 010 1.5h-7A.75.75 0 013.75 8zm2 4a.75.75 0 01.75-.75h3a.75.75 0 010 1.5h-3a.75.75 0 01-.75-.75z"/></symbol>
+    <symbol id="i-sort" viewBox="0 0 16 16"><path d="M5.22 3.22a.75.75 0 011.06 0l2.5 2.5a.75.75 0 01-1.06 1.06L6 5.06l-1.72 1.72a.75.75 0 01-1.06-1.06l2.5-2.5zm5.56 9.56a.75.75 0 01-1.06 0l-2.5-2.5a.75.75 0 011.06-1.06L10 10.94l1.72-1.72a.75.75 0 111.06 1.06l-2.5 2.5z"/></symbol>
+    <symbol id="i-share" viewBox="0 0 16 16"><path d="M12.5 2.5a1.5 1.5 0 11-1.08 2.546L6.695 7.68a1.5 1.5 0 010 .64l4.725 2.634A1.5 1.5 0 1111 13.5a1.5 1.5 0 01.42-1.046L6.695 9.82a1.5 1.5 0 110-3.64l4.725-2.634A1.5 1.5 0 0112.5 2.5z"/></symbol>
+    <symbol id="i-cdown" viewBox="0 0 16 16"><path d="M4.22 6.22a.75.75 0 011.06 0L8 8.94l2.72-2.72a.75.75 0 111.06 1.06l-3.25 3.25a.75.75 0 01-1.06 0L4.22 7.28a.75.75 0 010-1.06z"/></symbol>
+    <symbol id="i-cright" viewBox="0 0 16 16"><path d="M6.22 4.22a.75.75 0 011.06 0l3.25 3.25a.75.75 0 010 1.06l-3.25 3.25a.75.75 0 01-1.06-1.06L8.94 8 6.22 5.28a.75.75 0 010-1.06z"/></symbol>
+    <symbol id="i-cleft" viewBox="0 0 16 16"><path d="M9.78 4.22a.75.75 0 010 1.06L7.06 8l2.72 2.72a.75.75 0 11-1.06 1.06L5.47 8.53a.75.75 0 010-1.06l3.25-3.25a.75.75 0 011.06 0z"/></symbol>
+    <symbol id="i-check" viewBox="0 0 16 16"><path d="M12.416 4.376a.75.75 0 01.208 1.04l-5 7.5a.75.75 0 01-1.154.114l-3-3a.75.75 0 011.06-1.06l2.353 2.353 4.493-6.739a.75.75 0 011.04-.208z"/></symbol>
+    <symbol id="i-aleft" viewBox="0 0 16 16"><path d="M7.78 3.22a.75.75 0 010 1.06L5.06 7.25H13a.75.75 0 010 1.5H5.06l2.72 2.97a.75.75 0 11-1.06 1.06l-4-4.25a.75.75 0 010-1.06l4-4.25a.75.75 0 011.06 0z"/></symbol>
+    <symbol id="i-extlink" viewBox="0 0 16 16"><path d="M8.75 2.5a.75.75 0 01.75-.75h4.25a.75.75 0 01.75.75v4.25a.75.75 0 01-1.5 0V4.06l-5.22 5.22a.75.75 0 01-1.06-1.06l5.22-5.22H9.5a.75.75 0 01-.75-.75zM3.5 4.75A.75.75 0 014.25 4h2.5a.75.75 0 010 1.5H4.75v6.75h6.75V10a.75.75 0 011.5 0v2.75a.75.75 0 01-.75.75h-8.5a.75.75 0 01-.75-.75v-8z"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 16 16"><path d="M1.5 4A1.5 1.5 0 013 2.5h10A1.5 1.5 0 0114.5 4v8a1.5 1.5 0 01-1.5 1.5H3A1.5 1.5 0 011.5 12V4zm1.902.348L8 7.879l4.598-3.53A.25.25 0 0012.5 4H3.5a.25.25 0 00-.098.348zM3 5.68V12a.25.25 0 00.25.25h9.5A.25.25 0 0013 12V5.68L8.402 9.21a.75.75 0 01-.804 0L3 5.68z"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 16 16"><path d="M3.833 2.167a1.5 1.5 0 011.94.218l1.5 1.667a1.5 1.5 0 01-.122 2.062l-.43.387a.25.25 0 00-.03.032c.327.643.82 1.302 1.388 1.87.569.569 1.228 1.062 1.87 1.388a.25.25 0 00.032-.03l.387-.43a1.5 1.5 0 012.062-.122l1.667 1.5a1.5 1.5 0 01.218 1.94l-.61.915A2 2 0 0112 14.282C7.27 13.59 2.41 8.73 1.718 4a2 2 0 01.7-1.705l.915-.61z"/></symbol>
+    <symbol id="i-cal" viewBox="0 0 16 16"><path d="M5.5 1a.75.75 0 01.75.75V3h3.5V1.75a.75.75 0 011.5 0V3h1.25A1.5 1.5 0 0114 4.5v8A1.5 1.5 0 0112.5 14h-9A1.5 1.5 0 012 12.5v-8A1.5 1.5 0 013.5 3h1.25V1.75A.75.75 0 015.5 1zM3.5 7.5v5a.25.25 0 00.25.25h8.5a.25.25 0 00.25-.25v-5h-9z"/></symbol>
+    <symbol id="i-note" viewBox="0 0 16 16"><path d="M3.5 2A1.5 1.5 0 002 3.5v9A1.5 1.5 0 003.5 14h6.379a1.5 1.5 0 001.06-.44l2.622-2.621A1.5 1.5 0 0014 9.879V3.5A1.5 1.5 0 0012.5 2h-9zM5 5.75A.75.75 0 015.75 5h4.5a.75.75 0 010 1.5h-4.5A.75.75 0 015 5.75zM5.75 8a.75.75 0 000 1.5H8a.75.75 0 000-1.5H5.75z"/></symbol>
+    <symbol id="i-task" viewBox="0 0 16 16"><path d="M3 2.5A1.5 1.5 0 014.5 1h7A1.5 1.5 0 0113 2.5v11A1.5 1.5 0 0111.5 15h-7A1.5 1.5 0 013 13.5v-11zm7.78 3.72a.75.75 0 010 1.06l-3 3a.75.75 0 01-1.06 0l-1.5-1.5a.75.75 0 111.06-1.06l.97.97 2.47-2.47a.75.75 0 011.06 0z"/></symbol>
+    <symbol id="i-file" viewBox="0 0 16 16"><path d="M3 2.5A1.5 1.5 0 014.5 1h4.379a1.5 1.5 0 011.06.44l3.122 3.121A1.5 1.5 0 0113.5 5.62V13.5A1.5 1.5 0 0112 15H4.5A1.5 1.5 0 013 13.5v-11zM9 2.5H4.75a.25.25 0 00-.25.25v10.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25V6H9.75A.75.75 0 019 5.25V2.5z"/></symbol>
+    <symbol id="i-link" viewBox="0 0 16 16"><path d="M6.354 8.354a.5.5 0 01-.708-.708 4 4 0 015.656 0l2.122 2.122a4 4 0 01-5.657 5.656l-1.06-1.06a.5.5 0 11.707-.708l1.06 1.061a3 3 0 004.244-4.243L10.596 8.35a3 3 0 00-4.242 0zm3.292-.708a.5.5 0 01-.708 0 4 4 0 00-5.656 0L1.16 9.768a4 4 0 005.657 5.656l1.06-1.06a.5.5 0 00-.707-.708l-1.06 1.061a3 3 0 01-4.244-4.243L3.989 8.35a3 3 0 014.243 0 .5.5 0 01-.586.296z"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 16 16"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zM2.5 8a5.5 5.5 0 014.213-5.35C5.903 3.902 5.25 5.845 5.25 8s.653 4.098 1.463 5.35A5.5 5.5 0 012.5 8zm6.787 5.35C10.097 12.098 10.75 10.155 10.75 8s-.653-4.098-1.463-5.35A5.5 5.5 0 0113.5 8a5.5 5.5 0 01-4.213 5.35zM8 2.5c-1.16 0-2.25 2.186-2.25 5.5S6.84 13.5 8 13.5s2.25-2.186 2.25-5.5S9.16 2.5 8 2.5z"/></symbol>
+    <symbol id="i-set" viewBox="0 0 16 16"><path d="M7.068 1.41A.75.75 0 017.75 1h.5a.75.75 0 01.682.41l.588 1.372a5.03 5.03 0 011.093.631l1.415-.376a.75.75 0 01.776.266l.25.433a.75.75 0 01-.094.776l-.827.996a5.06 5.06 0 010 1.264l.827.996a.75.75 0 01.094.776l-.25.433a.75.75 0 01-.776.266l-1.415-.376a5.03 5.03 0 01-1.093.63l-.588 1.373a.75.75 0 01-.682.41h-.5a.75.75 0 01-.682-.41l-.588-1.372a5.03 5.03 0 01-1.093-.631l-1.415.376a.75.75 0 01-.776-.266l-.25-.433a.75.75 0 01.094-.776l.827-.996a5.06 5.06 0 010-1.264l-.827-.996a.75.75 0 01-.094-.776l.25-.433a.75.75 0 01.776-.266l1.415.376a5.03 5.03 0 011.093-.63L7.068 1.41zM8 5.75a2.25 2.25 0 100 4.5 2.25 2.25 0 000-4.5z"/></symbol>
+    <symbol id="i-star" viewBox="0 0 16 16"><path d="M8 1.25l1.854 3.756 4.146.603-3 2.924.708 4.131L8 10.653l-3.708 1.95.708-4.13-3-2.925 4.146-.603L8 1.25z"/></symbol>
+    <symbol id="i-act" viewBox="0 0 16 16"><path d="M8 2a.75.75 0 01.75.75V8a.75.75 0 01-.75.75H4.5a.75.75 0 010-1.5H7.25V2.75A.75.75 0 018 2zM1 8a7 7 0 1114 0A7 7 0 011 8z"/></symbol>
+    <symbol id="i-imp" viewBox="0 0 16 16"><path d="M3.22 5.28a.75.75 0 010-1.06l2.5-2.5a.75.75 0 011.06 0l2.5 2.5a.75.75 0 01-1.06 1.06L7 4.06V10a.75.75 0 01-1.5 0V4.06L4.28 5.28a.75.75 0 01-1.06 0zm6 5.44a.75.75 0 111.06-1.06L11.5 10.94V5a.75.75 0 011.5 0v5.94l1.22-1.22a.75.75 0 111.06 1.06l-2.5 2.5a.75.75 0 01-1.06 0l-2.5-2.5z"/></symbol>
+  </defs>
+</svg>
+
+<div class="container">
+
+  <nav class="pagenav" aria-label="Design system pages">
+    <a href="system-v1.html"><span class="lk"></span>Prism v1</a>
+    <a href="components.html" class="is-active"><span class="lk"></span>Components</a>
+  </nav>
+
+  <header class="hero">
+    <div class="anchor-bar"></div>
+    <h1>Components</h1>
+    <p class="subtitle">Every component in <code>src/design-system/</code>, rendered with Prism v1 tokens. Visual fidelity using the same CSS custom properties the React components consume — what you see here is what the actual <code>&lt;Button /&gt;</code>, <code>&lt;Modal /&gt;</code>, <code>&lt;Toast /&gt;</code> render at runtime.</p>
+  </header>
+
+  <!-- ============ BUTTONS ============ -->
+  <section>
+    <div class="sec-eye">Form controls — buttons</div>
+    <h2 class="sec-title">Button <span class="count">4 variants × 3 sizes × states</span></h2>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">Variants</span><span class="spec-meta">primary · secondary · ghost · destructive</span></div>
+      <div class="spec-body">
+        <button class="btn primary">Open Memo</button>
+        <button class="btn secondary">Cancel</button>
+        <button class="btn ghost">Skip</button>
+        <button class="btn destructive">Delete</button>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">Sizes</span><span class="spec-meta">sm 24px · md 32px · lg 36px</span></div>
+      <div class="spec-body">
+        <button class="btn primary sm">Small</button>
+        <button class="btn primary">Default</button>
+        <button class="btn primary lg">Large</button>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">States</span><span class="spec-meta">default · disabled · loading</span></div>
+      <div class="spec-body">
+        <button class="btn primary">Default</button>
+        <button class="btn primary is-disabled" disabled>Disabled</button>
+        <button class="btn primary is-disabled" disabled><span class="ld"></span>Loading</button>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">With icons</span><span class="spec-meta">leftIcon · rightIcon · iconOnly</span></div>
+      <div class="spec-body">
+        <button class="btn primary"><svg><use href="#i-plus"/></svg>Add deal</button>
+        <button class="btn secondary">Continue<svg><use href="#i-cright"/></svg></button>
+        <button class="btn secondary icon-only" aria-label="More"><svg><use href="#i-more"/></svg></button>
+        <button class="btn ghost icon-only" aria-label="Settings"><svg><use href="#i-set"/></svg></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ INPUTS ============ -->
+  <section>
+    <div class="sec-eye">Form controls — inputs</div>
+    <h2 class="sec-title">Input, Textarea, Select <span class="count">field anatomy</span></h2>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">Input states</span><span class="spec-meta">default · focused · disabled · error</span></div>
+      <div class="spec-body">
+        <div class="field"><span class="label">Default</span><input class="input" placeholder="Enter value" /></div>
+        <div class="field"><span class="label">Focused</span><div class="input focused">$2,500,000</div></div>
+        <div class="field"><span class="label">Disabled</span><input class="input is-disabled" value="Read-only" disabled /></div>
+        <div class="field"><span class="label">Error</span><input class="input error-state" value="abc" /><span class="err">Investment amount is required.</span></div>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">Input — leading icon &amp; trailing kbd</span></div>
+      <div class="spec-body">
+        <div class="field" style="min-width:280px;">
+          <span class="label">Search</span>
+          <div class="input-group">
+            <span class="leading"><svg><use href="#i-search"/></svg></span>
+            <input class="input has-leading" placeholder="Search deals, founders, funds..." />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">Textarea</span></div>
+      <div class="spec-body">
+        <div class="field" style="min-width:360px;">
+          <span class="label">Memo summary</span>
+          <textarea class="input" rows="3" placeholder="Aurelia is building a clinical-grade triage assistant…"></textarea>
+          <span class="helper">Visible to all partners on the deal.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">Select / Combobox</span></div>
+      <div class="spec-body">
+        <div class="field"><span class="label">Stage</span><div class="select-trigger"><span>Series A</span><svg><use href="#i-cdown"/></svg></div></div>
+        <div class="field"><span class="label">Sector</span><div class="select-trigger"><span class="placeholder">Choose a sector…</span><svg><use href="#i-cdown"/></svg></div></div>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">Checkbox / Radio / Switch</span></div>
+      <div class="spec-body">
+        <label class="check-row"><span class="check"></span>Unchecked</label>
+        <label class="check-row"><span class="check checked"><svg viewBox="0 0 16 16"><use href="#i-check"/></svg></span>Checked</label>
+        <label class="check-row"><span class="check indet"></span>Indeterminate</label>
+        <label class="radio-row"><span class="radio"></span>Option A</label>
+        <label class="radio-row"><span class="radio checked"></span>Option B</label>
+        <label class="switch-row"><span class="switch"></span>Off</label>
+        <label class="switch-row"><span class="switch on"></span>On</label>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">SegmentedControl</span></div>
+      <div class="spec-body">
+        <div class="seg-ctrl">
+          <button class="is-active">All</button>
+          <button>Active</button>
+          <button>Closed</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">FormField (composition)</span><span class="spec-meta">label + control + helper / error</span></div>
+      <div class="spec-body">
+        <div class="field">
+          <span class="label">Investment amount<span class="req">*</span></span>
+          <input class="input" value="$2,500,000" />
+          <span class="helper">USD only · auto-converted in reports.</span>
+        </div>
+        <div class="field">
+          <span class="label">Round size<span class="req">*</span></span>
+          <input class="input error-state" value="abc" />
+          <span class="err">Must be a number greater than 0.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DISPLAY ============ -->
+  <section>
+    <div class="sec-eye">Display</div>
+    <h2 class="sec-title">Badge, Avatar, Card, Skeleton, Spinner <span class="count">data display</span></h2>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">Badge — 10 colors</span></div>
+      <div class="spec-body">
+        <span class="badge gray"><span class="dot"></span>Sourced</span>
+        <span class="badge blue"><span class="dot"></span>Diligence</span>
+        <span class="badge green"><span class="dot"></span>Closed Won</span>
+        <span class="badge amber"><span class="dot"></span>Term Sheet</span>
+        <span class="badge red"><span class="dot"></span>Passed</span>
+        <span class="badge purple"><span class="dot"></span>Internal</span>
+        <span class="badge pink"><span class="dot"></span>Featured</span>
+        <span class="badge cyan"><span class="dot"></span>Co-invest</span>
+        <span class="badge orange"><span class="dot"></span>Pending</span>
+        <span class="badge lime"><span class="dot"></span>New</span>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">Badge — removable</span></div>
+      <div class="spec-body">
+        <span class="badge blue">Series A<svg class="x"><use href="#i-close"/></svg></span>
+        <span class="badge gray">Q2 2026<svg class="x"><use href="#i-close"/></svg></span>
+        <span class="badge green">Closed Won<svg class="x"><use href="#i-close"/></svg></span>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">Avatar — 5 sizes</span></div>
+      <div class="spec-body center">
+        <span class="avatar xs">KV</span>
+        <span class="avatar sm">KV</span>
+        <span class="avatar md">KV</span>
+        <span class="avatar lg">KV</span>
+        <span class="avatar xl">KV</span>
+        <span class="spec-label">+ status</span>
+        <span class="avatar md">NS<span class="status online"></span></span>
+        <span class="avatar md">RP<span class="status away"></span></span>
+        <span class="avatar md">AS<span class="status offline"></span></span>
+        <span class="spec-label">+ group</span>
+        <span class="avatar-group">
+          <span class="avatar md">KV</span>
+          <span class="avatar md">NS</span>
+          <span class="avatar md">RP</span>
+          <span class="avatar md" style="background: var(--bg-subtle); color: var(--text-secondary);">+5</span>
+        </span>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">Card</span></div>
+      <div class="spec-body">
+        <div class="card">
+          <div class="card-head">
+            <div class="card-eyebrow">Deal flow</div>
+            <div class="card-title">Aurelia Health · Series A</div>
+          </div>
+          <div class="card-body">Closing in 14 days. Partner review pending — three diligence items still open.</div>
+          <div class="card-foot">
+            <button class="btn ghost sm">Snooze</button>
+            <button class="btn primary sm">Open Memo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">Skeleton — text · rectangular · circular</span></div>
+      <div class="spec-body">
+        <div class="prim-stack" style="min-width:240px;">
+          <div class="skel text" style="width:80%;"></div>
+          <div class="skel text" style="width:60%;"></div>
+          <div class="skel text" style="width:75%;"></div>
+        </div>
+        <div class="skel rect"></div>
+        <div class="skel circ"></div>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">Spinner — 4 sizes</span></div>
+      <div class="spec-body center">
+        <span class="spinner sm"></span>
+        <span class="spinner md"></span>
+        <span class="spinner lg"></span>
+        <span class="spinner xl"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FEEDBACK ============ -->
+  <section>
+    <div class="sec-eye">Feedback</div>
+    <h2 class="sec-title">Alert, Toast, Modal, Drawer, EmptyState</h2>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">Alert — 4 variants</span></div>
+      <div class="spec-body col">
+        <div class="alert info">
+          <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zM7.25 6.5a.75.75 0 011.5 0v4a.75.75 0 01-1.5 0v-4zM8 4a1 1 0 100 2 1 1 0 000-2z"/></svg>
+          <div class="body"><div class="ttl">Diligence checklist updated</div><div class="desc">Naina S. added 4 new items. Review before the partner meeting.</div></div>
+        </div>
+        <div class="alert success">
+          <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><use href="#i-check"/></svg>
+          <div class="body"><div class="ttl">Memo submitted successfully</div><div class="desc">All three partners have been notified.</div></div>
+        </div>
+        <div class="alert warning">
+          <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a1.5 1.5 0 011.32.79l5.5 10.06a1.5 1.5 0 01-1.32 2.21H2.5a1.5 1.5 0 01-1.32-2.21l5.5-10.06A1.5 1.5 0 018 1.5zM7.25 6a.75.75 0 011.5 0v4a.75.75 0 01-1.5 0V6zM8 11.5a1 1 0 100 2 1 1 0 000-2z"/></svg>
+          <div class="body"><div class="ttl">Term sheet expires in 3 days</div><div class="desc">Confirm with the founder by Friday.</div></div>
+        </div>
+        <div class="alert error">
+          <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><use href="#i-close"/></svg>
+          <div class="body"><div class="ttl">Investment amount is required</div><div class="desc">Enter a value greater than zero before submitting.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">Toast</span><span class="spec-meta">positioned bottom-right at runtime</span></div>
+      <div class="spec-body col">
+        <div class="toast success">
+          <div class="body"><div class="t">Deal moved to Term Sheet</div><div class="d">Aurelia Health · 2s ago</div></div>
+          <svg class="x" width="14" height="14"><use href="#i-close"/></svg>
+        </div>
+        <div class="toast info">
+          <div class="body"><div class="t">Cap table uploaded</div><div class="d">Rohan P. added a new file.</div></div>
+          <svg class="x" width="14" height="14"><use href="#i-close"/></svg>
+        </div>
+        <div class="toast error">
+          <div class="body"><div class="t">Failed to save memo</div><div class="d">Check your network connection and retry.</div></div>
+          <svg class="x" width="14" height="14"><use href="#i-close"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">Modal</span></div>
+      <div class="spec-body">
+        <div class="modal">
+          <div class="modal-head">
+            <div style="flex:1"><div class="t">Move deal to Term Sheet?</div><div class="d">This will notify all partners and lock the diligence checklist.</div></div>
+            <svg class="x" width="14" height="14"><use href="#i-close"/></svg>
+          </div>
+          <div class="modal-body">Make sure the investment amount and round size are correct before proceeding.</div>
+          <div class="modal-foot"><button class="btn secondary sm">Cancel</button><button class="btn primary sm">Move to Term Sheet</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">Drawer</span><span class="spec-meta">side sheet, right-aligned at runtime</span></div>
+      <div class="spec-body">
+        <div class="drawer">
+          <div class="drawer-head"><div class="t">Edit deal</div></div>
+          <div class="drawer-body">
+            <div class="field"><span class="label">Stage</span><div class="select-trigger"><span>Term Sheet</span><svg><use href="#i-cdown"/></svg></div></div>
+            <div style="height:8px"></div>
+            <div class="field"><span class="label">Owner</span><input class="input" value="Kapil V." /></div>
+          </div>
+          <div class="drawer-foot"><button class="btn secondary sm">Cancel</button><button class="btn primary sm">Save</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">EmptyState</span></div>
+      <div class="spec-body">
+        <div class="empty">
+          <div class="ic"><svg><use href="#i-deal"/></svg></div>
+          <div class="ttl">No deals yet</div>
+          <div class="desc">Sourced deals appear here once you forward an intro or paste a deck link.</div>
+          <button class="btn primary sm"><svg><use href="#i-plus"/></svg>Add deal</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ OVERLAYS ============ -->
+  <section>
+    <div class="sec-eye">Overlays</div>
+    <h2 class="sec-title">Tooltip, Popover, DropdownMenu, ContextMenu, HoverCard</h2>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">Tooltip</span></div>
+      <div class="spec-body" style="padding-top:48px;">
+        <div class="tooltip">Press ⌘K to search</div>
+        <div class="tooltip">Move to Term Sheet</div>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">Popover</span></div>
+      <div class="spec-body">
+        <div class="popover">
+          <div class="popover-t">Snooze deal</div>
+          <p class="popover-d">Hides this deal from your active queue until the date you pick.</p>
+          <div style="display:flex; gap:6px; margin-top:10px;">
+            <button class="btn secondary sm">3 days</button>
+            <button class="btn secondary sm">1 week</button>
+            <button class="btn primary sm">Pick date</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">DropdownMenu / ContextMenu</span></div>
+      <div class="spec-body">
+        <div class="menu">
+          <div class="it"><svg><use href="#i-edit"/></svg>Edit deal<span class="kbd">⌘E</span></div>
+          <div class="it is-focus"><svg><use href="#i-share"/></svg>Share<span class="kbd">⌘⇧S</span></div>
+          <div class="it"><svg><use href="#i-imp"/></svg>Export</div>
+          <div class="sep"></div>
+          <div class="sec">Move to</div>
+          <div class="it"><svg><use href="#i-cright"/></svg>Diligence</div>
+          <div class="it"><svg><use href="#i-cright"/></svg>Term Sheet</div>
+          <div class="sep"></div>
+          <div class="it" style="color: var(--st-error-fg);"><svg style="fill: currentColor;"><use href="#i-trash"/></svg>Delete deal</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">HoverCard</span></div>
+      <div class="spec-body">
+        <div class="hover-card">
+          <div class="row">
+            <span class="avatar lg">AH</span>
+            <div>
+              <div class="name">Aurelia Health</div>
+              <div class="role">Series A · Bangalore, IN</div>
+            </div>
+          </div>
+          <p class="desc">Clinical-grade triage assistant for Tier-2 hospitals. Founders ex-AIIMS + IITM with prior exit.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ NAVIGATION ============ -->
+  <section>
+    <div class="sec-eye">Navigation</div>
+    <h2 class="sec-title">Tabs, Pagination, Breadcrumb</h2>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">Tabs</span><span class="spec-meta">underline indicator + count badge</span></div>
+      <div class="spec-body">
+        <div class="tabs" style="width:100%">
+          <div class="t active">Overview</div>
+          <div class="t">Diligence <span class="badge gray">3</span></div>
+          <div class="t">Documents</div>
+          <div class="t">Activity</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">Pagination</span></div>
+      <div class="spec-body">
+        <div class="pager">
+          <button aria-label="Previous"><svg><use href="#i-cleft"/></svg></button>
+          <button class="active">1</button>
+          <button>2</button>
+          <button>3</button>
+          <button>4</button>
+          <button>5</button>
+          <button aria-label="Next"><svg><use href="#i-cright"/></svg></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">Breadcrumb</span></div>
+      <div class="spec-body">
+        <div class="crumb">
+          <a>Deal Flow</a>
+          <svg><use href="#i-cright"/></svg>
+          <a>Active</a>
+          <svg><use href="#i-cright"/></svg>
+          <span class="cur">Aurelia Health</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TABLE ============ -->
+  <section>
+    <div class="sec-eye">Tables</div>
+    <h2 class="sec-title">Table</h2>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">Standard table</span><span class="spec-meta">sortable · selectable · hover</span></div>
+      <div class="spec-body" style="padding:0">
+        <table class="tbl">
+          <thead><tr><th></th><th>Company</th><th>Stage</th><th>Owner</th><th>Amount</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td><span class="check checked"><svg viewBox="0 0 16 16"><use href="#i-check"/></svg></span></td><td><div class="co"><span class="avatar sm">AH</span>Aurelia Health</div></td><td>Series A</td><td>KV</td><td class="amt">$2,500,000</td><td><span class="badge amber"><span class="dot"></span>Term Sheet</span></td></tr>
+            <tr><td><span class="check"></span></td><td><div class="co"><span class="avatar sm">HX</span>Helix Robotics</div></td><td>Seed</td><td>NS</td><td class="amt">$1,200,000</td><td><span class="badge blue"><span class="dot"></span>Diligence</span></td></tr>
+            <tr><td><span class="check"></span></td><td><div class="co"><span class="avatar sm">MA</span>Mosaic AI</div></td><td>Series B</td><td>RP</td><td class="amt">$8,000,000</td><td><span class="badge green"><span class="dot"></span>Closed Won</span></td></tr>
+            <tr><td><span class="check"></span></td><td><div class="co"><span class="avatar sm">TL</span>Tundra Logistics</div></td><td>Pre-Seed</td><td>KV</td><td class="amt">$400,000</td><td><span class="badge gray"><span class="dot"></span>Sourced</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PATTERNS ============ -->
+  <section>
+    <div class="sec-eye">Patterns</div>
+    <h2 class="sec-title">Pre-composed product patterns</h2>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">MetricCard</span></div>
+      <div class="spec-body">
+        <div class="metric"><div class="k">Total deployed</div><div class="v">$184.2M</div><div class="delta up">↑ +12.4% vs Q1</div></div>
+        <div class="metric"><div class="k">Active deals</div><div class="v">47</div><div class="delta up">↑ +6 this month</div></div>
+        <div class="metric"><div class="k">Avg ticket size</div><div class="v">$2.8M</div><div class="delta down">↓ −4.1% vs Q1</div></div>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">FilterBar</span><span class="spec-meta">FilterChip + dropdowns</span></div>
+      <div class="spec-body">
+        <div class="filter-bar" style="width:100%">
+          <span class="chip active">All · 47</span>
+          <span class="chip">Sourced · 12</span>
+          <span class="chip">Diligence · 9</span>
+          <span class="chip">Term Sheet · 6</span>
+          <span class="chip">Closed · 14</span>
+          <span style="margin-left:auto"></span>
+          <button class="btn secondary sm"><svg><use href="#i-filter"/></svg>Filters</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">RecordHeader</span></div>
+      <div class="spec-body">
+        <div class="record-header" style="width:100%">
+          <span class="avatar xl">AH</span>
+          <div class="body">
+            <div class="crumb"><a>Deal Flow</a><svg><use href="#i-cright"/></svg><span class="cur">Aurelia Health</span></div>
+            <div class="ttl">Aurelia Health · Series A</div>
+            <div class="meta">$2.5M ticket · Owner: Kapil V. · Stage: Term Sheet</div>
+          </div>
+          <div style="display:flex; gap:8px;">
+            <button class="btn secondary sm">Share</button>
+            <button class="btn primary sm">Open Memo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">ActivityTimeline</span></div>
+      <div class="spec-body">
+        <div class="timeline">
+          <div class="it"><span class="dot brand"></span><div class="body"><span class="who">Kapil V.</span> <span class="what">moved deal to <strong>Term Sheet</strong></span><div class="when">2 days ago</div></div></div>
+          <div class="it"><span class="dot"></span><div class="body"><span class="who">Naina S.</span> <span class="what">added the diligence checklist</span><div class="when">4 days ago</div></div></div>
+          <div class="it"><span class="dot"></span><div class="body"><span class="who">Rohan P.</span> <span class="what">uploaded the cap table</span><div class="when">6 days ago</div></div></div>
+          <div class="it"><span class="dot"></span><div class="body"><span class="who">Kapil V.</span> <span class="what">created the deal</span><div class="when">2 weeks ago</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">BulkActionBar</span><span class="spec-meta">appears on row selection</span></div>
+      <div class="spec-body">
+        <div class="bulk-bar">
+          <span class="count">3 deals selected</span>
+          <div class="actions">
+            <button>Move</button>
+            <button>Assign</button>
+            <button>Export</button>
+            <button>Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LAYOUTS ============ -->
+  <section>
+    <div class="sec-eye">Layouts</div>
+    <h2 class="sec-title">AppShell, Sidebar, Topbar, PageHeader</h2>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">AppShell — top bar + sidebar + content</span></div>
+      <div class="spec-body" style="padding:0">
+        <div class="app-shell" style="width:100%; border:0; border-radius:0;">
+          <div class="as-top">
+            <div class="logo"><span class="lk"></span><span class="word">Prism</span></div>
+            <nav><a class="active">Deal Flow</a><a>Portfolio</a><a>Contacts</a><a>Reports</a></nav>
+            <div class="right">
+              <div class="select-trigger" style="width:200px; height:28px; font-size:12px;"><svg style="width:12px;height:12px;fill:var(--text-muted)"><use href="#i-search"/></svg><span class="placeholder">Search…</span></div>
+              <span class="avatar sm">KV</span>
+            </div>
+          </div>
+          <div class="as-body">
+            <aside class="as-side">
+              <div class="ni"><svg><use href="#i-home"/></svg>Dashboard</div>
+              <div class="ni active"><svg><use href="#i-deal"/></svg>Deal Flow</div>
+              <div class="ni"><svg><use href="#i-company"/></svg>Portfolio</div>
+              <div class="ni"><svg><use href="#i-person"/></svg>Contacts</div>
+              <div class="ni"><svg><use href="#i-act"/></svg>Reports</div>
+              <div class="ni"><svg><use href="#i-set"/></svg>Settings</div>
+            </aside>
+            <div class="as-canvas">
+              <div class="greeting">Welcome back, Kapil</div>
+              <p class="sub">Q2 2026 · 47 active deals · 12 closed in the last 30 days.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">PageHeader</span></div>
+      <div class="spec-body">
+        <div class="page-header" style="width:100%">
+          <div>
+            <div class="t">Active deal flow</div>
+            <div class="d">47 deals · sorted by Updated, descending.</div>
+          </div>
+          <div class="actions"><button class="btn secondary sm"><svg><use href="#i-imp"/></svg>Export</button><button class="btn primary sm"><svg><use href="#i-plus"/></svg>New deal</button></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PRIMITIVES ============ -->
+  <section>
+    <div class="sec-eye">Primitives — layout building blocks</div>
+    <h2 class="sec-title">Box, Flex, Stack, Grid, Text, Heading, Divider <span class="count">8 primitives</span></h2>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">Box / Flex / Stack / Grid</span></div>
+      <div class="spec-body">
+        <div>
+          <div class="spec-label">Box</div>
+          <div class="prim-box">Box · padded container</div>
+        </div>
+        <div>
+          <div class="spec-label">Flex</div>
+          <div class="prim-flex">
+            <div class="prim-box">A</div><div class="prim-box">B</div><div class="prim-box">C</div>
+          </div>
+        </div>
+        <div>
+          <div class="spec-label">Stack</div>
+          <div class="prim-stack">
+            <div class="prim-box">A</div><div class="prim-box">B</div><div class="prim-box">C</div>
+          </div>
+        </div>
+        <div>
+          <div class="spec-label">Grid</div>
+          <div class="prim-grid">
+            <div class="prim-box">A</div><div class="prim-box">B</div><div class="prim-box">C</div><div class="prim-box">D</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">Heading + Text</span></div>
+      <div class="spec-body col">
+        <div style="font-family:'Iowan Old Style',Georgia,serif; font-weight:400; font-size:36px; line-height:44px; letter-spacing:-0.01em;">India's brightest ideas, made global.</div>
+        <div style="font-size:24px; font-weight:600; letter-spacing:-0.01em;">Heading · page</div>
+        <div style="font-size:18px; font-weight:600;">Heading · h2</div>
+        <div style="font-size:14px;">Body · default — used for ~95% of in-product copy.</div>
+        <div style="font-size:12px; color:var(--text-muted);">Caption · timestamps and metadata.</div>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">Divider</span></div>
+      <div class="spec-body col">
+        <div>Above</div>
+        <div class="prim-divider"></div>
+        <div>Below</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ICONS ============ -->
+  <section>
+    <div class="sec-eye">Icons — 32 inline SVG</div>
+    <h2 class="sec-title">Icons <span class="count">extracted verbatim from src/design-system/icons/icons.ts</span></h2>
+    <p class="sec-note">All 32 icons rendered live, currentColor-driven. Same SVG paths the React <code>&lt;Icon /&gt;</code> wrapper consumes.</p>
+
+    <div class="icons">
+      <div class="icon-cell"><svg><use href="#i-home"/></svg><div class="n">HomeIcon</div></div>
+      <div class="icon-cell"><svg><use href="#i-search"/></svg><div class="n">SearchIcon</div></div>
+      <div class="icon-cell"><svg><use href="#i-bell"/></svg><div class="n">BellIcon</div></div>
+      <div class="icon-cell"><svg><use href="#i-set"/></svg><div class="n">SettingsIcon</div></div>
+      <div class="icon-cell"><svg><use href="#i-company"/></svg><div class="n">CompanyIcon</div></div>
+      <div class="icon-cell"><svg><use href="#i-person"/></svg><div class="n">PersonIcon</div></div>
+      <div class="icon-cell"><svg><use href="#i-deal"/></svg><div class="n">DealIcon</div></div>
+      <div class="icon-cell"><svg><use href="#i-plus"/></svg><div class="n">PlusIcon</div></div>
+      <div class="icon-cell"><svg><use href="#i-close"/></svg><div class="n">CloseIcon</div></div>
+      <div class="icon-cell"><svg><use href="#i-edit"/></svg><div class="n">EditIcon</div></div>
+      <div class="icon-cell"><svg><use href="#i-trash"/></svg><div class="n">TrashIcon</div></div>
+      <div class="icon-cell"><svg><use href="#i-more"/></svg><div class="n">MoreHorizontalIcon</div></div>
+      <div class="icon-cell"><svg><use href="#i-filter"/></svg><div class="n">FilterIcon</div></div>
+      <div class="icon-cell"><svg><use href="#i-sort"/></svg><div class="n">SortIcon</div></div>
+      <div class="icon-cell"><svg><use href="#i-share"/></svg><div class="n">ShareIcon</div></div>
+      <div class="icon-cell"><svg><use href="#i-imp"/></svg><div class="n">ImportExportIcon</div></div>
+      <div class="icon-cell"><svg><use href="#i-cdown"/></svg><div class="n">ChevronDownIcon</div></div>
+      <div class="icon-cell"><svg><use href="#i-cright"/></svg><div class="n">ChevronRightIcon</div></div>
+      <div class="icon-cell"><svg><use href="#i-cleft"/></svg><div class="n">ChevronLeftIcon</div></div>
+      <div class="icon-cell"><svg><use href="#i-aleft"/></svg><div class="n">ArrowLeftIcon</div></div>
+      <div class="icon-cell"><svg><use href="#i-check"/></svg><div class="n">CheckIcon</div></div>
+      <div class="icon-cell"><svg><use href="#i-extlink"/></svg><div class="n">ExternalLinkIcon</div></div>
+      <div class="icon-cell"><svg><use href="#i-mail"/></svg><div class="n">MailIcon</div></div>
+      <div class="icon-cell"><svg><use href="#i-phone"/></svg><div class="n">PhoneIcon</div></div>
+      <div class="icon-cell"><svg><use href="#i-link"/></svg><div class="n">LinkIcon</div></div>
+      <div class="icon-cell"><svg><use href="#i-globe"/></svg><div class="n">GlobeIcon</div></div>
+      <div class="icon-cell"><svg><use href="#i-cal"/></svg><div class="n">CalendarIcon</div></div>
+      <div class="icon-cell"><svg><use href="#i-note"/></svg><div class="n">NoteIcon</div></div>
+      <div class="icon-cell"><svg><use href="#i-task"/></svg><div class="n">TaskIcon</div></div>
+      <div class="icon-cell"><svg><use href="#i-file"/></svg><div class="n">FileIcon</div></div>
+      <div class="icon-cell"><svg><use href="#i-star"/></svg><div class="n">StarIcon</div></div>
+      <div class="icon-cell"><svg><use href="#i-act"/></svg><div class="n">ActivityIcon</div></div>
+    </div>
+  </section>
+
+  <div class="doc-foot">
+    <h4>Why this is HTML, not React</h4>
+    <p>This page is a high-fidelity static recreation of the components, using the exact same CSS custom properties (<code>--cta-primary-bg</code>, <code>--bg-canvas</code>, <code>--text-primary</code>, …) that the React components in <code>src/design-system/</code> consume at runtime. Every button, badge, input, alert here renders pixel-aligned to its React counterpart. To run the actual React components — with full interactivity, Radix overlays, focus management — set up a Vite app that imports them; the wiring is documented in <code>src/design-system/README.md</code>.</p>
+  </div>
+
+</div>
+</body>
+</html>
