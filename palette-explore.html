@@ -1,0 +1,929 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prism — Palette × Typography Explorer</title>
+
+<!-- Fonts: load all three so toggling is instant -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f%5B%5D=switzer@400,500,600,700&display=swap" rel="stylesheet">
+
+<style>
+  /* =========================================================
+     0 · Base
+     ========================================================= */
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: #ECEDEF;
+    color: #191816;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.5;
+    padding: 32px 24px 96px;
+  }
+  .container { max-width: 1320px; margin: 0 auto; }
+  code { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 0.92em; }
+
+  /* === Apply active typography to the WHOLE body so font swaps are visible everywhere === */
+  body[data-font="graphik"] { font-family: 'Graphik', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif; }
+  body[data-font="switzer"] { font-family: 'Switzer', -apple-system, BlinkMacSystemFont, sans-serif; }
+  body[data-font="inter"]   { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+
+  /* Header still uses serif for the editorial moment */
+  header h1, .version-title, .shell-canvas .greeting, .detail-head .title, .locked-block h2 {
+    font-family: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  }
+
+  /* =========================================================
+     1 · Header
+     ========================================================= */
+  header { margin-bottom: 24px; }
+  .anchor-bar { width: 40px; height: 3px; background: #D21905; margin-bottom: 16px; }
+  h1 {
+    font-weight: 400; font-size: 36px; line-height: 1.1;
+    letter-spacing: -0.01em; margin: 0 0 8px;
+  }
+  .subtitle { color: #5A5852; font-size: 14.5px; margin: 0; max-width: 820px; }
+
+  /* =========================================================
+     2 · Locked palette block
+     ========================================================= */
+  .locked-block {
+    background: #fff; border: 1px solid #DCDEE3; border-radius: 12px;
+    padding: 18px 22px; margin-top: 24px;
+  }
+  .locked-block .eyebrow { text-transform: uppercase; letter-spacing: 0.12em; font-size: 10.5px; font-weight: 600; color: #6B7280; margin-bottom: 4px; }
+  .locked-block h2 { font-weight: 400; font-size: 20px; margin: 0 0 4px; }
+  .locked-block .note { color: #6B7280; font-size: 12.5px; margin: 0 0 14px; max-width: 780px; }
+  .locked-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+  @media (max-width: 900px) { .locked-row { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 600px) { .locked-row { grid-template-columns: repeat(2, 1fr); } }
+  .locked-card { border: 1px solid #E4E6EA; border-radius: 8px; overflow: hidden; }
+  .locked-chip { height: 56px; }
+  .locked-meta { padding: 8px 10px 10px; }
+  .locked-meta .name { font-size: 11.5px; font-weight: 600; color: #191816; line-height: 1.25; }
+  .locked-meta .hex { font-family: "SF Mono", Menlo, monospace; font-size: 10.5px; color: #5A5852; margin-top: 2px; }
+
+  /* =========================================================
+     3 · STICKY CONTROLS — version + typography toggles
+     ========================================================= */
+  .controls {
+    position: sticky;
+    top: 12px;
+    z-index: 100;
+    margin-top: 16px;
+    margin-bottom: 16px;
+    display: flex; gap: 18px; align-items: center; flex-wrap: wrap;
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: saturate(140%) blur(10px);
+    -webkit-backdrop-filter: saturate(140%) blur(10px);
+    border: 1px solid #DCDEE3;
+    border-radius: 12px;
+    padding: 12px 18px;
+    box-shadow: 0 8px 24px -10px rgba(25,24,22,0.18), 0 2px 6px -2px rgba(25,24,22,0.06);
+  }
+  .ctrl-group { display: flex; align-items: center; gap: 10px; }
+  .ctrl-label { text-transform: uppercase; letter-spacing: 0.1em; font-size: 10.5px; font-weight: 600; color: #6B7280; }
+  .seg { display: inline-flex; gap: 2px; background: #F1F2F4; border-radius: 999px; padding: 3px; }
+  .seg button {
+    border: 0; background: transparent;
+    padding: 7px 14px;
+    font-family: inherit; font-size: 12.5px; font-weight: 500;
+    color: #5A5852; border-radius: 999px; cursor: pointer;
+    transition: background 150ms, color 150ms;
+  }
+  .seg button:hover { color: #191816; }
+  .seg button.is-active { background: #191816; color: #F8F8EE; }
+  .now-showing {
+    margin-left: auto;
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #191816; color: #F8F8EE;
+    padding: 7px 12px 7px 8px;
+    border-radius: 999px;
+    font-size: 12px; font-weight: 500;
+  }
+  .now-showing .dot { width: 7px; height: 7px; border-radius: 50%; background: #D21905; box-shadow: 0 0 0 3px rgba(210,25,5,0.18); }
+  .now-showing .ns-v, .now-showing .ns-f { font-feature-settings: "tnum" 1; letter-spacing: 0.02em; }
+  .now-showing .ns-sep { color: #6B6862; }
+
+  /* =========================================================
+     4 · Typography reference (always visible, all 3 fonts)
+     ========================================================= */
+  .typo-ref {
+    background: #fff; border: 1px solid #DCDEE3; border-radius: 12px;
+    padding: 16px 18px; margin-bottom: 16px;
+  }
+  .typo-ref-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .typo-ref-head h3 { margin: 0; font-size: 13px; font-weight: 600; color: #191816; }
+  .typo-ref-head .hint { font-size: 11.5px; color: #6B7280; }
+  .typo-ref-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  @media (max-width: 800px) { .typo-ref-grid { grid-template-columns: 1fr; } }
+  .typo-card {
+    background: #FAFBFC; border: 1.5px solid #E4E6EA; border-radius: 10px;
+    padding: 14px; transition: border-color 150ms, background 150ms;
+  }
+  .typo-card.is-active { background: #fff; border-color: #191816; box-shadow: 0 4px 12px -6px rgba(25,24,22,0.18); }
+  .typo-card .name {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em;
+    color: #6B7280;
+  }
+  .typo-card .name .pill {
+    background: #191816; color: #F8F8EE;
+    padding: 2px 8px; border-radius: 999px;
+    font-size: 9.5px; font-weight: 600; letter-spacing: 0.06em;
+    display: none;
+  }
+  .typo-card.is-active .name .pill { display: inline-block; }
+  .typo-card.f-graphik .sample { font-family: 'Graphik', 'Plus Jakarta Sans', sans-serif; }
+  .typo-card.f-switzer .sample { font-family: 'Switzer', sans-serif; }
+  .typo-card.f-inter   .sample { font-family: 'Inter', sans-serif; }
+  .typo-card .display { font-size: 22px; font-weight: 600; line-height: 1.15; color: #191816; letter-spacing: -0.015em; margin-bottom: 4px; }
+  .typo-card .body    { font-size: 13.5px; line-height: 1.5; color: #3D3B36; margin-bottom: 6px; }
+  .typo-card .glyphs  { font-size: 12px; color: #5A5852; letter-spacing: 0.02em; }
+  .typo-card .note    { font-family: 'Inter', sans-serif; font-size: 10.5px; color: #6B7280; margin-top: 8px; padding-top: 8px; border-top: 1px solid #EFF0F2; }
+
+  /* =========================================================
+     5 · Version summary (only active visible)
+     ========================================================= */
+  [data-show-when] { display: none !important; }
+  body[data-v="v1"] [data-show-when="v1"],
+  body[data-v="v2"] [data-show-when="v2"],
+  body[data-v="v3"] [data-show-when="v3"] { display: block !important; }
+
+  .version-card { background: #fff; border: 1px solid #DCDEE3; border-radius: 12px; padding: 18px 22px; margin-bottom: 16px; }
+  .version-head { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 14px; }
+  .version-pill {
+    flex: none; padding: 4px 10px; border-radius: 999px;
+    font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em;
+    background: #F1F2F4; color: #4A5159; margin-top: 2px;
+    font-family: 'Inter', sans-serif;
+  }
+  .version-title { font-weight: 400; font-size: 19px; margin: 0 0 4px; line-height: 1.25; }
+  .version-desc { color: #4F5258; font-size: 13px; margin: 0; max-width: 800px; }
+
+  .meta-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 14px; }
+  @media (max-width: 720px) { .meta-bar { grid-template-columns: 1fr 1fr; } }
+  .meta-cell { background: #F8F9FB; border: 1px solid #E4E6EA; border-radius: 8px; padding: 9px 11px; }
+  .meta-cell .k { font-size: 10px; font-weight: 600; color: #6B7280; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 5px; }
+  .meta-cell .v { display: flex; align-items: center; gap: 7px; }
+  .meta-cell .swatch { width: 16px; height: 16px; border-radius: 4px; border: 1px solid #E4E6EA; flex: none; }
+  .meta-cell .hex { font-family: "SF Mono", Menlo, monospace; font-size: 11.5px; color: #191816; }
+
+  .compact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 900px) { .compact-grid { grid-template-columns: 1fr; } }
+  .compact-h { font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #6B7280; margin-bottom: 6px; }
+  .compact-ramp { background: #F8F9FB; border: 1px solid #E4E6EA; border-radius: 8px; overflow: hidden; }
+  .ramp-row { display: grid; grid-template-columns: 28px 1fr auto; align-items: center; padding: 5px 12px 5px 0; border-top: 1px solid #EFF0F2; min-height: 32px; }
+  .ramp-row:first-child { border-top: 0; }
+  .ramp-chip { width: 24px; height: 24px; }
+  .ramp-name { padding-left: 12px; font-size: 11.5px; font-weight: 500; color: #191816; }
+  .ramp-hex { font-family: "SF Mono", Menlo, monospace; font-size: 11px; color: #4A5159; padding-right: 12px; }
+  .compact-sem { background: #F8F9FB; border: 1px solid #E4E6EA; border-radius: 8px; padding: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+  .sem-mini { background: #fff; border: 1px solid #E4E6EA; border-radius: 6px; padding: 7px 9px; display: flex; align-items: center; gap: 7px; font-size: 11.5px; }
+  .sem-mini .dot { width: 11px; height: 11px; border-radius: 3px; flex: none; }
+  .sem-mini .name { font-weight: 600; }
+  .sem-mini .hex { margin-left: auto; font-family: "SF Mono", Menlo, monospace; font-size: 10.5px; color: #6B7280; }
+
+  /* =========================================================
+     6 · LIVE PRODUCT PREVIEW — scoped per version via data-v
+     ========================================================= */
+  body[data-v="v1"] {
+    --canvas:#F8F8EE; --surface:#FFFFFF;
+    --border:#E5E2D5; --border-strong:#CFCBBC; --divider:#E5E2D5;
+    --text:#191816; --text-2:#3D3B36; --text-3:#7C7970; --text-4:#A8A498;
+    --hover:#FAFAF3; --selected: rgba(210,25,5,0.08);
+    --neutral-100:#F1EFE4; --neutral-200:#E5E2D5;
+    --cta-bg:#D21905; --cta-fg:#F8F8EE;
+    --link:#D21905; --link-bar:#D21905; --focus:#D21905;
+    --st-success-fg:#2F6B4F; --st-success-bg:#E7F0EA; --st-success-bd:#BFD6C8;
+    --st-warning-fg:#A6651E; --st-warning-bg:#F6EAD4; --st-warning-bd:#E5C896;
+    --st-info-fg:#3F5A7A; --st-info-bg:#E5ECF4; --st-info-bd:#BFCBDC;
+    --st-error-fg:#D21905; --st-error-bg:#FBE5E1; --st-error-bd:#F1B7AE;
+    --st-neutral-fg:#5A5852; --st-neutral-bg:#F1EFE4; --st-neutral-bd:#CFCBBC;
+  }
+  body[data-v="v2"] {
+    --canvas:#F5F6F8; --surface:#FFFFFF;
+    --border:#E1E4E9; --border-strong:#C5CAD2; --divider:#E1E4E9;
+    --text:#191816; --text-2:#30343B; --text-3:#6A707A; --text-4:#969CA6;
+    --hover:#F8F9FB; --selected: rgba(171,52,43,0.08);
+    --neutral-100:#EFF1F4; --neutral-200:#E1E4E9;
+    --cta-bg:#AB342B; --cta-fg:#F8F8EE;
+    --link:#AB342B; --link-bar:#D21905; --focus:#D21905;
+    --st-success-fg:#1F8056; --st-success-bg:#E4F1EC; --st-success-bd:#A8D2BD;
+    --st-warning-fg:#B27316; --st-warning-bg:#F8EDD2; --st-warning-bd:#E0C285;
+    --st-info-fg:#2D5DA0; --st-info-bg:#E1ECF7; --st-info-bd:#B0C8E2;
+    --st-error-fg:#D21905; --st-error-bg:#FBE5E1; --st-error-bd:#F1B7AE;
+    --st-neutral-fg:#4A4F58; --st-neutral-bg:#EFF1F4; --st-neutral-bd:#C5CAD2;
+  }
+  body[data-v="v3"] {
+    --canvas:#FAFAFA; --surface:#FFFFFF;
+    --border:#E5E5E7; --border-strong:#C9C9CD; --divider:#E5E5E7;
+    --text:#191816; --text-2:#313135; --text-3:#6E6E74; --text-4:#98989E;
+    --hover:#F4F4F5; --selected: rgba(25,24,22,0.06);
+    --neutral-100:#F4F4F5; --neutral-200:#E5E5E7;
+    --cta-bg:#191816; --cta-fg:#FAFAFA;
+    --link:#191816; --link-bar:#D21905; --focus:#D21905;
+    --st-success-fg:#137F47; --st-success-bg:#E5F1EA; --st-success-bd:#A6D2B8;
+    --st-warning-fg:#A26514; --st-warning-bg:#F6E9CF; --st-warning-bd:#DCBE85;
+    --st-info-fg:#1F4E91; --st-info-bg:#DDE7F4; --st-info-bd:#A6BFDF;
+    --st-error-fg:#D21905; --st-error-bg:#FBE5E1; --st-error-bd:#F1B7AE;
+    --st-neutral-fg:#4F4F54; --st-neutral-bg:#F4F4F5; --st-neutral-bd:#C9C9CD;
+  }
+
+  .product-preview {
+    background: var(--canvas);
+    border: 1px solid #DCDEE3;
+    border-radius: 12px;
+    padding: 24px;
+    color: var(--text);
+    overflow: hidden;
+    transition: background 220ms ease;
+  }
+  .preview-eyebrow { text-transform: uppercase; letter-spacing: 0.12em; font-size: 10.5px; font-weight: 600; color: var(--text-3); margin: 0 0 14px; font-family: 'Inter', sans-serif; }
+  .preview-block { margin-top: 26px; }
+  .preview-block:first-of-type { margin-top: 0; }
+  .preview-block-h { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-3); margin: 0 0 10px; display: flex; align-items: center; gap: 10px; font-family: 'Inter', sans-serif; }
+  .preview-block-h::before { content: ""; width: 16px; height: 2px; background: var(--link-bar); }
+
+  /* ---- Section 1: App shell ---- */
+  .shell { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .shell-topbar { display: flex; align-items: center; gap: 14px; padding: 10px 16px; border-bottom: 1px solid var(--border); background: var(--surface); }
+  .shell-topbar .logo { display: flex; align-items: center; gap: 8px; flex: none; }
+  .shell-topbar .logo .lk { width: 14px; height: 3px; background: var(--link-bar); }
+  .shell-topbar .logo .word { font-weight: 600; font-size: 15px; letter-spacing: -0.01em; color: var(--text); }
+  .shell-topbar nav { display: flex; gap: 4px; flex: 1; padding-left: 14px; border-left: 1px solid var(--divider); margin-left: 4px; }
+  .shell-topbar nav a { padding: 6px 12px; border-radius: 6px; color: var(--text-2); font-size: 13px; font-weight: 500; text-decoration: none; }
+  .shell-topbar nav a:hover { background: var(--hover); }
+  .shell-topbar nav a.active { color: var(--text); position: relative; }
+  .shell-topbar nav a.active::after { content: ""; position: absolute; left: 12px; right: 12px; bottom: -11px; height: 2px; background: var(--link-bar); }
+  .shell-topbar .right { display: flex; align-items: center; gap: 8px; flex: none; }
+  .search { display: flex; align-items: center; gap: 6px; width: 240px; padding: 7px 10px; border: 1px solid var(--border-strong); border-radius: 6px; background: var(--surface); color: var(--text-3); font-size: 12.5px; }
+  .search svg { color: var(--text-3); flex: none; }
+  .search input { border: 0; background: transparent; outline: none; flex: 1; font: inherit; color: var(--text); }
+  .search kbd { font-family: inherit; font-size: 10.5px; padding: 2px 5px; border: 1px solid var(--border-strong); border-radius: 3px; color: var(--text-3); background: var(--neutral-100); }
+  .icon-btn { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border-strong); border-radius: 6px; background: var(--surface); color: var(--text-2); cursor: pointer; }
+  .avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--neutral-200); color: var(--text); display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 11.5px; border: 1px solid var(--border-strong); }
+  .shell-body { display: grid; grid-template-columns: 200px 1fr; min-height: 220px; }
+  .sidenav { padding: 12px; border-right: 1px solid var(--border); display: flex; flex-direction: column; gap: 1px; background: var(--surface); }
+  .sidenav .nav-item { display: flex; align-items: center; gap: 10px; padding: 7px 10px; border-radius: 6px; font-size: 13px; color: var(--text-2); cursor: pointer; }
+  .sidenav .nav-item:hover { background: var(--hover); }
+  .sidenav .nav-item.active { background: var(--selected); color: var(--text); font-weight: 500; position: relative; }
+  .sidenav .nav-item.active::before { content: ""; position: absolute; left: -12px; top: 6px; bottom: 6px; width: 2px; background: var(--link-bar); }
+  .sidenav .nav-item svg { color: currentColor; flex: none; }
+  .sidenav .nav-section { margin-top: 12px; padding: 8px 10px 4px; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-3); }
+  .shell-canvas { padding: 20px 24px; background: var(--canvas); }
+  .shell-canvas .greeting { font-weight: 400; font-size: 26px; line-height: 1.2; color: var(--text); margin: 0 0 4px; letter-spacing: -0.01em; }
+  .shell-canvas .sub { color: var(--text-3); font-size: 13px; margin: 0; }
+
+  /* ---- Section 2: Dashboard ---- */
+  .dash-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  @media (max-width: 800px) { .dash-row { grid-template-columns: 1fr 1fr; } }
+  .kpi { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; }
+  .kpi .k { font-size: 11px; font-weight: 500; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.08em; }
+  .kpi .v { font-size: 24px; font-weight: 600; color: var(--text); letter-spacing: -0.02em; line-height: 1.1; font-variant-numeric: tabular-nums; }
+  .kpi .delta { font-size: 11.5px; font-weight: 500; display: inline-flex; align-items: center; gap: 4px; }
+  .kpi .delta.up { color: var(--st-success-fg); }
+  .kpi .delta.down { color: var(--st-error-fg); }
+  .kpi .delta.neutral { color: var(--text-3); }
+
+  .chart-strip { margin-top: 14px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .chart-strip h4 { margin: 0 0 4px; font-size: 13px; font-weight: 600; color: var(--text); }
+  .chart-strip .cs-sub { color: var(--text-3); font-size: 12px; margin: 0 0 14px; }
+  .chart-bars { display: flex; gap: 6px; align-items: flex-end; height: 80px; }
+  .chart-bars .bar { flex: 1; background: var(--cta-bg); opacity: 0.7; border-radius: 2px 2px 0 0; min-width: 12px; }
+  body[data-v="v3"] .chart-bars .bar { opacity: 0.85; }
+  .chart-bars .bar.dim { opacity: 0.25; }
+  .chart-axis { display: flex; gap: 6px; margin-top: 6px; }
+  .chart-axis span { flex: 1; text-align: center; font-size: 10px; color: var(--text-3); }
+
+  /* ---- Section 3: Pipeline table ---- */
+  .table-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .table-toolbar { display: flex; align-items: center; gap: 8px; padding: 12px 16px; border-bottom: 1px solid var(--divider); flex-wrap: wrap; }
+  .table-toolbar .filter-chip { display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px; border: 1px solid var(--border-strong); border-radius: 999px; font-size: 12px; color: var(--text-2); background: var(--surface); cursor: pointer; }
+  .table-toolbar .filter-chip.active { background: var(--selected); color: var(--text); border-color: transparent; }
+  .table-toolbar .spacer { flex: 1; }
+  .btn-sm { padding: 6px 12px; font-size: 12px; font-weight: 500; border: 1px solid var(--border-strong); border-radius: 6px; background: var(--surface); color: var(--text); cursor: pointer; text-transform: uppercase; letter-spacing: 0.06em; font-family: inherit; }
+  .btn-sm.primary { background: var(--cta-bg); color: var(--cta-fg); border-color: transparent; }
+  table.deals { width: 100%; border-collapse: collapse; font-size: 13px; }
+  table.deals th { text-align: left; font-weight: 500; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); padding: 10px 16px; border-bottom: 1px solid var(--divider); background: var(--neutral-100); }
+  table.deals td { padding: 12px 16px; border-bottom: 1px solid var(--divider); color: var(--text); vertical-align: middle; }
+  table.deals tr:last-child td { border-bottom: 0; }
+  table.deals tr:hover td { background: var(--hover); }
+  table.deals .co { display: flex; align-items: center; gap: 10px; font-weight: 500; }
+  table.deals .co .logo { width: 28px; height: 28px; border-radius: 6px; background: var(--neutral-100); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; color: var(--text-2); border: 1px solid var(--border); }
+  table.deals .amt { font-variant-numeric: tabular-nums; font-weight: 500; }
+  table.deals .mu { color: var(--text-3); font-size: 12px; }
+  .pill { display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px; border-radius: 999px; font-size: 11.5px; font-weight: 500; border: 1px solid; }
+  .pill .dot { width: 6px; height: 6px; border-radius: 50%; }
+  .pill.success { color: var(--st-success-fg); background: var(--st-success-bg); border-color: var(--st-success-bd); }
+  .pill.success .dot { background: var(--st-success-fg); }
+  .pill.warning { color: var(--st-warning-fg); background: var(--st-warning-bg); border-color: var(--st-warning-bd); }
+  .pill.warning .dot { background: var(--st-warning-fg); }
+  .pill.info    { color: var(--st-info-fg); background: var(--st-info-bg); border-color: var(--st-info-bd); }
+  .pill.info .dot { background: var(--st-info-fg); }
+  .pill.error   { color: var(--st-error-fg); background: var(--st-error-bg); border-color: var(--st-error-bd); }
+  .pill.error .dot { background: var(--st-error-fg); }
+  .pill.neutral { color: var(--st-neutral-fg); background: var(--st-neutral-bg); border-color: var(--st-neutral-bd); }
+  .pill.neutral .dot { background: var(--st-neutral-fg); }
+  .table-foot { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; border-top: 1px solid var(--divider); font-size: 12px; color: var(--text-3); }
+  .table-foot .pager { display: flex; gap: 4px; }
+  .table-foot .pager button { width: 26px; height: 26px; border-radius: 5px; border: 1px solid var(--border-strong); background: var(--surface); color: var(--text-2); font-size: 12px; cursor: pointer; font-family: inherit; }
+  .table-foot .pager button.active { background: var(--selected); color: var(--text); border-color: transparent; }
+
+  /* ---- Section 4: Detail / form ---- */
+  .detail { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .detail-head { padding: 16px 20px; border-bottom: 1px solid var(--divider); display: flex; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
+  .detail-head .crumb { font-size: 11.5px; color: var(--text-3); margin-bottom: 4px; }
+  .detail-head .crumb a { color: var(--text-3); text-decoration: none; cursor: pointer; }
+  .detail-head .crumb a:hover { color: var(--text-2); }
+  .detail-head .title { font-weight: 400; font-size: 24px; letter-spacing: -0.01em; line-height: 1.2; margin: 0 0 4px; color: var(--text); }
+  .detail-head .meta { color: var(--text-3); font-size: 12.5px; margin: 0; display: flex; gap: 8px; align-items: center; }
+  .detail-head .meta .sep { color: var(--text-4); }
+  .detail-head .actions { margin-left: auto; display: flex; gap: 8px; }
+  .btn { padding: 9px 14px; font-size: 12.5px; font-weight: 500; border: 0; border-radius: 6px; cursor: pointer; text-transform: uppercase; letter-spacing: 0.07em; font-family: inherit; }
+  .btn.primary { background: var(--cta-bg); color: var(--cta-fg); }
+  .btn.secondary { background: transparent; color: var(--text); border: 1px solid var(--border-strong); }
+  .detail-tabs { display: flex; gap: 0; padding: 0 20px; border-bottom: 1px solid var(--divider); }
+  .detail-tabs .t { padding: 11px 14px; font-size: 13px; font-weight: 500; color: var(--text-3); cursor: pointer; position: relative; }
+  .detail-tabs .t.active { color: var(--text); }
+  .detail-tabs .t.active::after { content: ""; position: absolute; left: 14px; right: 14px; bottom: -1px; height: 2px; background: var(--link-bar); }
+  .detail-body { display: grid; grid-template-columns: 1fr 280px; gap: 20px; padding: 20px; }
+  @media (max-width: 720px) { .detail-body { grid-template-columns: 1fr; } }
+  .field { display: flex; flex-direction: column; gap: 4px; margin-bottom: 14px; }
+  .field .label { font-size: 12.5px; font-weight: 500; color: var(--text-2); }
+  .field .label .req { color: #D21905; margin-left: 2px; }
+  .field .input { border: 1px solid var(--border-strong); background: var(--surface); border-radius: 6px; padding: 9px 12px; font: inherit; font-size: 13px; color: var(--text); width: 100%; }
+  .field .input.focused { border: 2px solid var(--focus); padding: 8px 11px; }
+  .field .helper { font-size: 11.5px; color: var(--text-3); }
+  .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .side-block { background: var(--neutral-100); border: 1px solid var(--border); border-radius: 8px; padding: 14px; }
+  .side-block h5 { margin: 0 0 8px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); }
+  .side-list { display: flex; flex-direction: column; gap: 6px; font-size: 12.5px; }
+  .side-list .li { display: flex; justify-content: space-between; gap: 8px; }
+  .side-list .li .k { color: var(--text-3); }
+  .side-list .li .v { color: var(--text); font-weight: 500; }
+  .activity { margin-top: 14px; }
+  .activity .item { display: flex; gap: 10px; padding: 10px 0; border-top: 1px solid var(--divider); font-size: 12.5px; }
+  .activity .item:first-child { border-top: 0; }
+  .activity .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--text-3); margin-top: 6px; flex: none; }
+  .activity .dot.brand { background: var(--link-bar); }
+  .activity .body { flex: 1; }
+  .activity .body .who { font-weight: 600; color: var(--text); }
+  .activity .body .what { color: var(--text-2); }
+  .activity .body .when { color: var(--text-3); font-size: 11.5px; margin-top: 2px; }
+
+  /* =========================================================
+     7 · Approve note
+     ========================================================= */
+  .approve-note { margin-top: 32px; padding: 18px 20px; background: #fff; border: 1px solid #DCDEE3; border-radius: 8px; border-left: 3px solid #D21905; }
+  .approve-note h4 { margin: 0 0 6px; font-size: 14px; font-weight: 600; }
+  .approve-note p { margin: 0; color: #4F5258; font-size: 13.5px; line-height: 1.55; }
+  .approve-note p + p { margin-top: 6px; }
+</style>
+</head>
+<body data-v="v2" data-font="switzer">
+
+<!-- SVG icon defs -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></symbol>
+    <symbol id="i-flow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></symbol>
+    <symbol id="i-bag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a4 4 0 0 1 8 0v2"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="20" x2="21" y2="20"/><polyline points="4,16 9,11 13,15 20,7"/></symbol>
+    <symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></symbol>
+    <symbol id="i-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></symbol>
+  </defs>
+</svg>
+
+<div class="container">
+
+<header>
+  <div class="anchor-bar"></div>
+  <h1>Prism — Palette × Typography Explorer</h1>
+  <p class="subtitle">Toggle the palette version and the typography independently. The controls bar below is sticky — scroll freely while keeping the current selection in view. The four SaaS sections re-render live.</p>
+</header>
+
+<!-- Locked palette block -->
+<div class="locked-block">
+  <div class="eyebrow">Locked from brand guide v1.0 — same hex values across all versions</div>
+  <h2>Brand Palette</h2>
+  <p class="note">Six brand colors are non-negotiable. What changes between versions is the surrounding neutrals and how often the bright red gets used in product UI.</p>
+  <div class="locked-row">
+    <div class="locked-card"><div class="locked-chip" style="background:#D21905;"></div><div class="locked-meta"><div class="name">Indian VCs Red</div><div class="hex">#D21905</div></div></div>
+    <div class="locked-card"><div class="locked-chip" style="background:#191816;"></div><div class="locked-meta"><div class="name">Charcoal</div><div class="hex">#191816</div></div></div>
+    <div class="locked-card"><div class="locked-chip" style="background:#301008;"></div><div class="locked-meta"><div class="name">Dark Cocoa</div><div class="hex">#301008</div></div></div>
+    <div class="locked-card"><div class="locked-chip" style="background:#F8F8EE;"></div><div class="locked-meta"><div class="name">Pearl Cream</div><div class="hex">#F8F8EE</div></div></div>
+    <div class="locked-card"><div class="locked-chip" style="background:#810100;"></div><div class="locked-meta"><div class="name">Clay Red — Dark</div><div class="hex">#810100</div></div></div>
+    <div class="locked-card"><div class="locked-chip" style="background:#AB342B;"></div><div class="locked-meta"><div class="name">Clay Red — Light</div><div class="hex">#AB342B</div></div></div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- STICKY CONTROLS                                              -->
+<!-- ============================================================ -->
+<div class="controls" id="controls">
+  <div class="ctrl-group">
+    <span class="ctrl-label">Version</span>
+    <div class="seg" data-set="v">
+      <button data-val="v1">v1 · Warm</button>
+      <button data-val="v2" class="is-active">v2 · Cool</button>
+      <button data-val="v3">v3 · Quiet</button>
+    </div>
+  </div>
+  <div class="ctrl-group">
+    <span class="ctrl-label">Typography</span>
+    <div class="seg" data-set="font">
+      <button data-val="graphik">Graphik*</button>
+      <button data-val="switzer" class="is-active">Switzer</button>
+      <button data-val="inter">Inter</button>
+    </div>
+  </div>
+  <div class="now-showing" aria-live="polite">
+    <span class="dot"></span>
+    <span class="ns-v">v2 · Cool</span>
+    <span class="ns-sep">·</span>
+    <span class="ns-f">Switzer</span>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- TYPOGRAPHY REFERENCE — always visible, all 3 fonts            -->
+<!-- ============================================================ -->
+<div class="typo-ref">
+  <div class="typo-ref-head">
+    <h3>Typography reference</h3>
+    <div class="hint">Active font is highlighted · click a typography button above to switch.</div>
+  </div>
+  <div class="typo-ref-grid">
+    <div class="typo-card f-graphik" data-font-card="graphik">
+      <div class="name">Graphik <span class="pill">Active</span></div>
+      <div class="sample">
+        <div class="display">India's brightest ideas, made global.</div>
+        <div class="body">A premium grotesque used widely in editorial design — Wired, Bloomberg. Slightly humanist, very legible at body sizes. *Free preview shows Plus Jakarta Sans (closest free analog).</div>
+        <div class="glyphs">Aa Bb Cc Dd · 0123456789 · Rg ag</div>
+      </div>
+      <div class="note">Licensed (Commercial Type) · paid for production use.</div>
+    </div>
+    <div class="typo-card f-switzer" data-font-card="switzer">
+      <div class="name">Switzer <span class="pill">Active</span></div>
+      <div class="sample">
+        <div class="display">India's brightest ideas, made global.</div>
+        <div class="body">Your brand's secondary type. Geometric grotesque — crisp, geometric, modern. Designed by Indian Type Foundry; pairs intentionally with Arapey for editorial moments.</div>
+        <div class="glyphs">Aa Bb Cc Dd · 0123456789 · Rg ag</div>
+      </div>
+      <div class="note">Free · Fontshare · already in your locked brand palette.</div>
+    </div>
+    <div class="typo-card f-inter" data-font-card="inter">
+      <div class="name">Inter <span class="pill">Active</span></div>
+      <div class="sample">
+        <div class="display">India's brightest ideas, made global.</div>
+        <div class="body">The de-facto SaaS workhorse — Linear, GitHub-adjacent, Notion-adjacent. Slightly more "tech / utility" register; sits very neutral, doesn't compete with content.</div>
+        <div class="glyphs">Aa Bb Cc Dd · 0123456789 · Rg ag</div>
+      </div>
+      <div class="note">Free · Google Fonts · my pick as the SaaS-standard baseline.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- VERSION SUMMARY — only the active version's card is visible  -->
+<!-- ============================================================ -->
+
+<!-- v1 -->
+<div class="version-card" data-show-when="v1">
+  <div class="version-head">
+    <span class="version-pill">v1 · Warm Editorial</span>
+    <div>
+      <h3 class="version-title">Pearl Cream canvas, brand red leads as primary CTA</h3>
+      <p class="version-desc">Faithful to the brand guide's editorial register. Warm-tinted neutrals throughout. Reads "premium magazine."</p>
+    </div>
+  </div>
+  <div class="meta-bar">
+    <div class="meta-cell"><div class="k">Canvas</div><div class="v"><span class="swatch" style="background:#F8F8EE;"></span><span class="hex">#F8F8EE</span></div></div>
+    <div class="meta-cell"><div class="k">Primary CTA</div><div class="v"><span class="swatch" style="background:#D21905;"></span><span class="hex">#D21905</span></div></div>
+    <div class="meta-cell"><div class="k">Body text</div><div class="v"><span class="swatch" style="background:#191816;"></span><span class="hex">#191816</span></div></div>
+    <div class="meta-cell"><div class="k">Neutral lean</div><div class="v"><span class="hex">Warm</span></div></div>
+  </div>
+  <div class="compact-grid">
+    <div>
+      <div class="compact-h">Neutral ramp</div>
+      <div class="compact-ramp">
+        <div class="ramp-row"><div class="ramp-chip" style="background:#FFFFFF; border-right:1px solid #E4E6EA;"></div><div class="ramp-name">neutral.0</div><div class="ramp-hex">#FFFFFF</div></div>
+        <div class="ramp-row"><div class="ramp-chip" style="background:#FAFAF3;"></div><div class="ramp-name">neutral.50</div><div class="ramp-hex">#FAFAF3</div></div>
+        <div class="ramp-row"><div class="ramp-chip" style="background:#F1EFE4;"></div><div class="ramp-name">neutral.100</div><div class="ramp-hex">#F1EFE4</div></div>
+        <div class="ramp-row"><div class="ramp-chip" style="background:#E5E2D5;"></div><div class="ramp-name">neutral.200</div><div class="ramp-hex">#E5E2D5</div></div>
+        <div class="ramp-row"><div class="ramp-chip" style="background:#CFCBBC;"></div><div class="ramp-name">neutral.300</div><div class="ramp-hex">#CFCBBC</div></div>
+        <div class="ramp-row"><div class="ramp-chip" style="background:#7C7970;"></div><div class="ramp-name">neutral.500</div><div class="ramp-hex">#7C7970</div></div>
+        <div class="ramp-row"><div class="ramp-chip" style="background:#3D3B36;"></div><div class="ramp-name">neutral.700</div><div class="ramp-hex">#3D3B36</div></div>
+        <div class="ramp-row"><div class="ramp-chip" style="background:#191816;"></div><div class="ramp-name">neutral.900</div><div class="ramp-hex">#191816</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="compact-h">Semantic colors</div>
+      <div class="compact-sem">
+        <div class="sem-mini"><span class="dot" style="background:#2F6B4F;"></span><span class="name">Success</span><span class="hex">#2F6B4F</span></div>
+        <div class="sem-mini"><span class="dot" style="background:#A6651E;"></span><span class="name">Warning</span><span class="hex">#A6651E</span></div>
+        <div class="sem-mini"><span class="dot" style="background:#3F5A7A;"></span><span class="name">Info</span><span class="hex">#3F5A7A</span></div>
+        <div class="sem-mini"><span class="dot" style="background:#D21905;"></span><span class="name">Error</span><span class="hex">#D21905</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- v2 -->
+<div class="version-card" data-show-when="v2">
+  <div class="version-head">
+    <span class="version-pill">v2 · Refined Cool</span>
+    <div>
+      <h3 class="version-title">Cool slate canvas, Clay Red Light as the workhorse CTA</h3>
+      <p class="version-desc">Modern register. Brand red on a budget — reserved for logo, focus, the Link motif, and errors. Reads "contemporary, calm, premium."</p>
+    </div>
+  </div>
+  <div class="meta-bar">
+    <div class="meta-cell"><div class="k">Canvas</div><div class="v"><span class="swatch" style="background:#F5F6F8;"></span><span class="hex">#F5F6F8</span></div></div>
+    <div class="meta-cell"><div class="k">Primary CTA</div><div class="v"><span class="swatch" style="background:#AB342B;"></span><span class="hex">#AB342B</span></div></div>
+    <div class="meta-cell"><div class="k">Body text</div><div class="v"><span class="swatch" style="background:#191816;"></span><span class="hex">#191816</span></div></div>
+    <div class="meta-cell"><div class="k">Neutral lean</div><div class="v"><span class="hex">Cool / slate</span></div></div>
+  </div>
+  <div class="compact-grid">
+    <div>
+      <div class="compact-h">Neutral ramp</div>
+      <div class="compact-ramp">
+        <div class="ramp-row"><div class="ramp-chip" style="background:#FFFFFF; border-right:1px solid #E4E6EA;"></div><div class="ramp-name">neutral.0</div><div class="ramp-hex">#FFFFFF</div></div>
+        <div class="ramp-row"><div class="ramp-chip" style="background:#F8F9FB;"></div><div class="ramp-name">neutral.50</div><div class="ramp-hex">#F8F9FB</div></div>
+        <div class="ramp-row"><div class="ramp-chip" style="background:#EFF1F4;"></div><div class="ramp-name">neutral.100</div><div class="ramp-hex">#EFF1F4</div></div>
+        <div class="ramp-row"><div class="ramp-chip" style="background:#E1E4E9;"></div><div class="ramp-name">neutral.200</div><div class="ramp-hex">#E1E4E9</div></div>
+        <div class="ramp-row"><div class="ramp-chip" style="background:#C5CAD2;"></div><div class="ramp-name">neutral.300</div><div class="ramp-hex">#C5CAD2</div></div>
+        <div class="ramp-row"><div class="ramp-chip" style="background:#6A707A;"></div><div class="ramp-name">neutral.500</div><div class="ramp-hex">#6A707A</div></div>
+        <div class="ramp-row"><div class="ramp-chip" style="background:#30343B;"></div><div class="ramp-name">neutral.700</div><div class="ramp-hex">#30343B</div></div>
+        <div class="ramp-row"><div class="ramp-chip" style="background:#191816;"></div><div class="ramp-name">neutral.900</div><div class="ramp-hex">#191816</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="compact-h">Semantic colors</div>
+      <div class="compact-sem">
+        <div class="sem-mini"><span class="dot" style="background:#1F8056;"></span><span class="name">Success</span><span class="hex">#1F8056</span></div>
+        <div class="sem-mini"><span class="dot" style="background:#B27316;"></span><span class="name">Warning</span><span class="hex">#B27316</span></div>
+        <div class="sem-mini"><span class="dot" style="background:#2D5DA0;"></span><span class="name">Info</span><span class="hex">#2D5DA0</span></div>
+        <div class="sem-mini"><span class="dot" style="background:#D21905;"></span><span class="name">Error</span><span class="hex">#D21905</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- v3 -->
+<div class="version-card" data-show-when="v3">
+  <div class="version-head">
+    <span class="version-pill">v3 · Quiet Charcoal-Led</span>
+    <div>
+      <h3 class="version-title">Near-monochrome canvas, Charcoal as primary CTA</h3>
+      <p class="version-desc">Maximum restraint. Charcoal carries the interactive load. Brand red appears almost exclusively as logo, focus, and error states. Reads "Linear / Stripe / Vercel."</p>
+    </div>
+  </div>
+  <div class="meta-bar">
+    <div class="meta-cell"><div class="k">Canvas</div><div class="v"><span class="swatch" style="background:#FAFAFA;"></span><span class="hex">#FAFAFA</span></div></div>
+    <div class="meta-cell"><div class="k">Primary CTA</div><div class="v"><span class="swatch" style="background:#191816;"></span><span class="hex">#191816</span></div></div>
+    <div class="meta-cell"><div class="k">Body text</div><div class="v"><span class="swatch" style="background:#191816;"></span><span class="hex">#191816</span></div></div>
+    <div class="meta-cell"><div class="k">Neutral lean</div><div class="v"><span class="hex">True neutral</span></div></div>
+  </div>
+  <div class="compact-grid">
+    <div>
+      <div class="compact-h">Neutral ramp</div>
+      <div class="compact-ramp">
+        <div class="ramp-row"><div class="ramp-chip" style="background:#FFFFFF; border-right:1px solid #E4E6EA;"></div><div class="ramp-name">neutral.0</div><div class="ramp-hex">#FFFFFF</div></div>
+        <div class="ramp-row"><div class="ramp-chip" style="background:#FAFAFA;"></div><div class="ramp-name">neutral.50</div><div class="ramp-hex">#FAFAFA</div></div>
+        <div class="ramp-row"><div class="ramp-chip" style="background:#F4F4F5;"></div><div class="ramp-name">neutral.100</div><div class="ramp-hex">#F4F4F5</div></div>
+        <div class="ramp-row"><div class="ramp-chip" style="background:#E5E5E7;"></div><div class="ramp-name">neutral.200</div><div class="ramp-hex">#E5E5E7</div></div>
+        <div class="ramp-row"><div class="ramp-chip" style="background:#C9C9CD;"></div><div class="ramp-name">neutral.300</div><div class="ramp-hex">#C9C9CD</div></div>
+        <div class="ramp-row"><div class="ramp-chip" style="background:#6E6E74;"></div><div class="ramp-name">neutral.500</div><div class="ramp-hex">#6E6E74</div></div>
+        <div class="ramp-row"><div class="ramp-chip" style="background:#313135;"></div><div class="ramp-name">neutral.700</div><div class="ramp-hex">#313135</div></div>
+        <div class="ramp-row"><div class="ramp-chip" style="background:#191816;"></div><div class="ramp-name">neutral.900</div><div class="ramp-hex">#191816</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="compact-h">Semantic colors</div>
+      <div class="compact-sem">
+        <div class="sem-mini"><span class="dot" style="background:#137F47;"></span><span class="name">Success</span><span class="hex">#137F47</span></div>
+        <div class="sem-mini"><span class="dot" style="background:#A26514;"></span><span class="name">Warning</span><span class="hex">#A26514</span></div>
+        <div class="sem-mini"><span class="dot" style="background:#1F4E91;"></span><span class="name">Info</span><span class="hex">#1F4E91</span></div>
+        <div class="sem-mini"><span class="dot" style="background:#D21905;"></span><span class="name">Error</span><span class="hex">#D21905</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- LIVE PRODUCT PREVIEW                                         -->
+<!-- ============================================================ -->
+<div class="product-preview">
+  <p class="preview-eyebrow">Live preview · current canvas + typography</p>
+
+  <!-- Block 1: App shell -->
+  <div class="preview-block">
+    <h4 class="preview-block-h">01 · App shell — top bar + side navigation</h4>
+    <div class="shell">
+      <div class="shell-topbar">
+        <div class="logo">
+          <span class="lk"></span>
+          <span class="word">Prism</span>
+        </div>
+        <nav>
+          <a class="active" href="#" onclick="event.preventDefault();">Deal Flow</a>
+          <a href="#" onclick="event.preventDefault();">Portfolio</a>
+          <a href="#" onclick="event.preventDefault();">Contacts</a>
+          <a href="#" onclick="event.preventDefault();">Reports</a>
+        </nav>
+        <div class="right">
+          <div class="search">
+            <svg width="14" height="14"><use href="#i-search"/></svg>
+            <input placeholder="Search deals, founders, funds..." />
+            <kbd>⌘K</kbd>
+          </div>
+          <button class="icon-btn" aria-label="Notifications"><svg width="16" height="16"><use href="#i-bell"/></svg></button>
+          <div class="avatar">KV</div>
+        </div>
+      </div>
+      <div class="shell-body">
+        <aside class="sidenav">
+          <div class="nav-item"><svg width="16" height="16"><use href="#i-grid"/></svg> Dashboard</div>
+          <div class="nav-item active"><svg width="16" height="16"><use href="#i-flow"/></svg> Deal Flow</div>
+          <div class="nav-item"><svg width="16" height="16"><use href="#i-bag"/></svg> Portfolio</div>
+          <div class="nav-item"><svg width="16" height="16"><use href="#i-users"/></svg> Contacts</div>
+          <div class="nav-item"><svg width="16" height="16"><use href="#i-chart"/></svg> Reports</div>
+          <div class="nav-section">Workspace</div>
+          <div class="nav-item"><svg width="16" height="16"><use href="#i-gear"/></svg> Settings</div>
+        </aside>
+        <div class="shell-canvas">
+          <div class="greeting">Welcome back, Kapil</div>
+          <p class="sub">Q2 2026 · 47 active deals · 12 closed in the last 30 days.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Block 2: Dashboard KPIs + chart -->
+  <div class="preview-block">
+    <h4 class="preview-block-h">02 · Dashboard — KPI strip + activity chart</h4>
+    <div class="dash-row">
+      <div class="kpi">
+        <div class="k">Total deployed</div>
+        <div class="v">$184.2M</div>
+        <div class="delta up"><svg width="11" height="11"><use href="#i-up"/></svg> +12.4% vs Q1</div>
+      </div>
+      <div class="kpi">
+        <div class="k">Active deals</div>
+        <div class="v">47</div>
+        <div class="delta up"><svg width="11" height="11"><use href="#i-up"/></svg> +6 this month</div>
+      </div>
+      <div class="kpi">
+        <div class="k">Avg ticket size</div>
+        <div class="v">$2.8M</div>
+        <div class="delta down"><svg width="11" height="11"><use href="#i-down"/></svg> −4.1% vs Q1</div>
+      </div>
+      <div class="kpi">
+        <div class="k">Pipeline value</div>
+        <div class="v">$72.0M</div>
+        <div class="delta neutral">— flat</div>
+      </div>
+    </div>
+    <div class="chart-strip">
+      <h4>Deals closed · last 12 weeks</h4>
+      <p class="cs-sub">Weekly count of new commitments. Hover bars in production for tooltips.</p>
+      <div class="chart-bars">
+        <div class="bar" style="height:32%"></div>
+        <div class="bar" style="height:48%"></div>
+        <div class="bar" style="height:38%"></div>
+        <div class="bar" style="height:62%"></div>
+        <div class="bar" style="height:55%"></div>
+        <div class="bar" style="height:71%"></div>
+        <div class="bar" style="height:50%"></div>
+        <div class="bar" style="height:80%"></div>
+        <div class="bar" style="height:66%"></div>
+        <div class="bar" style="height:88%"></div>
+        <div class="bar" style="height:74%"></div>
+        <div class="bar dim" style="height:44%"></div>
+      </div>
+      <div class="chart-axis">
+        <span>W1</span><span>W2</span><span>W3</span><span>W4</span><span>W5</span><span>W6</span><span>W7</span><span>W8</span><span>W9</span><span>W10</span><span>W11</span><span>W12</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Block 3: Pipeline table -->
+  <div class="preview-block">
+    <h4 class="preview-block-h">03 · Pipeline — deals table with filters &amp; status</h4>
+    <div class="table-card">
+      <div class="table-toolbar">
+        <span class="filter-chip active">All · 47</span>
+        <span class="filter-chip">Sourced · 12</span>
+        <span class="filter-chip">Diligence · 9</span>
+        <span class="filter-chip">Term Sheet · 6</span>
+        <span class="filter-chip">Closed · 14</span>
+        <span class="spacer"></span>
+        <button class="btn-sm">Export</button>
+        <button class="btn-sm primary">+ New Deal</button>
+      </div>
+      <table class="deals">
+        <thead>
+          <tr><th>Company</th><th>Stage</th><th>Owner</th><th>Amount</th><th>Status</th><th>Updated</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div class="co"><div class="logo">AH</div>Aurelia Health</div></td>
+            <td class="mu">Series A</td><td class="mu">KV</td>
+            <td class="amt">$2,500,000</td>
+            <td><span class="pill warning"><span class="dot"></span>Term Sheet</span></td>
+            <td class="mu">2d ago</td>
+          </tr>
+          <tr>
+            <td><div class="co"><div class="logo">HX</div>Helix Robotics</div></td>
+            <td class="mu">Seed</td><td class="mu">NS</td>
+            <td class="amt">$1,200,000</td>
+            <td><span class="pill info"><span class="dot"></span>Diligence</span></td>
+            <td class="mu">5d ago</td>
+          </tr>
+          <tr>
+            <td><div class="co"><div class="logo">MA</div>Mosaic AI</div></td>
+            <td class="mu">Series B</td><td class="mu">RP</td>
+            <td class="amt">$8,000,000</td>
+            <td><span class="pill success"><span class="dot"></span>Closed Won</span></td>
+            <td class="mu">1w ago</td>
+          </tr>
+          <tr>
+            <td><div class="co"><div class="logo">TL</div>Tundra Logistics</div></td>
+            <td class="mu">Pre-Seed</td><td class="mu">KV</td>
+            <td class="amt">$400,000</td>
+            <td><span class="pill neutral"><span class="dot"></span>Sourced</span></td>
+            <td class="mu">3d ago</td>
+          </tr>
+          <tr>
+            <td><div class="co"><div class="logo">LE</div>Lumen Energy</div></td>
+            <td class="mu">Series A</td><td class="mu">NS</td>
+            <td class="amt">$3,500,000</td>
+            <td><span class="pill error"><span class="dot"></span>Passed</span></td>
+            <td class="mu">2w ago</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="table-foot">
+        <div>5 of 47 · sorted by Updated, descending</div>
+        <div class="pager">
+          <button>‹</button><button class="active">1</button><button>2</button><button>3</button><button>›</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Block 4: Detail / form -->
+  <div class="preview-block">
+    <h4 class="preview-block-h">04 · Deal detail — header, tabs, form &amp; sidebar</h4>
+    <div class="detail">
+      <div class="detail-head">
+        <div>
+          <div class="crumb"><a>Deal Flow</a> / <a>Active</a> / Aurelia Health</div>
+          <h2 class="title">Aurelia Health · Series A</h2>
+          <p class="meta">$2.5M ticket <span class="sep">·</span> Owner: Kapil V. <span class="sep">·</span> Stage: Term Sheet</p>
+        </div>
+        <div class="actions">
+          <button class="btn secondary">Share</button>
+          <button class="btn primary">Open Memo</button>
+        </div>
+      </div>
+      <div class="detail-tabs">
+        <div class="t active">Overview</div>
+        <div class="t">Diligence</div>
+        <div class="t">Documents</div>
+        <div class="t">Activity</div>
+      </div>
+      <div class="detail-body">
+        <div>
+          <div class="row-2">
+            <div class="field">
+              <span class="label">Investment amount<span class="req">*</span></span>
+              <div class="input focused">$2,500,000</div>
+              <span class="helper">USD only · auto-converted in reports.</span>
+            </div>
+            <div class="field">
+              <span class="label">Round size</span>
+              <div class="input">$12,000,000</div>
+              <span class="helper">Total round including co-investors.</span>
+            </div>
+          </div>
+          <div class="field">
+            <span class="label">Memo summary</span>
+            <div class="input" style="min-height:84px; line-height:1.55;">Aurelia is building a clinical-grade triage assistant for Tier-2 hospitals across India. Strong founding team out of AIIMS + IITM with prior exit experience.</div>
+            <span class="helper">Visible to all partners on the deal.</span>
+          </div>
+          <div class="activity">
+            <div class="item">
+              <span class="dot brand"></span>
+              <div class="body">
+                <span class="who">Kapil V.</span> <span class="what">moved deal to <strong>Term Sheet</strong></span>
+                <div class="when">2 days ago</div>
+              </div>
+            </div>
+            <div class="item">
+              <span class="dot"></span>
+              <div class="body">
+                <span class="who">Naina S.</span> <span class="what">added the diligence checklist</span>
+                <div class="when">4 days ago</div>
+              </div>
+            </div>
+            <div class="item">
+              <span class="dot"></span>
+              <div class="body">
+                <span class="who">Rohan P.</span> <span class="what">uploaded the cap table</span>
+                <div class="when">6 days ago</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <aside>
+          <div class="side-block">
+            <h5>Company</h5>
+            <div class="side-list">
+              <div class="li"><span class="k">HQ</span><span class="v">Bangalore, IN</span></div>
+              <div class="li"><span class="k">Founded</span><span class="v">2024</span></div>
+              <div class="li"><span class="k">Team</span><span class="v">11 people</span></div>
+              <div class="li"><span class="k">Sector</span><span class="v">Health AI</span></div>
+              <div class="li"><span class="k">Source</span><span class="v">Inbound</span></div>
+            </div>
+          </div>
+          <div class="side-block" style="margin-top:12px;">
+            <h5>Co-investors</h5>
+            <div class="side-list">
+              <div class="li"><span class="k">Lead</span><span class="v">Prism</span></div>
+              <div class="li"><span class="k">Following</span><span class="v">Antler India</span></div>
+              <div class="li"><span class="k">Following</span><span class="v">Stellaris VP</span></div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="approve-note">
+  <h4>How to read this</h4>
+  <p>The controls bar above is sticky — scroll the SaaS sections while keeping the active selection in view. Toggling either control updates the badge on the right (<strong>v · font</strong>) and re-renders all four sections plus the typography reference card.</p>
+  <p>Verified working: <strong>3 versions × 3 fonts = 9 combinations.</strong> When ready, tell me which pairing to lock (or which parts of which to mix), and I'll codify into <code>design.md</code> and move to typography specifics.</p>
+</div>
+
+</div>
+
+<script>
+  (function () {
+    var V_LABELS = { v1: 'v1 · Warm', v2: 'v2 · Cool', v3: 'v3 · Quiet' };
+    var F_LABELS = { graphik: 'Graphik', switzer: 'Switzer', inter: 'Inter' };
+
+    function applyState() {
+      var v = document.body.dataset.v;
+      var f = document.body.dataset.font;
+      // Update segmented controls
+      document.querySelectorAll('.seg[data-set="v"] button').forEach(function (b) {
+        b.classList.toggle('is-active', b.dataset.val === v);
+      });
+      document.querySelectorAll('.seg[data-set="font"] button').forEach(function (b) {
+        b.classList.toggle('is-active', b.dataset.val === f);
+      });
+      // Update typography reference active state
+      document.querySelectorAll('.typo-card').forEach(function (c) {
+        c.classList.toggle('is-active', c.dataset.fontCard === f);
+      });
+      // Update "now showing" badge
+      var ev = document.querySelector('.now-showing .ns-v');
+      var ef = document.querySelector('.now-showing .ns-f');
+      if (ev) ev.textContent = V_LABELS[v] || v;
+      if (ef) ef.textContent = F_LABELS[f] || f;
+    }
+
+    document.addEventListener('click', function (e) {
+      var btn = e.target.closest('.seg button');
+      if (!btn) return;
+      var group = btn.closest('.seg');
+      var key = group.dataset.set; // "v" or "font"
+      var val = btn.dataset.val;
+      document.body.dataset[key] = val;
+      applyState();
+    });
+
+    // Run once on load to sync UI with the body's initial data attributes
+    applyState();
+  })();
+</script>
+</body>
+</html>

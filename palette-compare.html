@@ -1,0 +1,725 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prism — Palette Comparison</title>
+<style>
+  /* ---------- Base ---------- */
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: #ECEDEF;
+    color: #191816;
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.5;
+    padding: 48px 32px 96px;
+  }
+  .container { max-width: 1280px; margin: 0 auto; }
+
+  /* ---------- Header ---------- */
+  header { margin-bottom: 32px; }
+  .anchor-bar { width: 40px; height: 3px; background: #D21905; margin-bottom: 18px; }
+  h1 {
+    font-family: "Iowan Old Style", "Palatino Linotype", "Georgia", serif;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    margin: 0 0 10px;
+  }
+  .subtitle { color: #5A5852; font-size: 15px; margin: 0; max-width: 780px; }
+
+  /* ---------- Locked palette block (always visible) ---------- */
+  .locked-block {
+    background: #fff;
+    border: 1px solid #DCDEE3;
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin-top: 32px;
+    margin-bottom: 32px;
+  }
+  .locked-block .eyebrow {
+    text-transform: uppercase; letter-spacing: 0.12em;
+    font-size: 11px; font-weight: 600; color: #6B7280;
+    margin-bottom: 8px;
+  }
+  .locked-block h2 {
+    font-family: "Iowan Old Style", "Palatino Linotype", "Georgia", serif;
+    font-weight: 400; font-size: 24px; margin: 0 0 4px;
+  }
+  .locked-block .note { color: #6B7280; font-size: 13.5px; margin: 0 0 18px; max-width: 780px; }
+  .locked-row {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+  }
+  @media (max-width: 900px) { .locked-row { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 600px) { .locked-row { grid-template-columns: repeat(2, 1fr); } }
+
+  .locked-card {
+    border: 1px solid #E4E6EA;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+  }
+  .locked-chip { height: 84px; }
+  .locked-meta { padding: 10px 12px 12px; }
+  .locked-meta .name { font-size: 12.5px; font-weight: 600; color: #191816; margin-bottom: 4px; line-height: 1.25; }
+  .locked-meta .hex { font-family: "SF Mono", Menlo, monospace; font-size: 11.5px; color: #5A5852; }
+
+  /* ---------- Tabs ---------- */
+  .tabs {
+    display: inline-flex;
+    gap: 4px;
+    background: #fff;
+    border: 1px solid #DCDEE3;
+    border-radius: 999px;
+    padding: 4px;
+    margin-bottom: 24px;
+  }
+  .tab {
+    border: 0; background: transparent;
+    padding: 8px 18px;
+    font-family: inherit;
+    font-size: 13.5px; font-weight: 500;
+    color: #5A5852;
+    border-radius: 999px;
+    cursor: pointer;
+    letter-spacing: 0;
+    transition: background 150ms, color 150ms;
+  }
+  .tab:hover { color: #191816; }
+  .tab.is-active {
+    background: #191816;
+    color: #F8F8EE;
+  }
+
+  /* ---------- Panels ---------- */
+  .panel { display: none; }
+  .panel.is-active { display: block; }
+
+  .panel-head {
+    display: flex; align-items: flex-start; gap: 24px;
+    background: #fff;
+    border: 1px solid #DCDEE3;
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin-bottom: 20px;
+  }
+  .panel-head .pill {
+    flex: none;
+    padding: 4px 10px; border-radius: 999px;
+    font-size: 11px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    background: #F1F2F4; color: #4A5159;
+    margin-top: 2px;
+  }
+  .panel-head .title {
+    font-family: "Iowan Old Style", "Palatino Linotype", "Georgia", serif;
+    font-weight: 400; font-size: 22px; line-height: 1.25;
+    margin: 0 0 6px;
+  }
+  .panel-head .desc { color: #4F5258; font-size: 14px; margin: 0; max-width: 760px; }
+
+  /* ---------- Section heading inside panel ---------- */
+  .section { margin-top: 28px; }
+  .sec-eyebrow { text-transform: uppercase; letter-spacing: 0.12em; font-size: 11px; font-weight: 600; color: #6B7280; margin-bottom: 6px; }
+  .sec-title {
+    font-family: "Iowan Old Style", "Palatino Linotype", "Georgia", serif;
+    font-weight: 400; font-size: 22px; margin: 0 0 4px;
+  }
+  .sec-note { color: #5A5852; font-size: 13.5px; margin: 0 0 16px; max-width: 760px; }
+
+  /* ---------- Ramp ---------- */
+  .ramp { background: #fff; border: 1px solid #DCDEE3; border-radius: 8px; overflow: hidden; }
+  .ramp-row {
+    display: grid;
+    grid-template-columns: 56px 1fr 140px 1fr;
+    align-items: stretch;
+    border-top: 1px solid #EFF0F2;
+    min-height: 52px;
+  }
+  .ramp-row:first-child { border-top: 0; }
+  .ramp-chip { width: 100%; height: 100%; }
+  .ramp-name { display: flex; align-items: center; padding: 10px 14px; font-weight: 600; font-size: 13px; }
+  .ramp-hex { display: flex; align-items: center; padding: 10px 14px; font-family: "SF Mono", Menlo, monospace; font-size: 12px; color: #4A5159; border-left: 1px solid #EFF0F2; }
+  .ramp-use { display: flex; align-items: center; padding: 10px 14px; color: #5A5852; font-size: 12.5px; border-left: 1px solid #EFF0F2; }
+  @media (max-width: 720px) { .ramp-row { grid-template-columns: 48px 1fr 110px; } .ramp-use { display: none; } }
+
+  /* ---------- Semantic ---------- */
+  .sem-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  @media (max-width: 720px) { .sem-grid { grid-template-columns: 1fr; } }
+  .sem-card { background: #fff; border: 1px solid #DCDEE3; border-radius: 8px; padding: 14px 16px; }
+  .sem-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .sem-dot { width: 14px; height: 14px; border-radius: 4px; flex: none; }
+  .sem-name { font-weight: 600; font-size: 13.5px; }
+  .sem-hex { margin-left: auto; font-family: "SF Mono", Menlo, monospace; font-size: 11.5px; color: #6B7280; }
+  .sem-stack { display: grid; grid-template-columns: 76px 1fr; gap: 6px 10px; font-size: 12px; }
+  .sem-stack .label { color: #6B7280; text-transform: uppercase; letter-spacing: 0.06em; font-size: 10px; font-weight: 600; align-self: center; }
+  .sem-stack .swatch-row { display: flex; align-items: center; gap: 8px; }
+  .sem-stack .mini { width: 16px; height: 16px; border-radius: 3px; border: 1px solid #E4E6EA; flex: none; }
+  .sem-stack .mono { font-family: "SF Mono", Menlo, monospace; font-size: 11.5px; color: #191816; }
+
+  /* ---------- Preview (uses scoped CSS vars per panel) ---------- */
+  .preview-shell {
+    border: 1px solid #DCDEE3;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
+  }
+  .preview-canvas {
+    background: var(--p-canvas);
+    padding: 32px;
+    display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap;
+  }
+  .preview-card {
+    background: var(--p-surface);
+    border: 1px solid var(--p-border);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 1px 2px 0 rgba(25,24,22,0.04);
+    width: 360px;
+    max-width: 100%;
+  }
+  .preview-card .eyebrow {
+    text-transform: uppercase; letter-spacing: 0.12em;
+    font-size: 11px; font-weight: 600; color: var(--p-text-muted);
+    margin-bottom: 8px;
+  }
+  .preview-card h3 { margin: 0 0 8px; font-size: 17px; font-weight: 600; color: var(--p-text-primary); }
+  .preview-card p { margin: 0 0 14px; color: var(--p-text-secondary); font-size: 13.5px; line-height: 1.55; }
+  .preview-card .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+  .btn-primary {
+    background: var(--p-cta-bg);
+    color: var(--p-cta-fg);
+    text-transform: uppercase; letter-spacing: 0.08em;
+    font-weight: 500; font-size: 12.5px;
+    padding: 9px 14px;
+    border: 0; border-radius: 4px; cursor: pointer;
+  }
+  .btn-secondary {
+    background: transparent;
+    color: var(--p-text-primary);
+    border: 1px solid var(--p-border-strong);
+    text-transform: uppercase; letter-spacing: 0.08em;
+    font-weight: 500; font-size: 12.5px;
+    padding: 8px 14px;
+    border-radius: 4px; cursor: pointer;
+  }
+  .preview-link { color: var(--p-link); text-decoration: underline; text-underline-offset: 3px; font-weight: 500; font-size: 13px; }
+
+  .preview-helper {
+    width: 360px; max-width: 100%;
+    background: var(--p-surface);
+    border: 1px solid var(--p-border);
+    border-radius: 8px;
+    padding: 16px 18px;
+  }
+  .preview-helper .label-row { display: flex; align-items: center; gap: 6px; }
+  .preview-helper .label { font-size: 12.5px; font-weight: 500; color: var(--p-text-secondary); }
+  .preview-helper .req { color: #D21905; }
+  .preview-helper .input {
+    margin-top: 6px;
+    border: 1px solid var(--p-input-border);
+    background: #fff;
+    border-radius: 4px;
+    padding: 9px 12px;
+    font-size: 13px;
+    color: var(--p-text-primary);
+  }
+  .preview-helper .input.focused {
+    border: 2px solid #D21905;
+    padding: 8px 11px;
+  }
+  .preview-helper .helper { font-size: 11.5px; color: var(--p-text-muted); margin-top: 6px; }
+
+  .preview-dark {
+    background: var(--p-dark, #191816);
+    padding: 28px 32px;
+    color: #F8F8EE;
+    border-top: 1px solid #DCDEE3;
+  }
+  .preview-dark .link-bar { width: 32px; height: 3px; background: #D21905; margin-bottom: 12px; }
+  .preview-dark h3 {
+    font-family: "Iowan Old Style", "Palatino Linotype", "Georgia", serif;
+    font-weight: 400; font-size: 26px; margin: 0 0 6px; letter-spacing: -0.005em; color: #F8F8EE;
+  }
+  .preview-dark p { color: #C9C5BA; font-size: 13.5px; margin: 0; }
+
+  /* ---------- Per-version preview vars ---------- */
+  .panel[data-v="v1"] .preview-canvas {
+    --p-canvas: #F8F8EE;
+    --p-surface: #FFFFFF;
+    --p-border: #E5E2D5;
+    --p-border-strong: #CFCBBC;
+    --p-input-border: #CFCBBC;
+    --p-text-primary: #191816;
+    --p-text-secondary: #3D3B36;
+    --p-text-muted: #7C7970;
+    --p-cta-bg: #D21905;
+    --p-cta-fg: #F8F8EE;
+    --p-link: #D21905;
+  }
+  .panel[data-v="v2"] .preview-canvas {
+    --p-canvas: #F5F6F8;
+    --p-surface: #FFFFFF;
+    --p-border: #E1E4E9;
+    --p-border-strong: #C5CAD2;
+    --p-input-border: #C5CAD2;
+    --p-text-primary: #191816;
+    --p-text-secondary: #30343B;
+    --p-text-muted: #6A707A;
+    --p-cta-bg: #AB342B;
+    --p-cta-fg: #F8F8EE;
+    --p-link: #AB342B;
+  }
+  .panel[data-v="v3"] .preview-canvas {
+    --p-canvas: #FAFAFA;
+    --p-surface: #FFFFFF;
+    --p-border: #E5E5E7;
+    --p-border-strong: #C9C9CD;
+    --p-input-border: #C9C9CD;
+    --p-text-primary: #191816;
+    --p-text-secondary: #313135;
+    --p-text-muted: #6E6E74;
+    --p-cta-bg: #191816;
+    --p-cta-fg: #FAFAFA;
+    --p-link: #191816;
+  }
+
+  /* ---------- Compare bar at top of panel ---------- */
+  .meta-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  @media (max-width: 720px) { .meta-bar { grid-template-columns: 1fr 1fr; } }
+  .meta-cell {
+    background: #fff; border: 1px solid #DCDEE3; border-radius: 8px;
+    padding: 12px 14px;
+  }
+  .meta-cell .k { font-size: 10.5px; font-weight: 600; color: #6B7280; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+  .meta-cell .v { display: flex; align-items: center; gap: 8px; }
+  .meta-cell .swatch { width: 18px; height: 18px; border-radius: 4px; border: 1px solid #E4E6EA; flex: none; }
+  .meta-cell .hex { font-family: "SF Mono", Menlo, monospace; font-size: 12px; color: #191816; }
+
+  /* ---------- Approve note ---------- */
+  .approve-note {
+    margin-top: 56px;
+    padding: 20px 24px;
+    background: #fff;
+    border: 1px solid #DCDEE3;
+    border-radius: 8px;
+    border-left: 3px solid #D21905;
+  }
+  .approve-note h4 { margin: 0 0 8px; font-size: 14px; font-weight: 600; }
+  .approve-note p { margin: 0; color: #4F5258; font-size: 13.5px; line-height: 1.55; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="anchor-bar"></div>
+  <h1>Prism — Palette Comparison</h1>
+  <p class="subtitle">Three takes on the same locked brand, side by side. Flip between tabs and pick the register you want — or mix-and-match by calling out which pieces of which version to keep.</p>
+</header>
+
+<!-- Always-visible locked palette -->
+<div class="locked-block">
+  <div class="eyebrow">Locked from brand guide v1.0 — same hex values across all versions</div>
+  <h2>Brand Palette</h2>
+  <p class="note">These six colors are non-negotiable. What changes between versions below is the <em>neutral ramp around them</em> and <em>how often / where</em> the brand red gets used in product UI.</p>
+
+  <div class="locked-row">
+    <div class="locked-card">
+      <div class="locked-chip" style="background:#D21905;"></div>
+      <div class="locked-meta"><div class="name">Indian VCs Red</div><div class="hex">#D21905</div></div>
+    </div>
+    <div class="locked-card">
+      <div class="locked-chip" style="background:#191816;"></div>
+      <div class="locked-meta"><div class="name">Charcoal</div><div class="hex">#191816</div></div>
+    </div>
+    <div class="locked-card">
+      <div class="locked-chip" style="background:#301008;"></div>
+      <div class="locked-meta"><div class="name">Dark Cocoa</div><div class="hex">#301008</div></div>
+    </div>
+    <div class="locked-card">
+      <div class="locked-chip" style="background:#F8F8EE;"></div>
+      <div class="locked-meta"><div class="name">Pearl Cream</div><div class="hex">#F8F8EE</div></div>
+    </div>
+    <div class="locked-card">
+      <div class="locked-chip" style="background:#810100;"></div>
+      <div class="locked-meta"><div class="name">Clay Red — Dark</div><div class="hex">#810100</div></div>
+    </div>
+    <div class="locked-card">
+      <div class="locked-chip" style="background:#AB342B;"></div>
+      <div class="locked-meta"><div class="name">Clay Red — Light</div><div class="hex">#AB342B</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Tab switcher -->
+<div class="tabs" role="tablist">
+  <button class="tab is-active" data-tab="v1">Original — Warm Editorial</button>
+  <button class="tab" data-tab="v2">v2 — Refined Cool</button>
+  <button class="tab" data-tab="v3">v3 — Quiet Charcoal-Led</button>
+</div>
+
+
+<!-- ============================================================ -->
+<!-- PANEL: V1 — Original                                         -->
+<!-- ============================================================ -->
+<div class="panel is-active" data-v="v1">
+
+  <div class="panel-head">
+    <span class="pill">v1</span>
+    <div>
+      <h2 class="title">Original — Warm Editorial</h2>
+      <p class="desc">Faithful to the brand guide's editorial register. Pearl Cream canvas, warm-tinted neutrals, brand red leads as the primary CTA. Reads "premium magazine." Preserved exactly as you saw it before.</p>
+    </div>
+  </div>
+
+  <div class="meta-bar">
+    <div class="meta-cell"><div class="k">Canvas</div><div class="v"><span class="swatch" style="background:#F8F8EE;"></span><span class="hex">#F8F8EE</span></div></div>
+    <div class="meta-cell"><div class="k">Primary CTA</div><div class="v"><span class="swatch" style="background:#D21905;"></span><span class="hex">#D21905</span></div></div>
+    <div class="meta-cell"><div class="k">Body text</div><div class="v"><span class="swatch" style="background:#191816;"></span><span class="hex">#191816</span></div></div>
+    <div class="meta-cell"><div class="k">Neutral lean</div><div class="v"><span class="hex">Warm</span></div></div>
+  </div>
+
+  <div class="section">
+    <div class="sec-eyebrow">Neutral ramp · warm-tinted</div>
+    <h3 class="sec-title">11-step ramp · derived from Pearl Cream + Charcoal undertones</h3>
+    <p class="sec-note">All steps share the warm, slightly yellow-cream undertone of Pearl. No cool grays.</p>
+    <div class="ramp">
+      <div class="ramp-row"><div class="ramp-chip" style="background:#FFFFFF; border-right:1px solid #E4E6EA;"></div><div class="ramp-name">neutral.0</div><div class="ramp-hex">#FFFFFF</div><div class="ramp-use">Card surface on Pearl</div></div>
+      <div class="ramp-row"><div class="ramp-chip" style="background:#FAFAF3;"></div><div class="ramp-name">neutral.50</div><div class="ramp-hex">#FAFAF3</div><div class="ramp-use">Subtle stripe, hover bg</div></div>
+      <div class="ramp-row"><div class="ramp-chip" style="background:#F1EFE4;"></div><div class="ramp-name">neutral.100</div><div class="ramp-hex">#F1EFE4</div><div class="ramp-use">Subtle surface, table header</div></div>
+      <div class="ramp-row"><div class="ramp-chip" style="background:#E5E2D5;"></div><div class="ramp-name">neutral.200</div><div class="ramp-hex">#E5E2D5</div><div class="ramp-use">Default border, divider</div></div>
+      <div class="ramp-row"><div class="ramp-chip" style="background:#CFCBBC;"></div><div class="ramp-name">neutral.300</div><div class="ramp-hex">#CFCBBC</div><div class="ramp-use">Strong border, input border</div></div>
+      <div class="ramp-row"><div class="ramp-chip" style="background:#A8A498;"></div><div class="ramp-name">neutral.400</div><div class="ramp-hex">#A8A498</div><div class="ramp-use">Placeholder, muted icons</div></div>
+      <div class="ramp-row"><div class="ramp-chip" style="background:#7C7970;"></div><div class="ramp-name">neutral.500</div><div class="ramp-hex">#7C7970</div><div class="ramp-use">Secondary text, chevrons</div></div>
+      <div class="ramp-row"><div class="ramp-chip" style="background:#5A5852;"></div><div class="ramp-name">neutral.600</div><div class="ramp-hex">#5A5852</div><div class="ramp-use">Tertiary text</div></div>
+      <div class="ramp-row"><div class="ramp-chip" style="background:#3D3B36;"></div><div class="ramp-name">neutral.700</div><div class="ramp-hex">#3D3B36</div><div class="ramp-use">Strong secondary text</div></div>
+      <div class="ramp-row"><div class="ramp-chip" style="background:#26241F;"></div><div class="ramp-name">neutral.800</div><div class="ramp-hex">#26241F</div><div class="ramp-use">Dark-theme raised surface</div></div>
+      <div class="ramp-row"><div class="ramp-chip" style="background:#191816;"></div><div class="ramp-name">neutral.900</div><div class="ramp-hex">#191816</div><div class="ramp-use">Primary text · = Charcoal</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-eyebrow">Semantic colors</div>
+    <h3 class="sec-title">Warm-leaning, desaturated</h3>
+    <div class="sem-grid">
+      <div class="sem-card">
+        <div class="sem-head"><span class="sem-dot" style="background:#2F6B4F;"></span><span class="sem-name">Success</span><span class="sem-hex">#2F6B4F</span></div>
+        <div class="sem-stack">
+          <span class="label">Foreground</span><div class="swatch-row"><span class="mini" style="background:#2F6B4F;"></span><span class="mono">#2F6B4F</span></div>
+          <span class="label">Background</span><div class="swatch-row"><span class="mini" style="background:#E7F0EA;"></span><span class="mono">#E7F0EA</span></div>
+          <span class="label">Border</span><div class="swatch-row"><span class="mini" style="background:#BFD6C8;"></span><span class="mono">#BFD6C8</span></div>
+        </div>
+      </div>
+      <div class="sem-card">
+        <div class="sem-head"><span class="sem-dot" style="background:#A6651E;"></span><span class="sem-name">Warning</span><span class="sem-hex">#A6651E</span></div>
+        <div class="sem-stack">
+          <span class="label">Foreground</span><div class="swatch-row"><span class="mini" style="background:#A6651E;"></span><span class="mono">#A6651E</span></div>
+          <span class="label">Background</span><div class="swatch-row"><span class="mini" style="background:#F6EAD4;"></span><span class="mono">#F6EAD4</span></div>
+          <span class="label">Border</span><div class="swatch-row"><span class="mini" style="background:#E5C896;"></span><span class="mono">#E5C896</span></div>
+        </div>
+      </div>
+      <div class="sem-card">
+        <div class="sem-head"><span class="sem-dot" style="background:#3F5A7A;"></span><span class="sem-name">Info</span><span class="sem-hex">#3F5A7A</span></div>
+        <div class="sem-stack">
+          <span class="label">Foreground</span><div class="swatch-row"><span class="mini" style="background:#3F5A7A;"></span><span class="mono">#3F5A7A</span></div>
+          <span class="label">Background</span><div class="swatch-row"><span class="mini" style="background:#E5ECF4;"></span><span class="mono">#E5ECF4</span></div>
+          <span class="label">Border</span><div class="swatch-row"><span class="mini" style="background:#BFCBDC;"></span><span class="mono">#BFCBDC</span></div>
+        </div>
+      </div>
+      <div class="sem-card">
+        <div class="sem-head"><span class="sem-dot" style="background:#D21905;"></span><span class="sem-name">Error · brand red</span><span class="sem-hex">#D21905</span></div>
+        <div class="sem-stack">
+          <span class="label">Foreground</span><div class="swatch-row"><span class="mini" style="background:#D21905;"></span><span class="mono">#D21905</span></div>
+          <span class="label">Background</span><div class="swatch-row"><span class="mini" style="background:#FBE5E1;"></span><span class="mono">#FBE5E1</span></div>
+          <span class="label">Border</span><div class="swatch-row"><span class="mini" style="background:#F1B7AE;"></span><span class="mono">#F1B7AE</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-eyebrow">In-context preview</div>
+    <h3 class="sec-title">How v1 feels</h3>
+    <div class="preview-shell">
+      <div class="preview-canvas">
+        <div class="preview-card">
+          <div class="eyebrow">Deal flow</div>
+          <h3>Series A · Aurelia Health</h3>
+          <p>Closing in 14 days. Partner review pending — three diligence items still open.</p>
+          <div class="row">
+            <button class="btn-primary">Open Memo</button>
+            <button class="btn-secondary">Snooze</button>
+            <a href="#" class="preview-link" onclick="event.preventDefault();">View activity</a>
+          </div>
+        </div>
+        <div class="preview-helper">
+          <div class="label-row"><span class="label">Investment amount</span><span class="req">*</span></div>
+          <div class="input focused">$2,500,000</div>
+          <div class="helper">Helper text · USD only.</div>
+        </div>
+      </div>
+      <div class="preview-dark">
+        <div class="link-bar"></div>
+        <h3>India's brightest ideas, made global.</h3>
+        <p>Warm Pearl Cream paired with Charcoal hero band.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================================================ -->
+<!-- PANEL: V2 — Refined Cool                                     -->
+<!-- ============================================================ -->
+<div class="panel" data-v="v2">
+
+  <div class="panel-head">
+    <span class="pill">v2</span>
+    <div>
+      <h2 class="title">Refined Cool — modern register, brand red on a budget</h2>
+      <p class="desc">Cool slate-tinted neutrals replace the warm cream. The bright Indian VCs Red is reserved for brand-pause moments (logomark, focus, "The Link" motif, errors). Product CTAs default to <strong>Clay Red Light <code>#AB342B</code></strong> — already locked in your brand palette, but lower-frequency on the eye. Reads "contemporary, calm, premium."</p>
+    </div>
+  </div>
+
+  <div class="meta-bar">
+    <div class="meta-cell"><div class="k">Canvas</div><div class="v"><span class="swatch" style="background:#F5F6F8;"></span><span class="hex">#F5F6F8</span></div></div>
+    <div class="meta-cell"><div class="k">Primary CTA</div><div class="v"><span class="swatch" style="background:#AB342B;"></span><span class="hex">#AB342B</span></div></div>
+    <div class="meta-cell"><div class="k">Body text</div><div class="v"><span class="swatch" style="background:#191816;"></span><span class="hex">#191816</span></div></div>
+    <div class="meta-cell"><div class="k">Neutral lean</div><div class="v"><span class="hex">Cool / slate</span></div></div>
+  </div>
+
+  <div class="section">
+    <div class="sec-eyebrow">Neutral ramp · cool / slate</div>
+    <h3 class="sec-title">11-step cool ramp · anchored to Charcoal at the dark end</h3>
+    <p class="sec-note">Subtle blue undertone throughout. Charcoal <code>#191816</code> still anchors the dark end so the brand Black remains intact. Lighter steps move clearly cooler.</p>
+    <div class="ramp">
+      <div class="ramp-row"><div class="ramp-chip" style="background:#FFFFFF; border-right:1px solid #E4E6EA;"></div><div class="ramp-name">neutral.0</div><div class="ramp-hex">#FFFFFF</div><div class="ramp-use">Card surface</div></div>
+      <div class="ramp-row"><div class="ramp-chip" style="background:#F8F9FB;"></div><div class="ramp-name">neutral.50</div><div class="ramp-hex">#F8F9FB</div><div class="ramp-use">Subtle stripe, hover bg</div></div>
+      <div class="ramp-row"><div class="ramp-chip" style="background:#EFF1F4;"></div><div class="ramp-name">neutral.100</div><div class="ramp-hex">#EFF1F4</div><div class="ramp-use">Subtle surface, table header</div></div>
+      <div class="ramp-row"><div class="ramp-chip" style="background:#E1E4E9;"></div><div class="ramp-name">neutral.200</div><div class="ramp-hex">#E1E4E9</div><div class="ramp-use">Default border, divider</div></div>
+      <div class="ramp-row"><div class="ramp-chip" style="background:#C5CAD2;"></div><div class="ramp-name">neutral.300</div><div class="ramp-hex">#C5CAD2</div><div class="ramp-use">Strong border, input border</div></div>
+      <div class="ramp-row"><div class="ramp-chip" style="background:#969CA6;"></div><div class="ramp-name">neutral.400</div><div class="ramp-hex">#969CA6</div><div class="ramp-use">Placeholder, muted icons</div></div>
+      <div class="ramp-row"><div class="ramp-chip" style="background:#6A707A;"></div><div class="ramp-name">neutral.500</div><div class="ramp-hex">#6A707A</div><div class="ramp-use">Secondary text, chevrons</div></div>
+      <div class="ramp-row"><div class="ramp-chip" style="background:#4A4F58;"></div><div class="ramp-name">neutral.600</div><div class="ramp-hex">#4A4F58</div><div class="ramp-use">Tertiary text</div></div>
+      <div class="ramp-row"><div class="ramp-chip" style="background:#30343B;"></div><div class="ramp-name">neutral.700</div><div class="ramp-hex">#30343B</div><div class="ramp-use">Strong secondary text</div></div>
+      <div class="ramp-row"><div class="ramp-chip" style="background:#20232A;"></div><div class="ramp-name">neutral.800</div><div class="ramp-hex">#20232A</div><div class="ramp-use">Dark-theme raised surface</div></div>
+      <div class="ramp-row"><div class="ramp-chip" style="background:#191816;"></div><div class="ramp-name">neutral.900</div><div class="ramp-hex">#191816</div><div class="ramp-use">Primary text · = Charcoal (locked)</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-eyebrow">Semantic colors · cool / contemporary</div>
+    <h3 class="sec-title">Confident but quiet — sits naturally on a cool canvas</h3>
+    <div class="sem-grid">
+      <div class="sem-card">
+        <div class="sem-head"><span class="sem-dot" style="background:#1F8056;"></span><span class="sem-name">Success</span><span class="sem-hex">#1F8056</span></div>
+        <div class="sem-stack">
+          <span class="label">Foreground</span><div class="swatch-row"><span class="mini" style="background:#1F8056;"></span><span class="mono">#1F8056</span></div>
+          <span class="label">Background</span><div class="swatch-row"><span class="mini" style="background:#E4F1EC;"></span><span class="mono">#E4F1EC</span></div>
+          <span class="label">Border</span><div class="swatch-row"><span class="mini" style="background:#A8D2BD;"></span><span class="mono">#A8D2BD</span></div>
+        </div>
+      </div>
+      <div class="sem-card">
+        <div class="sem-head"><span class="sem-dot" style="background:#B27316;"></span><span class="sem-name">Warning</span><span class="sem-hex">#B27316</span></div>
+        <div class="sem-stack">
+          <span class="label">Foreground</span><div class="swatch-row"><span class="mini" style="background:#B27316;"></span><span class="mono">#B27316</span></div>
+          <span class="label">Background</span><div class="swatch-row"><span class="mini" style="background:#F8EDD2;"></span><span class="mono">#F8EDD2</span></div>
+          <span class="label">Border</span><div class="swatch-row"><span class="mini" style="background:#E0C285;"></span><span class="mono">#E0C285</span></div>
+        </div>
+      </div>
+      <div class="sem-card">
+        <div class="sem-head"><span class="sem-dot" style="background:#2D5DA0;"></span><span class="sem-name">Info</span><span class="sem-hex">#2D5DA0</span></div>
+        <div class="sem-stack">
+          <span class="label">Foreground</span><div class="swatch-row"><span class="mini" style="background:#2D5DA0;"></span><span class="mono">#2D5DA0</span></div>
+          <span class="label">Background</span><div class="swatch-row"><span class="mini" style="background:#E1ECF7;"></span><span class="mono">#E1ECF7</span></div>
+          <span class="label">Border</span><div class="swatch-row"><span class="mini" style="background:#B0C8E2;"></span><span class="mono">#B0C8E2</span></div>
+        </div>
+      </div>
+      <div class="sem-card">
+        <div class="sem-head"><span class="sem-dot" style="background:#D21905;"></span><span class="sem-name">Error · brand red</span><span class="sem-hex">#D21905</span></div>
+        <div class="sem-stack">
+          <span class="label">Foreground</span><div class="swatch-row"><span class="mini" style="background:#D21905;"></span><span class="mono">#D21905</span></div>
+          <span class="label">Background</span><div class="swatch-row"><span class="mini" style="background:#FBE5E1;"></span><span class="mono">#FBE5E1</span></div>
+          <span class="label">Border</span><div class="swatch-row"><span class="mini" style="background:#F1B7AE;"></span><span class="mono">#F1B7AE</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-eyebrow">In-context preview</div>
+    <h3 class="sec-title">How v2 feels</h3>
+    <p class="sec-note">Same card, same hierarchy — note how the cool canvas + Clay Red Light CTA reads less aggressive than v1, while the dark hero still keeps the brand red as a "Link" pause.</p>
+    <div class="preview-shell">
+      <div class="preview-canvas">
+        <div class="preview-card">
+          <div class="eyebrow">Deal flow</div>
+          <h3>Series A · Aurelia Health</h3>
+          <p>Closing in 14 days. Partner review pending — three diligence items still open.</p>
+          <div class="row">
+            <button class="btn-primary">Open Memo</button>
+            <button class="btn-secondary">Snooze</button>
+            <a href="#" class="preview-link" onclick="event.preventDefault();">View activity</a>
+          </div>
+        </div>
+        <div class="preview-helper">
+          <div class="label-row"><span class="label">Investment amount</span><span class="req">*</span></div>
+          <div class="input focused">$2,500,000</div>
+          <div class="helper">Helper text · USD only.</div>
+        </div>
+      </div>
+      <div class="preview-dark">
+        <div class="link-bar"></div>
+        <h3>India's brightest ideas, made global.</h3>
+        <p>Cool canvas with Charcoal hero · brand red sparingly as the Link motif.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================================================ -->
+<!-- PANEL: V3 — Quiet Charcoal-Led                               -->
+<!-- ============================================================ -->
+<div class="panel" data-v="v3">
+
+  <div class="panel-head">
+    <span class="pill">v3</span>
+    <div>
+      <h2 class="title">Quiet Charcoal-Led — maximum restraint</h2>
+      <p class="desc">Most minimal of the three. True-neutral ramp on a near-white canvas. Charcoal <code>#191816</code> carries the interactive load — it becomes the primary CTA. Indian VCs Red is reserved almost exclusively for the logomark, the "Link" motif, and error states. Reads "Linear / Stripe / Vercel" — typography-led, almost monochrome, very modern.</p>
+    </div>
+  </div>
+
+  <div class="meta-bar">
+    <div class="meta-cell"><div class="k">Canvas</div><div class="v"><span class="swatch" style="background:#FAFAFA;"></span><span class="hex">#FAFAFA</span></div></div>
+    <div class="meta-cell"><div class="k">Primary CTA</div><div class="v"><span class="swatch" style="background:#191816;"></span><span class="hex">#191816</span></div></div>
+    <div class="meta-cell"><div class="k">Body text</div><div class="v"><span class="swatch" style="background:#191816;"></span><span class="hex">#191816</span></div></div>
+    <div class="meta-cell"><div class="k">Neutral lean</div><div class="v"><span class="hex">True neutral</span></div></div>
+  </div>
+
+  <div class="section">
+    <div class="sec-eyebrow">Neutral ramp · true neutral</div>
+    <h3 class="sec-title">11-step true-neutral ramp · barely-there cool lean</h3>
+    <p class="sec-note">Almost achromatic. Lets typography and content carry the screen — the system itself disappears. Charcoal anchors the dark end as in v1 / v2.</p>
+    <div class="ramp">
+      <div class="ramp-row"><div class="ramp-chip" style="background:#FFFFFF; border-right:1px solid #E4E6EA;"></div><div class="ramp-name">neutral.0</div><div class="ramp-hex">#FFFFFF</div><div class="ramp-use">Card surface</div></div>
+      <div class="ramp-row"><div class="ramp-chip" style="background:#FAFAFA;"></div><div class="ramp-name">neutral.50</div><div class="ramp-hex">#FAFAFA</div><div class="ramp-use">Canvas / subtle stripe</div></div>
+      <div class="ramp-row"><div class="ramp-chip" style="background:#F4F4F5;"></div><div class="ramp-name">neutral.100</div><div class="ramp-hex">#F4F4F5</div><div class="ramp-use">Subtle surface, table header</div></div>
+      <div class="ramp-row"><div class="ramp-chip" style="background:#E5E5E7;"></div><div class="ramp-name">neutral.200</div><div class="ramp-hex">#E5E5E7</div><div class="ramp-use">Default border, divider</div></div>
+      <div class="ramp-row"><div class="ramp-chip" style="background:#C9C9CD;"></div><div class="ramp-name">neutral.300</div><div class="ramp-hex">#C9C9CD</div><div class="ramp-use">Strong border, input border</div></div>
+      <div class="ramp-row"><div class="ramp-chip" style="background:#98989E;"></div><div class="ramp-name">neutral.400</div><div class="ramp-hex">#98989E</div><div class="ramp-use">Placeholder, muted icons</div></div>
+      <div class="ramp-row"><div class="ramp-chip" style="background:#6E6E74;"></div><div class="ramp-name">neutral.500</div><div class="ramp-hex">#6E6E74</div><div class="ramp-use">Secondary text, chevrons</div></div>
+      <div class="ramp-row"><div class="ramp-chip" style="background:#4F4F54;"></div><div class="ramp-name">neutral.600</div><div class="ramp-hex">#4F4F54</div><div class="ramp-use">Tertiary text</div></div>
+      <div class="ramp-row"><div class="ramp-chip" style="background:#313135;"></div><div class="ramp-name">neutral.700</div><div class="ramp-hex">#313135</div><div class="ramp-use">Strong secondary text</div></div>
+      <div class="ramp-row"><div class="ramp-chip" style="background:#1F1F22;"></div><div class="ramp-name">neutral.800</div><div class="ramp-hex">#1F1F22</div><div class="ramp-use">Dark-theme raised surface</div></div>
+      <div class="ramp-row"><div class="ramp-chip" style="background:#191816;"></div><div class="ramp-name">neutral.900</div><div class="ramp-hex">#191816</div><div class="ramp-use">Primary text · = Charcoal (locked)</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-eyebrow">Semantic colors · refined / contemporary</div>
+    <h3 class="sec-title">Slightly cooler still — fits a near-monochrome canvas</h3>
+    <div class="sem-grid">
+      <div class="sem-card">
+        <div class="sem-head"><span class="sem-dot" style="background:#137F47;"></span><span class="sem-name">Success</span><span class="sem-hex">#137F47</span></div>
+        <div class="sem-stack">
+          <span class="label">Foreground</span><div class="swatch-row"><span class="mini" style="background:#137F47;"></span><span class="mono">#137F47</span></div>
+          <span class="label">Background</span><div class="swatch-row"><span class="mini" style="background:#E5F1EA;"></span><span class="mono">#E5F1EA</span></div>
+          <span class="label">Border</span><div class="swatch-row"><span class="mini" style="background:#A6D2B8;"></span><span class="mono">#A6D2B8</span></div>
+        </div>
+      </div>
+      <div class="sem-card">
+        <div class="sem-head"><span class="sem-dot" style="background:#A26514;"></span><span class="sem-name">Warning</span><span class="sem-hex">#A26514</span></div>
+        <div class="sem-stack">
+          <span class="label">Foreground</span><div class="swatch-row"><span class="mini" style="background:#A26514;"></span><span class="mono">#A26514</span></div>
+          <span class="label">Background</span><div class="swatch-row"><span class="mini" style="background:#F6E9CF;"></span><span class="mono">#F6E9CF</span></div>
+          <span class="label">Border</span><div class="swatch-row"><span class="mini" style="background:#DCBE85;"></span><span class="mono">#DCBE85</span></div>
+        </div>
+      </div>
+      <div class="sem-card">
+        <div class="sem-head"><span class="sem-dot" style="background:#1F4E91;"></span><span class="sem-name">Info</span><span class="sem-hex">#1F4E91</span></div>
+        <div class="sem-stack">
+          <span class="label">Foreground</span><div class="swatch-row"><span class="mini" style="background:#1F4E91;"></span><span class="mono">#1F4E91</span></div>
+          <span class="label">Background</span><div class="swatch-row"><span class="mini" style="background:#DDE7F4;"></span><span class="mono">#DDE7F4</span></div>
+          <span class="label">Border</span><div class="swatch-row"><span class="mini" style="background:#A6BFDF;"></span><span class="mono">#A6BFDF</span></div>
+        </div>
+      </div>
+      <div class="sem-card">
+        <div class="sem-head"><span class="sem-dot" style="background:#D21905;"></span><span class="sem-name">Error · brand red</span><span class="sem-hex">#D21905</span></div>
+        <div class="sem-stack">
+          <span class="label">Foreground</span><div class="swatch-row"><span class="mini" style="background:#D21905;"></span><span class="mono">#D21905</span></div>
+          <span class="label">Background</span><div class="swatch-row"><span class="mini" style="background:#FBE5E1;"></span><span class="mono">#FBE5E1</span></div>
+          <span class="label">Border</span><div class="swatch-row"><span class="mini" style="background:#F1B7AE;"></span><span class="mono">#F1B7AE</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-eyebrow">In-context preview</div>
+    <h3 class="sec-title">How v3 feels</h3>
+    <p class="sec-note">Charcoal CTA, true-neutral surroundings. Red appears only on the input focus border (the "Link" motif) and would appear in errors / the logomark. Quietest of the three.</p>
+    <div class="preview-shell">
+      <div class="preview-canvas">
+        <div class="preview-card">
+          <div class="eyebrow">Deal flow</div>
+          <h3>Series A · Aurelia Health</h3>
+          <p>Closing in 14 days. Partner review pending — three diligence items still open.</p>
+          <div class="row">
+            <button class="btn-primary">Open Memo</button>
+            <button class="btn-secondary">Snooze</button>
+            <a href="#" class="preview-link" onclick="event.preventDefault();">View activity</a>
+          </div>
+        </div>
+        <div class="preview-helper">
+          <div class="label-row"><span class="label">Investment amount</span><span class="req">*</span></div>
+          <div class="input focused">$2,500,000</div>
+          <div class="helper">Helper text · USD only.</div>
+        </div>
+      </div>
+      <div class="preview-dark">
+        <div class="link-bar"></div>
+        <h3>India's brightest ideas, made global.</h3>
+        <p>Near-monochrome canvas · brand red appears only on the dark hero as the Link motif.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="approve-note">
+  <h4>How to give me your decision</h4>
+  <p>Tell me one of: <strong>(a)</strong> "Lock v1 / v2 / v3" — I'll codify that version into design.md as the canonical product palette. <strong>(b)</strong> "Mix": call out the parts you want from each (e.g. "v2 ramp + v3 CTA + v1 semantic"). <strong>(c)</strong> "Try v4": describe what's still off and I'll generate another option in a new tab. Once you decide, I'll move on to typography finalization.</p>
+</div>
+
+</div>
+
+<script>
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('.tab');
+    if (!btn) return;
+    var key = btn.dataset.tab;
+    document.querySelectorAll('.tab').forEach(function (t) { t.classList.toggle('is-active', t === btn); });
+    document.querySelectorAll('.panel').forEach(function (p) {
+      p.classList.toggle('is-active', p.dataset.v === key);
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+</script>
+
+</body>
+</html>
