@@ -1,0 +1,806 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prism Design System — v1 (locked)</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f%5B%5D=switzer@400,500,600,700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    /* Brand */
+    --brand-red:        #D21905;
+    --brand-charcoal:   #191816;
+    --brand-cocoa:      #301008;
+    --brand-pearl:      #F8F8EE;
+    --brand-clay-dark:  #810100;
+    --brand-clay-light: #AB342B;
+
+    /* Cool neutral ramp */
+    --n-0:   #FFFFFF;
+    --n-50:  #F8F9FB;
+    --n-100: #EFF1F4;
+    --n-200: #E1E4E9;
+    --n-300: #C5CAD2;
+    --n-400: #969CA6;
+    --n-500: #6A707A;
+    --n-600: #4A4F58;
+    --n-700: #30343B;
+    --n-800: #20232A;
+    --n-900: #191816;
+
+    /* Role tokens — light theme */
+    --bg-canvas:        #F5F6F8;
+    --bg-surface:       var(--n-0);
+    --bg-subtle:        var(--n-100);
+    --bg-muted:         var(--n-50);
+    --bg-inverse:       var(--brand-charcoal);
+    --bg-marketing:     var(--brand-pearl);
+
+    --text-primary:     var(--brand-charcoal);
+    --text-secondary:   var(--n-700);
+    --text-muted:       var(--n-500);
+    --text-placeholder: var(--n-400);
+    --text-on-inverse:  var(--brand-pearl);
+    --text-on-brand:    var(--brand-pearl);
+    --text-link:        var(--brand-clay-light);
+    --text-link-hover:  var(--brand-clay-dark);
+    --text-error:       var(--brand-red);
+
+    --border-subtle:    var(--n-200);
+    --border-default:   var(--n-300);
+    --border-strong:    var(--n-700);
+    --border-focus:     var(--brand-red);
+    --divider:          var(--n-200);
+
+    --icon-default:     var(--brand-charcoal);
+    --icon-muted:       var(--n-500);
+    --icon-disabled:    var(--n-400);
+    --icon-brand:       var(--brand-red);
+    --chevron:          var(--n-500);
+
+    --cta-primary-bg:        var(--brand-clay-light);
+    --cta-primary-bg-hover:  var(--brand-clay-dark);
+    --cta-primary-fg:        var(--brand-pearl);
+    --cta-brand-bg:          var(--brand-red);
+    --cta-brand-fg:          var(--brand-pearl);
+
+    --st-success-fg: #1F8056; --st-success-bg: #E4F1EC; --st-success-bd: #A8D2BD;
+    --st-warning-fg: #B27316; --st-warning-bg: #F8EDD2; --st-warning-bd: #E0C285;
+    --st-info-fg:    #2D5DA0; --st-info-bg:    #E1ECF7; --st-info-bd:    #B0C8E2;
+    --st-error-fg:   #D21905; --st-error-bg:   #FBE5E1; --st-error-bd:   #F1B7AE;
+    --st-neutral-fg: #4A4F58; --st-neutral-bg: var(--n-100); --st-neutral-bd: var(--n-300);
+
+    --link-bar:         var(--brand-red);
+    --focus-ring:       var(--brand-red);
+
+    /* Shadows (warm — Charcoal alpha) */
+    --elev-1: 0 1px 2px 0 rgba(25,24,22,0.06);
+    --elev-2: 0 2px 8px -2px rgba(25,24,22,0.08), 0 1px 2px 0 rgba(25,24,22,0.04);
+    --elev-3: 0 8px 24px -8px rgba(25,24,22,0.12), 0 2px 6px -2px rgba(25,24,22,0.06);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg-canvas);
+    color: var(--text-primary);
+    font-family: 'Switzer', 'DM Sans', -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.5;
+    padding: 48px 24px 96px;
+  }
+  .container { max-width: 1280px; margin: 0 auto; }
+  code { font-family: "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace; font-size: 0.92em; }
+
+  .serif { font-family: "Iowan Old Style", "Palatino Linotype", Georgia, serif; font-weight: 400; }
+
+  /* ========== Hero ========== */
+  .hero { margin-bottom: 56px; }
+  .hero .anchor-bar { width: 48px; height: 3px; background: var(--link-bar); margin-bottom: 18px; }
+  .hero .row { display: flex; align-items: flex-start; gap: 24px; flex-wrap: wrap; }
+  .hero h1 {
+    font-family: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+    font-weight: 400; font-size: 48px; line-height: 1.05;
+    letter-spacing: -0.015em; margin: 0 0 8px; color: var(--text-primary);
+  }
+  .hero .subtitle { color: var(--text-muted); font-size: 15px; margin: 0; max-width: 720px; }
+  .hero .badges { margin-left: auto; display: flex; flex-direction: column; gap: 6px; align-items: flex-end; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 12px;
+    background: var(--bg-inverse); color: var(--text-on-inverse);
+    border-radius: 999px;
+    font-size: 11.5px; font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+  .badge .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--brand-red); box-shadow: 0 0 0 3px rgba(210,25,5,0.18); }
+  .badge.alt {
+    background: var(--bg-surface);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-default);
+  }
+
+  /* ========== Section ========== */
+  section { margin-top: 56px; }
+  .section-eyebrow { text-transform: uppercase; letter-spacing: 0.12em; font-size: 11px; font-weight: 600; color: var(--text-muted); margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+  .section-eyebrow::before { content: ""; width: 16px; height: 2px; background: var(--link-bar); }
+  .section-title {
+    font-family: "Iowan Old Style", Georgia, serif;
+    font-weight: 400; font-size: 30px; line-height: 1.15;
+    letter-spacing: -0.01em; margin: 0 0 6px;
+  }
+  .section-note { color: var(--text-muted); font-size: 14px; margin: 0 0 24px; max-width: 820px; }
+
+  /* ========== Brand palette grid ========== */
+  .palette-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  @media (max-width: 900px) { .palette-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 600px) { .palette-grid { grid-template-columns: 1fr; } }
+  .pal-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--elev-1);
+  }
+  .pal-chip { height: 120px; display: flex; align-items: flex-end; padding: 14px; }
+  .pal-chip .name { color: var(--brand-pearl); font-weight: 600; font-size: 16px; letter-spacing: -0.005em; }
+  .pal-chip.on-light .name { color: var(--text-primary); }
+  .pal-meta { padding: 14px 16px 16px; }
+  .pal-meta .role { color: var(--text-secondary); font-size: 12.5px; margin: 0 0 10px; line-height: 1.5; }
+  .pal-meta-row { display: grid; grid-template-columns: 56px 1fr; gap: 6px; padding: 3px 0; font-size: 12px; }
+  .pal-meta-row .k { color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; font-size: 10px; font-weight: 600; align-self: center; }
+  .pal-meta-row .v { font-family: "SF Mono", Menlo, monospace; font-size: 11.5px; color: var(--text-primary); }
+
+  /* ========== Ramp + semantic 2-col ========== */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 900px) { .two-col { grid-template-columns: 1fr; } }
+
+  .ramp { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 10px; overflow: hidden; }
+  .ramp-row { display: grid; grid-template-columns: 56px 1fr 100px 1fr; align-items: stretch; border-top: 1px solid var(--n-100); min-height: 48px; }
+  .ramp-row:first-child { border-top: 0; }
+  .ramp-chip { width: 100%; height: 100%; }
+  .ramp-name { display: flex; align-items: center; padding: 8px 14px; font-weight: 600; font-size: 13px; }
+  .ramp-hex { display: flex; align-items: center; padding: 8px 14px; font-family: "SF Mono", Menlo, monospace; font-size: 11.5px; color: var(--text-secondary); border-left: 1px solid var(--n-100); }
+  .ramp-use { display: flex; align-items: center; padding: 8px 14px; color: var(--text-muted); font-size: 12px; border-left: 1px solid var(--n-100); }
+  @media (max-width: 720px) { .ramp-row { grid-template-columns: 48px 1fr 95px; } .ramp-use { display: none; } }
+
+  .sem-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 720px) { .sem-grid { grid-template-columns: 1fr; } }
+  .sem-card { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 14px 16px; }
+  .sem-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .sem-dot { width: 14px; height: 14px; border-radius: 4px; }
+  .sem-name { font-weight: 600; font-size: 13.5px; }
+  .sem-hex { margin-left: auto; font-family: "SF Mono", Menlo, monospace; font-size: 11.5px; color: var(--text-muted); }
+  .sem-rows { display: grid; grid-template-columns: 80px 1fr; gap: 6px 10px; font-size: 12px; }
+  .sem-rows .k { color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; font-size: 10px; font-weight: 600; align-self: center; }
+  .sem-rows .swatch-row { display: flex; align-items: center; gap: 8px; }
+  .sem-rows .mini { width: 18px; height: 18px; border-radius: 3px; border: 1px solid var(--border-subtle); }
+  .sem-rows .mono { font-family: "SF Mono", Menlo, monospace; font-size: 11.5px; }
+  .sem-banner { margin-top: 12px; padding: 10px 12px; border-radius: 6px; font-size: 12.5px; display: flex; gap: 8px; align-items: center; }
+  .sem-banner .pip { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+
+  /* ========== Type scale ========== */
+  .type-scale { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 10px; overflow: hidden; }
+  .ts-row { display: grid; grid-template-columns: 200px 1fr 200px; align-items: center; padding: 16px 20px; border-top: 1px solid var(--n-100); gap: 16px; }
+  .ts-row:first-child { border-top: 0; }
+  .ts-token { font-family: "SF Mono", Menlo, monospace; font-size: 11.5px; color: var(--text-muted); }
+  .ts-sample { color: var(--text-primary); }
+  .ts-meta { font-family: "SF Mono", Menlo, monospace; font-size: 11px; color: var(--text-muted); text-align: right; }
+  @media (max-width: 720px) { .ts-row { grid-template-columns: 1fr; } .ts-meta { text-align: left; } }
+
+  /* ========== Spacing visualization ========== */
+  .space-row { display: grid; grid-template-columns: 80px 80px 1fr; align-items: center; gap: 16px; padding: 6px 0; }
+  .space-row .tok { font-family: "SF Mono", Menlo, monospace; font-size: 11.5px; color: var(--text-secondary); }
+  .space-row .px { font-family: "SF Mono", Menlo, monospace; font-size: 11.5px; color: var(--text-muted); }
+  .space-row .vis { height: 6px; background: var(--brand-clay-light); border-radius: 2px; }
+
+  /* ========== Live preview ========== */
+  .preview {
+    background: var(--bg-canvas);
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    padding: 24px;
+  }
+  .preview-block { margin-top: 24px; }
+  .preview-block:first-of-type { margin-top: 0; }
+  .preview-block-h {
+    font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--text-muted); margin: 0 0 10px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .preview-block-h::before { content: ""; width: 16px; height: 2px; background: var(--link-bar); }
+
+  /* App shell */
+  .shell { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 10px; overflow: hidden; }
+  .shell-topbar { display: flex; align-items: center; gap: 14px; padding: 10px 16px; border-bottom: 1px solid var(--border-subtle); }
+  .shell-topbar .logo { display: flex; align-items: center; gap: 8px; }
+  .shell-topbar .logo .lk { width: 14px; height: 3px; background: var(--brand-red); }
+  .shell-topbar .logo .word { font-weight: 600; font-size: 15px; letter-spacing: -0.01em; }
+  .shell-topbar nav { display: flex; gap: 4px; flex: 1; padding-left: 14px; border-left: 1px solid var(--divider); margin-left: 4px; }
+  .shell-topbar nav a { padding: 6px 12px; border-radius: 6px; color: var(--text-secondary); font-size: 13px; font-weight: 500; text-decoration: none; }
+  .shell-topbar nav a:hover { background: var(--bg-muted); color: var(--text-primary); }
+  .shell-topbar nav a.active { color: var(--text-primary); position: relative; }
+  .shell-topbar nav a.active::after { content: ""; position: absolute; left: 12px; right: 12px; bottom: -11px; height: 2px; background: var(--brand-red); }
+  .shell-topbar .right { display: flex; align-items: center; gap: 8px; }
+  .search { display: flex; align-items: center; gap: 6px; width: 240px; padding: 7px 10px; border: 1px solid var(--border-default); border-radius: 6px; background: var(--bg-surface); color: var(--text-muted); font-size: 12.5px; }
+  .search svg { color: var(--text-muted); }
+  .search input { border: 0; background: transparent; outline: none; flex: 1; font: inherit; color: var(--text-primary); }
+  .search kbd { font-family: inherit; font-size: 10.5px; padding: 2px 5px; border: 1px solid var(--border-default); border-radius: 3px; color: var(--text-muted); background: var(--bg-subtle); }
+  .icon-btn { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border-default); border-radius: 6px; background: var(--bg-surface); color: var(--text-secondary); cursor: pointer; }
+  .avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--n-200); color: var(--text-primary); display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 11.5px; border: 1px solid var(--border-default); }
+
+  .shell-body { display: grid; grid-template-columns: 200px 1fr; min-height: 220px; }
+  .sidenav { padding: 12px; border-right: 1px solid var(--border-subtle); display: flex; flex-direction: column; gap: 1px; }
+  .sidenav .nav-item { display: flex; align-items: center; gap: 10px; padding: 7px 10px; border-radius: 6px; font-size: 13px; color: var(--text-secondary); cursor: pointer; }
+  .sidenav .nav-item:hover { background: var(--bg-muted); }
+  .sidenav .nav-item.active { background: rgba(171, 52, 43, 0.08); color: var(--text-primary); font-weight: 500; position: relative; }
+  .sidenav .nav-item.active::before { content: ""; position: absolute; left: -12px; top: 6px; bottom: 6px; width: 2px; background: var(--brand-red); }
+  .sidenav .nav-section { margin-top: 12px; padding: 8px 10px 4px; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); }
+
+  .shell-canvas { padding: 20px 24px; background: var(--bg-canvas); }
+  .shell-canvas .greeting { font-family: "Iowan Old Style", Georgia, serif; font-weight: 400; font-size: 28px; line-height: 1.2; letter-spacing: -0.01em; margin: 0 0 4px; }
+  .shell-canvas .sub { color: var(--text-muted); font-size: 13px; margin: 0; }
+
+  /* Dashboard */
+  .dash-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  @media (max-width: 800px) { .dash-row { grid-template-columns: 1fr 1fr; } }
+  .kpi { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; }
+  .kpi .k { font-size: 11px; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
+  .kpi .v { font-size: 24px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.1; font-variant-numeric: tabular-nums; }
+  .kpi .delta { font-size: 11.5px; font-weight: 500; display: inline-flex; align-items: center; gap: 4px; }
+  .kpi .delta.up { color: var(--st-success-fg); }
+  .kpi .delta.down { color: var(--st-error-fg); }
+  .kpi .delta.neutral { color: var(--text-muted); }
+
+  .chart-strip { margin-top: 14px; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 16px; }
+  .chart-strip h4 { margin: 0 0 4px; font-size: 13px; font-weight: 600; }
+  .chart-strip .cs-sub { color: var(--text-muted); font-size: 12px; margin: 0 0 14px; }
+  .chart-bars { display: flex; gap: 6px; align-items: flex-end; height: 80px; }
+  .chart-bars .bar { flex: 1; background: var(--cta-primary-bg); opacity: 0.85; border-radius: 2px 2px 0 0; min-width: 12px; }
+  .chart-bars .bar.dim { opacity: 0.3; }
+  .chart-axis { display: flex; gap: 6px; margin-top: 6px; }
+  .chart-axis span { flex: 1; text-align: center; font-size: 10px; color: var(--text-muted); }
+
+  /* Table */
+  .table-card { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 10px; overflow: hidden; }
+  .table-toolbar { display: flex; align-items: center; gap: 8px; padding: 12px 16px; border-bottom: 1px solid var(--divider); flex-wrap: wrap; }
+  .filter-chip { display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px; border: 1px solid var(--border-default); border-radius: 999px; font-size: 12px; color: var(--text-secondary); background: var(--bg-surface); cursor: pointer; }
+  .filter-chip.active { background: rgba(171, 52, 43, 0.08); color: var(--text-primary); border-color: transparent; }
+  .table-toolbar .spacer { flex: 1; }
+  .btn-sm { padding: 6px 12px; font-size: 12px; font-weight: 500; border: 1px solid var(--border-default); border-radius: 6px; background: var(--bg-surface); color: var(--text-primary); cursor: pointer; text-transform: uppercase; letter-spacing: 0.06em; font-family: inherit; }
+  .btn-sm.primary { background: var(--cta-primary-bg); color: var(--cta-primary-fg); border-color: transparent; }
+  .btn-sm.primary:hover { background: var(--cta-primary-bg-hover); }
+  table.deals { width: 100%; border-collapse: collapse; font-size: 13px; }
+  table.deals th { text-align: left; font-weight: 500; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); padding: 10px 16px; border-bottom: 1px solid var(--divider); background: var(--bg-subtle); }
+  table.deals td { padding: 12px 16px; border-bottom: 1px solid var(--divider); vertical-align: middle; }
+  table.deals tr:last-child td { border-bottom: 0; }
+  table.deals tr:hover td { background: var(--bg-muted); }
+  table.deals .co { display: flex; align-items: center; gap: 10px; font-weight: 500; }
+  table.deals .co .logo { width: 28px; height: 28px; border-radius: 6px; background: var(--bg-subtle); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; color: var(--text-secondary); border: 1px solid var(--border-subtle); }
+  table.deals .amt { font-variant-numeric: tabular-nums; font-weight: 500; }
+  table.deals .mu { color: var(--text-muted); font-size: 12px; }
+  .pill { display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px; border-radius: 999px; font-size: 11.5px; font-weight: 500; border: 1px solid; }
+  .pill .dot { width: 6px; height: 6px; border-radius: 50%; }
+  .pill.success { color: var(--st-success-fg); background: var(--st-success-bg); border-color: var(--st-success-bd); }
+  .pill.success .dot { background: var(--st-success-fg); }
+  .pill.warning { color: var(--st-warning-fg); background: var(--st-warning-bg); border-color: var(--st-warning-bd); }
+  .pill.warning .dot { background: var(--st-warning-fg); }
+  .pill.info    { color: var(--st-info-fg); background: var(--st-info-bg); border-color: var(--st-info-bd); }
+  .pill.info .dot { background: var(--st-info-fg); }
+  .pill.error   { color: var(--st-error-fg); background: var(--st-error-bg); border-color: var(--st-error-bd); }
+  .pill.error .dot { background: var(--st-error-fg); }
+  .pill.neutral { color: var(--st-neutral-fg); background: var(--st-neutral-bg); border-color: var(--st-neutral-bd); }
+  .pill.neutral .dot { background: var(--st-neutral-fg); }
+  .table-foot { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; border-top: 1px solid var(--divider); font-size: 12px; color: var(--text-muted); }
+  .pager { display: flex; gap: 4px; }
+  .pager button { width: 26px; height: 26px; border-radius: 5px; border: 1px solid var(--border-default); background: var(--bg-surface); color: var(--text-secondary); font-size: 12px; cursor: pointer; font-family: inherit; }
+  .pager button.active { background: rgba(171, 52, 43, 0.08); color: var(--text-primary); border-color: transparent; }
+
+  /* Detail */
+  .detail { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 10px; overflow: hidden; }
+  .detail-head { padding: 16px 20px; border-bottom: 1px solid var(--divider); display: flex; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
+  .detail-head .crumb { font-size: 11.5px; color: var(--text-muted); margin-bottom: 4px; }
+  .detail-head .crumb a { color: var(--text-muted); text-decoration: none; cursor: pointer; }
+  .detail-head .title { font-family: "Iowan Old Style", Georgia, serif; font-weight: 400; font-size: 26px; letter-spacing: -0.01em; line-height: 1.2; margin: 0 0 4px; }
+  .detail-head .meta { color: var(--text-muted); font-size: 12.5px; margin: 0; display: flex; gap: 8px; align-items: center; }
+  .detail-head .meta .sep { color: var(--n-400); }
+  .detail-head .actions { margin-left: auto; display: flex; gap: 8px; }
+  .btn { padding: 9px 14px; font-size: 12.5px; font-weight: 500; border: 0; border-radius: 6px; cursor: pointer; text-transform: uppercase; letter-spacing: 0.07em; font-family: inherit; }
+  .btn.primary { background: var(--cta-primary-bg); color: var(--cta-primary-fg); }
+  .btn.primary:hover { background: var(--cta-primary-bg-hover); }
+  .btn.secondary { background: transparent; color: var(--text-primary); border: 1px solid var(--border-default); }
+  .btn.secondary:hover { background: var(--bg-muted); }
+  .detail-tabs { display: flex; padding: 0 20px; border-bottom: 1px solid var(--divider); }
+  .detail-tabs .t { padding: 11px 14px; font-size: 13px; font-weight: 500; color: var(--text-muted); cursor: pointer; position: relative; }
+  .detail-tabs .t.active { color: var(--text-primary); }
+  .detail-tabs .t.active::after { content: ""; position: absolute; left: 14px; right: 14px; bottom: -1px; height: 2px; background: var(--brand-red); }
+  .detail-body { display: grid; grid-template-columns: 1fr 280px; gap: 20px; padding: 20px; }
+  @media (max-width: 720px) { .detail-body { grid-template-columns: 1fr; } }
+  .field { display: flex; flex-direction: column; gap: 4px; margin-bottom: 14px; }
+  .field .label { font-size: 12.5px; font-weight: 500; color: var(--text-secondary); }
+  .field .label .req { color: var(--brand-red); margin-left: 2px; }
+  .field .input { border: 1px solid var(--border-default); background: var(--bg-surface); border-radius: 6px; padding: 9px 12px; font: inherit; font-size: 13px; color: var(--text-primary); width: 100%; }
+  .field .input.focused { border: 2px solid var(--border-focus); padding: 8px 11px; }
+  .field .helper { font-size: 11.5px; color: var(--text-muted); }
+  .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .side-block { background: var(--bg-subtle); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 14px; }
+  .side-block h5 { margin: 0 0 8px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); }
+  .side-list { display: flex; flex-direction: column; gap: 6px; font-size: 12.5px; }
+  .side-list .li { display: flex; justify-content: space-between; gap: 8px; }
+  .side-list .li .k { color: var(--text-muted); }
+  .side-list .li .v { font-weight: 500; }
+  .activity { margin-top: 14px; }
+  .activity .item { display: flex; gap: 10px; padding: 10px 0; border-top: 1px solid var(--divider); font-size: 12.5px; }
+  .activity .item:first-child { border-top: 0; }
+  .activity .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--text-muted); margin-top: 6px; flex: none; }
+  .activity .dot.brand { background: var(--brand-red); }
+  .activity .body { flex: 1; }
+  .activity .body .who { font-weight: 600; }
+  .activity .body .what { color: var(--text-secondary); }
+  .activity .body .when { color: var(--text-muted); font-size: 11.5px; margin-top: 2px; }
+
+  /* ========== Footer ========== */
+  .doc-foot {
+    margin-top: 64px;
+    padding: 20px 24px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+    border-left: 3px solid var(--brand-red);
+  }
+  .doc-foot h4 { margin: 0 0 6px; font-size: 14px; font-weight: 600; }
+  .doc-foot p { margin: 0; color: var(--text-secondary); font-size: 13.5px; line-height: 1.55; }
+  .doc-foot p + p { margin-top: 6px; }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></symbol>
+    <symbol id="i-flow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></symbol>
+    <symbol id="i-bag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a4 4 0 0 1 8 0v2"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="20" x2="21" y2="20"/><polyline points="4,16 9,11 13,15 20,7"/></symbol>
+    <symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></symbol>
+    <symbol id="i-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></symbol>
+  </defs>
+</svg>
+
+<div class="container">
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="anchor-bar"></div>
+  <div class="row">
+    <div>
+      <h1>Prism Design System</h1>
+      <p class="subtitle">v1 — locked. Cool slate canvas, Clay Red Light primary CTA, Switzer for product UI, Arapey reserved for in-app section anchors. Every token below is canonical and matches what's now in <code>design.md</code>.</p>
+    </div>
+    <div class="badges">
+      <span class="badge"><span class="dot"></span> v1 · Locked</span>
+      <span class="badge alt">Updated 2026-05-05</span>
+    </div>
+  </div>
+</header>
+
+<!-- ============ BRAND PALETTE ============ -->
+<section>
+  <div class="section-eyebrow">Locked from brand guide v1.0</div>
+  <h2 class="section-title">Brand Palette</h2>
+  <p class="section-note">Six brand colors, non-negotiable. The roles below describe how Prism v1 uses them — the bright red is now reserved for brand-pause moments; the muted Clay Red Light is the workhorse primary CTA.</p>
+
+  <div class="palette-grid">
+    <div class="pal-card">
+      <div class="pal-chip" style="background:#D21905;"><span class="name">Indian VCs Red</span></div>
+      <div class="pal-meta">
+        <p class="role">Brand-pause only — logo, focus rings, the Link motif, errors, required-field markers.</p>
+        <div class="pal-meta-row"><span class="k">Hex</span><span class="v">#D21905</span></div>
+        <div class="pal-meta-row"><span class="k">RGB</span><span class="v">210, 25, 5</span></div>
+        <div class="pal-meta-row"><span class="k">Pantone</span><span class="v">1799 C</span></div>
+      </div>
+    </div>
+    <div class="pal-card">
+      <div class="pal-chip" style="background:#191816;"><span class="name">Charcoal</span></div>
+      <div class="pal-meta">
+        <p class="role">Default text, dark-theme canvas, inverse surfaces.</p>
+        <div class="pal-meta-row"><span class="k">Hex</span><span class="v">#191816</span></div>
+        <div class="pal-meta-row"><span class="k">RGB</span><span class="v">25, 24, 22</span></div>
+        <div class="pal-meta-row"><span class="k">Pantone</span><span class="v">Black 7 C</span></div>
+      </div>
+    </div>
+    <div class="pal-card">
+      <div class="pal-chip" style="background:#301008;"><span class="name">Dark Cocoa</span></div>
+      <div class="pal-meta">
+        <p class="role">Premium dark surfaces — hero, splash, marketing.</p>
+        <div class="pal-meta-row"><span class="k">Hex</span><span class="v">#301008</span></div>
+        <div class="pal-meta-row"><span class="k">RGB</span><span class="v">48, 16, 8</span></div>
+        <div class="pal-meta-row"><span class="k">Pantone</span><span class="v">1817 C</span></div>
+      </div>
+    </div>
+    <div class="pal-card">
+      <div class="pal-chip on-light" style="background:#F8F8EE;"><span class="name">Pearl Cream</span></div>
+      <div class="pal-meta">
+        <p class="role">Marketing canvas only · <code>bg.marketing</code>. Not the product canvas.</p>
+        <div class="pal-meta-row"><span class="k">Hex</span><span class="v">#F8F8EE</span></div>
+        <div class="pal-meta-row"><span class="k">RGB</span><span class="v">248, 248, 238</span></div>
+        <div class="pal-meta-row"><span class="k">Pantone</span><span class="v">7401 C</span></div>
+      </div>
+    </div>
+    <div class="pal-card">
+      <div class="pal-chip" style="background:#810100;"><span class="name">Clay Red — Dark</span></div>
+      <div class="pal-meta">
+        <p class="role">Hover / pressed state for primary CTA · <code>cta.primary.bg-hover</code>.</p>
+        <div class="pal-meta-row"><span class="k">Hex</span><span class="v">#810100</span></div>
+        <div class="pal-meta-row"><span class="k">RGB</span><span class="v">129, 1, 0</span></div>
+        <div class="pal-meta-row"><span class="k">Pantone</span><span class="v">7621 C</span></div>
+      </div>
+    </div>
+    <div class="pal-card">
+      <div class="pal-chip" style="background:#AB342B;"><span class="name">Clay Red — Light</span></div>
+      <div class="pal-meta">
+        <p class="role"><strong>Default primary CTA</strong> · <code>cta.primary.bg</code>. Soft accent, status accent.</p>
+        <div class="pal-meta-row"><span class="k">Hex</span><span class="v">#AB342B</span></div>
+        <div class="pal-meta-row"><span class="k">RGB</span><span class="v">171, 51, 43</span></div>
+        <div class="pal-meta-row"><span class="k">Pantone</span><span class="v">1805 C</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ NEUTRAL RAMP + SEMANTIC ============ -->
+<section>
+  <div class="section-eyebrow">Locked · cool / slate</div>
+  <h2 class="section-title">Neutral Ramp & Semantic Colors</h2>
+  <p class="section-note">11-step cool ramp, anchored to Charcoal at <code>neutral.900</code>. Semantic colors are quiet and contemporary; error reuses brand red.</p>
+
+  <div class="two-col">
+    <div>
+      <div class="ramp">
+        <div class="ramp-row"><div class="ramp-chip" style="background:#FFFFFF; border-right:1px solid var(--n-100);"></div><div class="ramp-name">neutral.0</div><div class="ramp-hex">#FFFFFF</div><div class="ramp-use">Card surface</div></div>
+        <div class="ramp-row"><div class="ramp-chip" style="background:#F8F9FB;"></div><div class="ramp-name">neutral.50</div><div class="ramp-hex">#F8F9FB</div><div class="ramp-use">Subtle stripe, hover bg</div></div>
+        <div class="ramp-row"><div class="ramp-chip" style="background:#EFF1F4;"></div><div class="ramp-name">neutral.100</div><div class="ramp-hex">#EFF1F4</div><div class="ramp-use">Subtle surface, table header</div></div>
+        <div class="ramp-row"><div class="ramp-chip" style="background:#E1E4E9;"></div><div class="ramp-name">neutral.200</div><div class="ramp-hex">#E1E4E9</div><div class="ramp-use">Default border, divider</div></div>
+        <div class="ramp-row"><div class="ramp-chip" style="background:#C5CAD2;"></div><div class="ramp-name">neutral.300</div><div class="ramp-hex">#C5CAD2</div><div class="ramp-use">Strong border, input border</div></div>
+        <div class="ramp-row"><div class="ramp-chip" style="background:#969CA6;"></div><div class="ramp-name">neutral.400</div><div class="ramp-hex">#969CA6</div><div class="ramp-use">Placeholder, muted icon</div></div>
+        <div class="ramp-row"><div class="ramp-chip" style="background:#6A707A;"></div><div class="ramp-name">neutral.500</div><div class="ramp-hex">#6A707A</div><div class="ramp-use">Secondary text, chevrons</div></div>
+        <div class="ramp-row"><div class="ramp-chip" style="background:#4A4F58;"></div><div class="ramp-name">neutral.600</div><div class="ramp-hex">#4A4F58</div><div class="ramp-use">Tertiary text</div></div>
+        <div class="ramp-row"><div class="ramp-chip" style="background:#30343B;"></div><div class="ramp-name">neutral.700</div><div class="ramp-hex">#30343B</div><div class="ramp-use">Strong secondary text</div></div>
+        <div class="ramp-row"><div class="ramp-chip" style="background:#20232A;"></div><div class="ramp-name">neutral.800</div><div class="ramp-hex">#20232A</div><div class="ramp-use">Dark-theme raised surface</div></div>
+        <div class="ramp-row"><div class="ramp-chip" style="background:#191816;"></div><div class="ramp-name">neutral.900</div><div class="ramp-hex">#191816</div><div class="ramp-use">Primary text · = Charcoal</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="sem-grid">
+        <div class="sem-card">
+          <div class="sem-head"><span class="sem-dot" style="background:#1F8056;"></span><span class="sem-name">Success</span><span class="sem-hex">#1F8056</span></div>
+          <div class="sem-rows">
+            <span class="k">Foreground</span><div class="swatch-row"><span class="mini" style="background:#1F8056;"></span><span class="mono">#1F8056</span></div>
+            <span class="k">Background</span><div class="swatch-row"><span class="mini" style="background:#E4F1EC;"></span><span class="mono">#E4F1EC</span></div>
+            <span class="k">Border</span><div class="swatch-row"><span class="mini" style="background:#A8D2BD;"></span><span class="mono">#A8D2BD</span></div>
+          </div>
+          <div class="sem-banner" style="background:#E4F1EC; color:#1F8056; border:1px solid #A8D2BD;"><span class="pip" style="background:#1F8056;"></span>Deal closed successfully.</div>
+        </div>
+        <div class="sem-card">
+          <div class="sem-head"><span class="sem-dot" style="background:#B27316;"></span><span class="sem-name">Warning</span><span class="sem-hex">#B27316</span></div>
+          <div class="sem-rows">
+            <span class="k">Foreground</span><div class="swatch-row"><span class="mini" style="background:#B27316;"></span><span class="mono">#B27316</span></div>
+            <span class="k">Background</span><div class="swatch-row"><span class="mini" style="background:#F8EDD2;"></span><span class="mono">#F8EDD2</span></div>
+            <span class="k">Border</span><div class="swatch-row"><span class="mini" style="background:#E0C285;"></span><span class="mono">#E0C285</span></div>
+          </div>
+          <div class="sem-banner" style="background:#F8EDD2; color:#B27316; border:1px solid #E0C285;"><span class="pip" style="background:#B27316;"></span>Term sheet expires in 3 days.</div>
+        </div>
+        <div class="sem-card">
+          <div class="sem-head"><span class="sem-dot" style="background:#2D5DA0;"></span><span class="sem-name">Info</span><span class="sem-hex">#2D5DA0</span></div>
+          <div class="sem-rows">
+            <span class="k">Foreground</span><div class="swatch-row"><span class="mini" style="background:#2D5DA0;"></span><span class="mono">#2D5DA0</span></div>
+            <span class="k">Background</span><div class="swatch-row"><span class="mini" style="background:#E1ECF7;"></span><span class="mono">#E1ECF7</span></div>
+            <span class="k">Border</span><div class="swatch-row"><span class="mini" style="background:#B0C8E2;"></span><span class="mono">#B0C8E2</span></div>
+          </div>
+          <div class="sem-banner" style="background:#E1ECF7; color:#2D5DA0; border:1px solid #B0C8E2;"><span class="pip" style="background:#2D5DA0;"></span>Diligence checklist updated.</div>
+        </div>
+        <div class="sem-card">
+          <div class="sem-head"><span class="sem-dot" style="background:#D21905;"></span><span class="sem-name">Error · brand red</span><span class="sem-hex">#D21905</span></div>
+          <div class="sem-rows">
+            <span class="k">Foreground</span><div class="swatch-row"><span class="mini" style="background:#D21905;"></span><span class="mono">#D21905</span></div>
+            <span class="k">Background</span><div class="swatch-row"><span class="mini" style="background:#FBE5E1;"></span><span class="mono">#FBE5E1</span></div>
+            <span class="k">Border</span><div class="swatch-row"><span class="mini" style="background:#F1B7AE;"></span><span class="mono">#F1B7AE</span></div>
+          </div>
+          <div class="sem-banner" style="background:#FBE5E1; color:#D21905; border:1px solid #F1B7AE;"><span class="pip" style="background:#D21905;"></span>Investment amount is required.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TYPOGRAPHY ============ -->
+<section>
+  <div class="section-eyebrow">Locked · Switzer in-product, Arapey for anchors</div>
+  <h2 class="section-title">Type Scale</h2>
+  <p class="section-note">Switzer for everything in-product. Arapey appears at exactly one in-app surface — the section-anchor heading at the top of major sections.</p>
+
+  <div class="type-scale">
+    <div class="ts-row">
+      <span class="ts-token">heading.section-anchor</span>
+      <span class="ts-sample serif" style="font-size:36px; line-height:44px; letter-spacing:-0.01em;">Welcome back, Kapil</span>
+      <span class="ts-meta">Arapey · 36 / 44 · -0.01em</span>
+    </div>
+    <div class="ts-row">
+      <span class="ts-token">heading.page</span>
+      <span class="ts-sample" style="font-size:24px; line-height:32px; font-weight:600; letter-spacing:-0.01em;">Active deal flow</span>
+      <span class="ts-meta">Switzer 600 · 24 / 32</span>
+    </div>
+    <div class="ts-row">
+      <span class="ts-token">heading.h1</span>
+      <span class="ts-sample" style="font-size:20px; line-height:28px; font-weight:600;">Aurelia Health · Series A</span>
+      <span class="ts-meta">Switzer 600 · 20 / 28</span>
+    </div>
+    <div class="ts-row">
+      <span class="ts-token">heading.h2</span>
+      <span class="ts-sample" style="font-size:18px; line-height:26px; font-weight:600;">Diligence checklist</span>
+      <span class="ts-meta">Switzer 600 · 18 / 26</span>
+    </div>
+    <div class="ts-row">
+      <span class="ts-token">heading.h3</span>
+      <span class="ts-sample" style="font-size:16px; line-height:24px; font-weight:500;">Co-investors</span>
+      <span class="ts-meta">Switzer 500 · 16 / 24</span>
+    </div>
+    <div class="ts-row">
+      <span class="ts-token">heading.eyebrow</span>
+      <span class="ts-sample" style="font-size:12px; line-height:16px; font-weight:500; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-muted);">Deal Flow</span>
+      <span class="ts-meta">Switzer 500 · 12 / 16 · +0.08em · UPPER</span>
+    </div>
+    <div class="ts-row">
+      <span class="ts-token">body.l</span>
+      <span class="ts-sample" style="font-size:18px; line-height:28px;">Aurelia is building a clinical-grade triage assistant for Tier-2 hospitals.</span>
+      <span class="ts-meta">Switzer 400 · 18 / 28</span>
+    </div>
+    <div class="ts-row">
+      <span class="ts-token">body.m  · default</span>
+      <span class="ts-sample" style="font-size:14px; line-height:22px;">Closing in 14 days. Partner review pending — three diligence items still open.</span>
+      <span class="ts-meta">Switzer 400 · 14 / 22</span>
+    </div>
+    <div class="ts-row">
+      <span class="ts-token">body.s</span>
+      <span class="ts-sample" style="font-size:13px; line-height:20px; color:var(--text-secondary);">Sourced through inbound from the founder's prior portfolio company.</span>
+      <span class="ts-meta">Switzer 400 · 13 / 20</span>
+    </div>
+    <div class="ts-row">
+      <span class="ts-token">body.xs · caption</span>
+      <span class="ts-sample" style="font-size:12px; line-height:16px; color:var(--text-muted); letter-spacing:0.01em;">Updated 2 hours ago by Naina S.</span>
+      <span class="ts-meta">Switzer 400 · 12 / 16</span>
+    </div>
+    <div class="ts-row">
+      <span class="ts-token">label.field</span>
+      <span class="ts-sample" style="font-size:13px; line-height:20px; font-weight:500;">Investment amount<span style="color:var(--brand-red); margin-left:2px;">*</span></span>
+      <span class="ts-meta">Switzer 500 · 13 / 20</span>
+    </div>
+    <div class="ts-row">
+      <span class="ts-token">cta.l</span>
+      <span class="ts-sample" style="font-size:14px; line-height:20px; font-weight:500; text-transform:uppercase; letter-spacing:0.08em;">Open Memo</span>
+      <span class="ts-meta">Switzer 500 · 14 / 20 · +0.08em · UPPER</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SPACING ============ -->
+<section>
+  <div class="section-eyebrow">Locked · 4px base, 8px primary unit</div>
+  <h2 class="section-title">Spacing Scale</h2>
+  <p class="section-note">Component padding and gaps default to 8px increments; 4px is reserved for fine adjustments.</p>
+
+  <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 16px 20px;">
+    <div class="space-row"><span class="tok">space.1</span><span class="px">4 px</span><div class="vis" style="width:4px;"></div></div>
+    <div class="space-row"><span class="tok">space.2</span><span class="px">8 px</span><div class="vis" style="width:8px;"></div></div>
+    <div class="space-row"><span class="tok">space.3</span><span class="px">12 px</span><div class="vis" style="width:12px;"></div></div>
+    <div class="space-row"><span class="tok">space.4</span><span class="px">16 px</span><div class="vis" style="width:16px;"></div></div>
+    <div class="space-row"><span class="tok">space.5</span><span class="px">20 px</span><div class="vis" style="width:20px;"></div></div>
+    <div class="space-row"><span class="tok">space.6</span><span class="px">24 px</span><div class="vis" style="width:24px;"></div></div>
+    <div class="space-row"><span class="tok">space.8</span><span class="px">32 px</span><div class="vis" style="width:32px;"></div></div>
+    <div class="space-row"><span class="tok">space.10</span><span class="px">40 px</span><div class="vis" style="width:40px;"></div></div>
+    <div class="space-row"><span class="tok">space.12</span><span class="px">48 px</span><div class="vis" style="width:48px;"></div></div>
+    <div class="space-row"><span class="tok">space.16</span><span class="px">64 px</span><div class="vis" style="width:64px;"></div></div>
+    <div class="space-row"><span class="tok">space.20</span><span class="px">80 px</span><div class="vis" style="width:80px;"></div></div>
+    <div class="space-row"><span class="tok">space.24</span><span class="px">96 px</span><div class="vis" style="width:96px;"></div></div>
+  </div>
+</section>
+
+<!-- ============ LIVE PREVIEW ============ -->
+<section>
+  <div class="section-eyebrow">In-context</div>
+  <h2 class="section-title">Live preview</h2>
+  <p class="section-note">Four representative SaaS sections rendered with the locked v1 system. Every color and font is wired through CSS custom properties — change the tokens once, propagate everywhere.</p>
+
+  <div class="preview">
+    <!-- App shell -->
+    <div class="preview-block">
+      <h4 class="preview-block-h">01 · App shell — top bar + side navigation</h4>
+      <div class="shell">
+        <div class="shell-topbar">
+          <div class="logo"><span class="lk"></span><span class="word">Prism</span></div>
+          <nav>
+            <a class="active" href="#" onclick="event.preventDefault();">Deal Flow</a>
+            <a href="#" onclick="event.preventDefault();">Portfolio</a>
+            <a href="#" onclick="event.preventDefault();">Contacts</a>
+            <a href="#" onclick="event.preventDefault();">Reports</a>
+          </nav>
+          <div class="right">
+            <div class="search">
+              <svg width="14" height="14"><use href="#i-search"/></svg>
+              <input placeholder="Search deals, founders, funds..." />
+              <kbd>⌘K</kbd>
+            </div>
+            <button class="icon-btn"><svg width="16" height="16"><use href="#i-bell"/></svg></button>
+            <div class="avatar">KV</div>
+          </div>
+        </div>
+        <div class="shell-body">
+          <aside class="sidenav">
+            <div class="nav-item"><svg width="16" height="16"><use href="#i-grid"/></svg> Dashboard</div>
+            <div class="nav-item active"><svg width="16" height="16"><use href="#i-flow"/></svg> Deal Flow</div>
+            <div class="nav-item"><svg width="16" height="16"><use href="#i-bag"/></svg> Portfolio</div>
+            <div class="nav-item"><svg width="16" height="16"><use href="#i-users"/></svg> Contacts</div>
+            <div class="nav-item"><svg width="16" height="16"><use href="#i-chart"/></svg> Reports</div>
+            <div class="nav-section">Workspace</div>
+            <div class="nav-item"><svg width="16" height="16"><use href="#i-gear"/></svg> Settings</div>
+          </aside>
+          <div class="shell-canvas">
+            <div class="greeting">Welcome back, Kapil</div>
+            <p class="sub">Q2 2026 · 47 active deals · 12 closed in the last 30 days.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="preview-block">
+      <h4 class="preview-block-h">02 · Dashboard — KPI strip + activity chart</h4>
+      <div class="dash-row">
+        <div class="kpi"><div class="k">Total deployed</div><div class="v">$184.2M</div><div class="delta up"><svg width="11" height="11"><use href="#i-up"/></svg> +12.4% vs Q1</div></div>
+        <div class="kpi"><div class="k">Active deals</div><div class="v">47</div><div class="delta up"><svg width="11" height="11"><use href="#i-up"/></svg> +6 this month</div></div>
+        <div class="kpi"><div class="k">Avg ticket size</div><div class="v">$2.8M</div><div class="delta down"><svg width="11" height="11"><use href="#i-down"/></svg> −4.1% vs Q1</div></div>
+        <div class="kpi"><div class="k">Pipeline value</div><div class="v">$72.0M</div><div class="delta neutral">— flat</div></div>
+      </div>
+      <div class="chart-strip">
+        <h4>Deals closed · last 12 weeks</h4>
+        <p class="cs-sub">Weekly count of new commitments.</p>
+        <div class="chart-bars">
+          <div class="bar" style="height:32%"></div><div class="bar" style="height:48%"></div><div class="bar" style="height:38%"></div><div class="bar" style="height:62%"></div><div class="bar" style="height:55%"></div><div class="bar" style="height:71%"></div><div class="bar" style="height:50%"></div><div class="bar" style="height:80%"></div><div class="bar" style="height:66%"></div><div class="bar" style="height:88%"></div><div class="bar" style="height:74%"></div><div class="bar dim" style="height:44%"></div>
+        </div>
+        <div class="chart-axis">
+          <span>W1</span><span>W2</span><span>W3</span><span>W4</span><span>W5</span><span>W6</span><span>W7</span><span>W8</span><span>W9</span><span>W10</span><span>W11</span><span>W12</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pipeline table -->
+    <div class="preview-block">
+      <h4 class="preview-block-h">03 · Pipeline — deals table with filters &amp; status</h4>
+      <div class="table-card">
+        <div class="table-toolbar">
+          <span class="filter-chip active">All · 47</span>
+          <span class="filter-chip">Sourced · 12</span>
+          <span class="filter-chip">Diligence · 9</span>
+          <span class="filter-chip">Term Sheet · 6</span>
+          <span class="filter-chip">Closed · 14</span>
+          <span class="spacer"></span>
+          <button class="btn-sm">Export</button>
+          <button class="btn-sm primary">+ New Deal</button>
+        </div>
+        <table class="deals">
+          <thead><tr><th>Company</th><th>Stage</th><th>Owner</th><th>Amount</th><th>Status</th><th>Updated</th></tr></thead>
+          <tbody>
+            <tr><td><div class="co"><div class="logo">AH</div>Aurelia Health</div></td><td class="mu">Series A</td><td class="mu">KV</td><td class="amt">$2,500,000</td><td><span class="pill warning"><span class="dot"></span>Term Sheet</span></td><td class="mu">2d ago</td></tr>
+            <tr><td><div class="co"><div class="logo">HX</div>Helix Robotics</div></td><td class="mu">Seed</td><td class="mu">NS</td><td class="amt">$1,200,000</td><td><span class="pill info"><span class="dot"></span>Diligence</span></td><td class="mu">5d ago</td></tr>
+            <tr><td><div class="co"><div class="logo">MA</div>Mosaic AI</div></td><td class="mu">Series B</td><td class="mu">RP</td><td class="amt">$8,000,000</td><td><span class="pill success"><span class="dot"></span>Closed Won</span></td><td class="mu">1w ago</td></tr>
+            <tr><td><div class="co"><div class="logo">TL</div>Tundra Logistics</div></td><td class="mu">Pre-Seed</td><td class="mu">KV</td><td class="amt">$400,000</td><td><span class="pill neutral"><span class="dot"></span>Sourced</span></td><td class="mu">3d ago</td></tr>
+            <tr><td><div class="co"><div class="logo">LE</div>Lumen Energy</div></td><td class="mu">Series A</td><td class="mu">NS</td><td class="amt">$3,500,000</td><td><span class="pill error"><span class="dot"></span>Passed</span></td><td class="mu">2w ago</td></tr>
+          </tbody>
+        </table>
+        <div class="table-foot">
+          <div>5 of 47 · sorted by Updated, descending</div>
+          <div class="pager"><button>‹</button><button class="active">1</button><button>2</button><button>3</button><button>›</button></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Detail / form -->
+    <div class="preview-block">
+      <h4 class="preview-block-h">04 · Deal detail — header, tabs, form &amp; sidebar</h4>
+      <div class="detail">
+        <div class="detail-head">
+          <div>
+            <div class="crumb"><a>Deal Flow</a> / <a>Active</a> / Aurelia Health</div>
+            <h2 class="title">Aurelia Health · Series A</h2>
+            <p class="meta">$2.5M ticket <span class="sep">·</span> Owner: Kapil V. <span class="sep">·</span> Stage: Term Sheet</p>
+          </div>
+          <div class="actions">
+            <button class="btn secondary">Share</button>
+            <button class="btn primary">Open Memo</button>
+          </div>
+        </div>
+        <div class="detail-tabs">
+          <div class="t active">Overview</div>
+          <div class="t">Diligence</div>
+          <div class="t">Documents</div>
+          <div class="t">Activity</div>
+        </div>
+        <div class="detail-body">
+          <div>
+            <div class="row-2">
+              <div class="field">
+                <span class="label">Investment amount<span class="req">*</span></span>
+                <div class="input focused">$2,500,000</div>
+                <span class="helper">USD only · auto-converted in reports.</span>
+              </div>
+              <div class="field">
+                <span class="label">Round size</span>
+                <div class="input">$12,000,000</div>
+                <span class="helper">Total round including co-investors.</span>
+              </div>
+            </div>
+            <div class="field">
+              <span class="label">Memo summary</span>
+              <div class="input" style="min-height:84px; line-height:1.55;">Aurelia is building a clinical-grade triage assistant for Tier-2 hospitals across India. Strong founding team out of AIIMS + IITM with prior exit experience.</div>
+              <span class="helper">Visible to all partners on the deal.</span>
+            </div>
+            <div class="activity">
+              <div class="item">
+                <span class="dot brand"></span>
+                <div class="body"><span class="who">Kapil V.</span> <span class="what">moved deal to <strong>Term Sheet</strong></span><div class="when">2 days ago</div></div>
+              </div>
+              <div class="item">
+                <span class="dot"></span>
+                <div class="body"><span class="who">Naina S.</span> <span class="what">added the diligence checklist</span><div class="when">4 days ago</div></div>
+              </div>
+              <div class="item">
+                <span class="dot"></span>
+                <div class="body"><span class="who">Rohan P.</span> <span class="what">uploaded the cap table</span><div class="when">6 days ago</div></div>
+              </div>
+            </div>
+          </div>
+          <aside>
+            <div class="side-block">
+              <h5>Company</h5>
+              <div class="side-list">
+                <div class="li"><span class="k">HQ</span><span class="v">Bangalore, IN</span></div>
+                <div class="li"><span class="k">Founded</span><span class="v">2024</span></div>
+                <div class="li"><span class="k">Team</span><span class="v">11 people</span></div>
+                <div class="li"><span class="k">Sector</span><span class="v">Health AI</span></div>
+                <div class="li"><span class="k">Source</span><span class="v">Inbound</span></div>
+              </div>
+            </div>
+            <div class="side-block" style="margin-top:12px;">
+              <h5>Co-investors</h5>
+              <div class="side-list">
+                <div class="li"><span class="k">Lead</span><span class="v">Prism</span></div>
+                <div class="li"><span class="k">Following</span><span class="v">Antler India</span></div>
+                <div class="li"><span class="k">Following</span><span class="v">Stellaris VP</span></div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="doc-foot">
+  <h4>This is the locked v1 system</h4>
+  <p>Every value here matches what's now in <code>design.md</code>. The historical exploration files (<code>palette.html</code>, <code>palette-compare.html</code>, <code>palette-explore.html</code>) remain in the repo as audit trail — but this is the canonical render.</p>
+  <p>Next: P0 components — Button, Input, Select, Modal, Table — spec'd into <code>design.md §8</code>. Say the word and we'll start with Button.</p>
+</div>
+
+</div>
+</body>
+</html>
