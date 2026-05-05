@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Prism — Components</title>
+<title>Prism · Charcoal — Components</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link href="https://api.fontshare.com/v2/css?f%5B%5D=switzer@400,500,600,700&display=swap" rel="stylesheet">
 
 <style>
@@ -27,9 +27,15 @@
     --text-muted: var(--n-500); --text-faint: var(--n-400);
     --border-subtle: var(--n-200); --border-default: var(--n-300); --border-strong: var(--n-700);
     --divider: var(--n-200);
-    --cta-primary-bg: var(--brand-clay-light); --cta-primary-bg-hover: var(--brand-clay-dark);
+    /* === Charcoal variant override === */
+    /* Primary CTA → Charcoal. Brand red retained for Link motifs only
+       (active tabs, sidenav marker, focus ring, errors, required asterisk). */
+    --cta-primary-bg: var(--brand-charcoal);
+    --cta-primary-bg-hover: #2B2825;
     --cta-primary-fg: var(--brand-pearl);
     --link-bar: var(--brand-red); --focus-ring: var(--brand-red);
+    /* Selection bg switches from Clay-Red @ 8% to Charcoal @ 6% */
+    --selection-bg: rgba(25, 24, 22, 0.06);
     --st-success-fg: #1F8056; --st-success-bg: #E4F1EC; --st-success-bd: #A8D2BD;
     --st-warning-fg: #B27316; --st-warning-bg: #F8EDD2; --st-warning-bd: #E0C285;
     --st-info-fg: #2D5DA0; --st-info-bg: #E1ECF7; --st-info-bd: #B0C8E2;
@@ -515,7 +521,7 @@
     font: inherit; font-size: 12px; cursor: pointer;
   }
   .pager button:hover { background: var(--bg-subtle); color: var(--text-primary); }
-  .pager button.active { background: rgba(171,52,43,0.08); color: var(--text-primary); border-color: transparent; }
+  .pager button.active { background: rgba(25, 24, 22, 0.06); color: var(--text-primary); border-color: transparent; }
   .pager button svg { width: 12px; height: 12px; fill: currentColor; }
 
   .crumb { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-muted); }
@@ -553,7 +559,7 @@
 
   .filter-bar { display: flex; gap: 8px; flex-wrap: wrap; padding: 10px 14px; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 8px; align-items: center; }
   .chip { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border: 1px solid var(--border-default); border-radius: 999px; font-size: 12px; color: var(--text-secondary); background: var(--bg-surface); cursor: pointer; }
-  .chip.active { background: rgba(171,52,43,0.08); color: var(--text-primary); border-color: transparent; }
+  .chip.active { background: rgba(25, 24, 22, 0.06); color: var(--text-primary); border-color: transparent; }
   .chip svg { width: 11px; height: 11px; fill: currentColor; }
 
   .record-header { display: flex; gap: 14px; padding: 16px 18px; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 10px; align-items: center; }
@@ -593,7 +599,7 @@
   .as-side .ni { display: flex; align-items: center; gap: 8px; padding: 5px 8px; border-radius: 4px; font-size: 12px; color: var(--text-secondary); cursor: pointer; }
   .as-side .ni svg { width: 12px; height: 12px; fill: currentColor; }
   .as-side .ni:hover { background: var(--bg-subtle); }
-  .as-side .ni.active { background: rgba(171,52,43,0.08); color: var(--text-primary); font-weight: 500; position: relative; }
+  .as-side .ni.active { background: rgba(25, 24, 22, 0.06); color: var(--text-primary); font-weight: 500; position: relative; }
   .as-side .ni.active::before { content: ""; position: absolute; left: -10px; top: 5px; bottom: 5px; width: 2px; background: var(--brand-red); }
   .as-canvas { padding: 16px 18px; background: var(--bg-canvas); }
   .as-canvas .greeting { font-family: "Iowan Old Style", Georgia, serif; font-weight: 400; font-size: 22px; line-height: 1.2; letter-spacing: -0.01em; margin: 0 0 4px; }
@@ -643,9 +649,52 @@
   }
   .doc-foot h4 { margin: 0 0 6px; font-size: 14px; font-weight: 600; }
   .doc-foot p { margin: 0; color: var(--text-secondary); font-size: 13.5px; line-height: 1.55; }
+
+  /* ─── Font switcher ─── */
+  body[data-font="switzer"] { font-family: 'Switzer', 'DM Sans', -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif; }
+  body[data-font="jakarta"] { font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif; }
+  body[data-font="inter"]   { font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif; }
+
+  .font-switch {
+    display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin-bottom: 24px;
+    box-shadow: var(--elev-1);
+  }
+  .font-switch .ctrl-label {
+    text-transform: uppercase; letter-spacing: 0.1em;
+    font-size: 10.5px; font-weight: 600; color: var(--text-muted);
+  }
+  .font-switch .seg {
+    display: inline-flex; gap: 2px;
+    background: var(--bg-subtle);
+    border-radius: 999px; padding: 3px;
+  }
+  .font-switch .seg button {
+    border: 0; background: transparent;
+    padding: 6px 14px;
+    font: inherit; font-size: 12.5px; font-weight: 500;
+    color: var(--text-secondary);
+    border-radius: 999px; cursor: pointer;
+    transition: background 150ms, color 150ms;
+  }
+  .font-switch .seg button:hover { color: var(--text-primary); }
+  .font-switch .seg button.is-active {
+    background: var(--brand-charcoal); color: var(--brand-pearl);
+  }
+  .font-switch .ctrl-note {
+    margin-left: auto;
+    font-size: 11px; color: var(--text-muted);
+  }
+  .font-switch .ctrl-note code { color: var(--text-secondary); font-family: "SF Mono", Menlo, monospace; font-size: 0.92em; }
+
+  .pagenav { flex-wrap: wrap; }
 </style>
 </head>
-<body>
+<body data-font="switzer">
 
 <!-- All 32 icon defs (extracted verbatim from src/design-system/icons/icons.ts) -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -689,15 +738,26 @@
 
   <nav class="pagenav" aria-label="Design system pages">
     <a href="system-v1.html"><span class="lk"></span>Prism v1</a>
-    <a href="components.html" class="is-active"><span class="lk"></span>Components</a>
-    <a href="prism-charcoal.html"><span class="lk"></span>Charcoal</a>
+    <a href="components.html"><span class="lk"></span>Components</a>
+    <a href="prism-charcoal.html" class="is-active"><span class="lk"></span>Charcoal</a>
   </nav>
 
   <header class="hero">
     <div class="anchor-bar"></div>
-    <h1>Components</h1>
-    <p class="subtitle">Every component in <code>src/design-system/</code>, rendered with Prism v1 tokens. Visual fidelity using the same CSS custom properties the React components consume — what you see here is what the actual <code>&lt;Button /&gt;</code>, <code>&lt;Modal /&gt;</code>, <code>&lt;Toast /&gt;</code> render at runtime.</p>
+    <h1>Charcoal Variant</h1>
+    <p class="subtitle">An alternate take on the same component set. Primary CTA is <strong>Charcoal <code>#191816</code></strong>; Indian VCs Red <code>#D21905</code> is reserved entirely for the Link motif (active tabs, sidenav marker, focus ring, errors, required asterisk). Reads quieter than v1 — closer to Linear / Stripe / Vercel. Use the typography toggle below to compare Switzer, Graphik (via Plus Jakarta Sans proxy), and Inter.</p>
   </header>
+
+  <!-- Font switcher -->
+  <div class="font-switch" id="font-switch">
+    <span class="ctrl-label">Typography</span>
+    <div class="seg">
+      <button data-val="switzer" class="is-active">Switzer</button>
+      <button data-val="jakarta">Graphik*</button>
+      <button data-val="inter">Inter</button>
+    </div>
+    <span class="ctrl-note">*Graphik is licensed; <code>Plus Jakarta Sans</code> renders here as a close free analog.</span>
+  </div>
 
   <!-- ============ BUTTONS ============ -->
   <section>
@@ -1361,10 +1421,24 @@
   </section>
 
   <div class="doc-foot">
-    <h4>Why this is HTML, not React</h4>
-    <p>This page is a high-fidelity static recreation of the components, using the exact same CSS custom properties (<code>--cta-primary-bg</code>, <code>--bg-canvas</code>, <code>--text-primary</code>, …) that the React components in <code>src/design-system/</code> consume at runtime. Every button, badge, input, alert here renders pixel-aligned to its React counterpart. To run the actual React components — with full interactivity, Radix overlays, focus management — set up a Vite app that imports them; the wiring is documented in <code>src/design-system/README.md</code>.</p>
+    <h4>How this differs from Prism v1</h4>
+    <p>One token swap: <code>--cta-primary-bg</code> goes from Clay Red Light <code>#AB342B</code> (v1) to Charcoal <code>#191816</code> (this page). Everything else — neutral ramp, canvas <code>#F5F6F8</code>, semantic palette, spacing, radius, shadows — is identical. All Link-motif moments still use brand red <code>#D21905</code>: active tab indicator, sidenav active marker, focused input border, validation errors, required-field asterisk, the activity-feed brand dot.</p>
+    <p>Toggle <strong>Typography</strong> at the top to compare Switzer, Graphik (Plus Jakarta Sans proxy), and Inter live across every component. Use the <strong>Prism v1</strong> tab in the page nav to flip back and compare side by side.</p>
   </div>
 
 </div>
+
+<script>
+  (function () {
+    document.addEventListener('click', function (e) {
+      var btn = e.target.closest('#font-switch .seg button');
+      if (!btn) return;
+      document.body.dataset.font = btn.dataset.val;
+      document.querySelectorAll('#font-switch .seg button').forEach(function (b) {
+        b.classList.toggle('is-active', b === btn);
+      });
+    });
+  })();
+</script>
 </body>
 </html>
