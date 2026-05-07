@@ -3,13 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Prism — Components</title>
+<title>Prism — Charcoal × Airbnb</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link href="https://api.fontshare.com/v2/css?f%5B%5D=switzer@400,500,600,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
   :root {
@@ -27,9 +25,15 @@
     --text-muted: var(--n-500); --text-faint: var(--n-400);
     --border-subtle: var(--n-200); --border-default: var(--n-300); --border-strong: var(--n-700);
     --divider: var(--n-200);
-    --cta-primary-bg: var(--brand-clay-light); --cta-primary-bg-hover: var(--brand-clay-dark);
+    /* === Charcoal variant override === */
+    /* Primary CTA → Charcoal. Brand red retained for Link motifs only
+       (active tabs, sidenav marker, focus ring, errors, required asterisk). */
+    --cta-primary-bg: var(--brand-charcoal);
+    --cta-primary-bg-hover: #2B2825;
     --cta-primary-fg: var(--brand-pearl);
     --link-bar: var(--brand-red); --focus-ring: var(--brand-red);
+    /* Selection bg switches from Clay-Red @ 8% to Charcoal @ 6% */
+    --selection-bg: rgba(25, 24, 22, 0.06);
     --st-success-fg: #1F8056; --st-success-bg: #E4F1EC; --st-success-bd: #A8D2BD;
     --st-warning-fg: #B27316; --st-warning-bg: #F8EDD2; --st-warning-bd: #E0C285;
     --st-info-fg: #2D5DA0; --st-info-bg: #E1ECF7; --st-info-bd: #B0C8E2;
@@ -158,7 +162,7 @@
   .btn:active { transform: scale(0.97); }
   .btn.primary {
     background: var(--cta-primary-bg); color: var(--cta-primary-fg);
-    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.10), 0 2px 4px -2px rgba(171,52,43,0.18), 0 3px 6px -2px rgba(171,52,43,0.10);
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.10), 0 2px 4px -2px rgba(25,24,22,0.20), 0 3px 6px -2px rgba(25,24,22,0.10);
   }
   .btn.primary:hover { background: var(--cta-primary-bg-hover); }
   .btn.secondary {
@@ -515,7 +519,7 @@
     font: inherit; font-size: 12px; cursor: pointer;
   }
   .pager button:hover { background: var(--bg-subtle); color: var(--text-primary); }
-  .pager button.active { background: rgba(171,52,43,0.08); color: var(--text-primary); border-color: transparent; }
+  .pager button.active { background: rgba(25, 24, 22, 0.06); color: var(--text-primary); border-color: transparent; }
   .pager button svg { width: 12px; height: 12px; fill: currentColor; }
 
   .crumb { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-muted); }
@@ -553,7 +557,7 @@
 
   .filter-bar { display: flex; gap: 8px; flex-wrap: wrap; padding: 10px 14px; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 8px; align-items: center; }
   .chip { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border: 1px solid var(--border-default); border-radius: 999px; font-size: 12px; color: var(--text-secondary); background: var(--bg-surface); cursor: pointer; }
-  .chip.active { background: rgba(171,52,43,0.08); color: var(--text-primary); border-color: transparent; }
+  .chip.active { background: rgba(25, 24, 22, 0.06); color: var(--text-primary); border-color: transparent; }
   .chip svg { width: 11px; height: 11px; fill: currentColor; }
 
   .record-header { display: flex; gap: 14px; padding: 16px 18px; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 10px; align-items: center; }
@@ -593,7 +597,7 @@
   .as-side .ni { display: flex; align-items: center; gap: 8px; padding: 5px 8px; border-radius: 4px; font-size: 12px; color: var(--text-secondary); cursor: pointer; }
   .as-side .ni svg { width: 12px; height: 12px; fill: currentColor; }
   .as-side .ni:hover { background: var(--bg-subtle); }
-  .as-side .ni.active { background: rgba(171,52,43,0.08); color: var(--text-primary); font-weight: 500; position: relative; }
+  .as-side .ni.active { background: rgba(25, 24, 22, 0.06); color: var(--text-primary); font-weight: 500; position: relative; }
   .as-side .ni.active::before { content: ""; position: absolute; left: -10px; top: 5px; bottom: 5px; width: 2px; background: var(--brand-red); }
   .as-canvas { padding: 16px 18px; background: var(--bg-canvas); }
   .as-canvas .greeting { font-family: "Iowan Old Style", Georgia, serif; font-weight: 400; font-size: 22px; line-height: 1.2; letter-spacing: -0.01em; margin: 0 0 4px; }
@@ -644,6 +648,49 @@
   .doc-foot h4 { margin: 0 0 6px; font-size: 14px; font-weight: 600; }
   .doc-foot p { margin: 0; color: var(--text-secondary); font-size: 13.5px; line-height: 1.55; }
 
+  /* ─── Font switcher ─── */
+  body[data-font="switzer"] { font-family: 'Switzer', 'DM Sans', -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif; }
+  body[data-font="jakarta"] { font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif; }
+  body[data-font="inter"]   { font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif; }
+
+  .font-switch {
+    display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin-bottom: 24px;
+    box-shadow: var(--elev-1);
+  }
+  .font-switch .ctrl-label {
+    text-transform: uppercase; letter-spacing: 0.1em;
+    font-size: 10.5px; font-weight: 600; color: var(--text-muted);
+  }
+  .font-switch .seg {
+    display: inline-flex; gap: 2px;
+    background: var(--bg-subtle);
+    border-radius: 999px; padding: 3px;
+  }
+  .font-switch .seg button {
+    border: 0; background: transparent;
+    padding: 6px 14px;
+    font: inherit; font-size: 12.5px; font-weight: 500;
+    color: var(--text-secondary);
+    border-radius: 999px; cursor: pointer;
+    transition: background 150ms, color 150ms;
+  }
+  .font-switch .seg button:hover { color: var(--text-primary); }
+  .font-switch .seg button.is-active {
+    background: var(--brand-charcoal); color: var(--brand-pearl);
+  }
+  .font-switch .ctrl-note {
+    margin-left: auto;
+    font-size: 11px; color: var(--text-muted);
+  }
+  .font-switch .ctrl-note code { color: var(--text-secondary); font-family: "SF Mono", Menlo, monospace; font-size: 0.92em; }
+
+  .pagenav { flex-wrap: wrap; }
+
   /* ─────────── FOUNDATIONS — Elevation, Radius, Motion, Z-index ─────────── */
   .fnd-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
   .fnd-tile {
@@ -656,7 +703,7 @@
   .fnd-swatch.shadow-md        { box-shadow: rgba(25,24,22,0.08) 0 2px 8px -2px, rgba(25,24,22,0.04) 0 1px 2px 0; }
   .fnd-swatch.shadow-lg        { box-shadow: rgba(25,24,22,0.12) 0 8px 24px -8px, rgba(25,24,22,0.06) 0 2px 6px -2px; }
   .fnd-swatch.shadow-xl        { box-shadow: rgba(25,24,22,0.18) 0 24px 48px -16px, rgba(25,24,22,0.08) 0 4px 12px -4px; }
-  .fnd-swatch.shadow-primary   { box-shadow: rgba(0,0,0,0.10) 0 0 0 1px inset, rgba(171,52,43,0.18) 0 2px 4px -2px, rgba(171,52,43,0.10) 0 3px 6px -2px; background: var(--brand-clay-light); }
+  .fnd-swatch.shadow-primary   { box-shadow: rgba(0,0,0,0.10) 0 0 0 1px inset, rgba(25,24,22,0.20) 0 2px 4px -2px, rgba(25,24,22,0.10) 0 3px 6px -2px; background: var(--brand-charcoal); }
   .fnd-swatch.shadow-focus     { box-shadow: rgba(210,25,5,0.32) 0 0 0 2px; }
   .fnd-swatch.shadow-popover   { box-shadow: rgba(25,24,22,0.12) 0 8px 24px -8px, rgba(25,24,22,0.06) 0 2px 8px 0, rgba(25,24,22,0.04) 0 0 0 1px; }
   .fnd-swatch.shadow-modal     { box-shadow: rgba(25,24,22,0.18) 0 24px 48px -16px, rgba(25,24,22,0.08) 0 4px 12px -4px; }
@@ -665,12 +712,12 @@
 
   .rad-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 12px; }
   .rad-tile { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 14px; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 10px; }
-  .rad-swatch { width: 60px; height: 60px; background: var(--brand-clay-light); }
+  .rad-swatch { width: 60px; height: 60px; background: var(--brand-charcoal); }
 
   .motion-strip { display: flex; flex-wrap: wrap; gap: 12px; }
   .motion-tile { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; min-width: 150px; }
   .motion-bar { height: 6px; border-radius: 999px; background: var(--bg-subtle); position: relative; overflow: hidden; }
-  .motion-bar::after { content: ""; position: absolute; top: 0; left: 0; height: 100%; width: 24%; background: var(--brand-clay-light); border-radius: 999px; animation: mb 1.6s cubic-bezier(0.2, 0, 0, 1) infinite alternate; }
+  .motion-bar::after { content: ""; position: absolute; top: 0; left: 0; height: 100%; width: 24%; background: var(--brand-charcoal); border-radius: 999px; animation: mb 1.6s cubic-bezier(0.2, 0, 0, 1) infinite alternate; }
   .motion-tile.fast  .motion-bar::after { animation-duration: 600ms; }
   .motion-tile.norm  .motion-bar::after { animation-duration: 1100ms; }
   .motion-tile.slow  .motion-bar::after { animation-duration: 1600ms; }
@@ -707,7 +754,7 @@
   .file-row .sz { font-size: 11.5px; color: var(--text-muted); }
   .file-row .x { width: 14px; height: 14px; fill: var(--text-muted); cursor: pointer; }
   .file-row .progress { width: 100%; height: 4px; background: var(--bg-subtle); border-radius: 999px; overflow: hidden; margin-top: 6px; }
-  .file-row .progress span { display: block; height: 100%; background: var(--brand-clay-light); border-radius: 999px; }
+  .file-row .progress span { display: block; height: 100%; background: var(--brand-charcoal); border-radius: 999px; }
 
   /* DatePicker */
   .dp { width: 280px; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 14px; box-shadow: rgba(25,24,22,0.12) 0 8px 24px -8px, rgba(25,24,22,0.06) 0 2px 8px 0, rgba(25,24,22,0.04) 0 0 0 1px; }
@@ -720,8 +767,8 @@
   .dp .dp-day:hover { background: var(--bg-subtle); }
   .dp .dp-day.muted { color: var(--text-faint); }
   .dp .dp-day.today { box-shadow: inset 0 0 0 1px var(--border-default); font-weight: 600; }
-  .dp .dp-day.sel { background: var(--brand-clay-light); color: var(--brand-pearl); }
-  .dp .dp-day.in-range { background: rgba(171,52,43,0.10); }
+  .dp .dp-day.sel { background: var(--brand-charcoal); color: var(--brand-pearl); }
+  .dp .dp-day.in-range { background: rgba(25,24,22,0.06); }
 
   /* CommandPalette */
   .cmdk { width: 480px; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 12px; box-shadow: rgba(25,24,22,0.18) 0 24px 48px -16px, rgba(25,24,22,0.08) 0 4px 12px -4px; overflow: hidden; }
@@ -759,12 +806,12 @@
   .chart-card .t { font-size: 11.5px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
   .chart-card .v { font-size: 24px; font-weight: 600; letter-spacing: -0.01em; margin: 4px 0 12px; font-family: "Iowan Old Style", Georgia, serif; }
   .chart-bars { display: flex; align-items: flex-end; gap: 6px; height: 100px; }
-  .chart-bars span { flex: 1; background: var(--brand-clay-light); border-radius: 3px 3px 0 0; }
-  .chart-bars span.faint { background: rgba(171,52,43,0.30); }
+  .chart-bars span { flex: 1; background: var(--brand-charcoal); border-radius: 3px 3px 0 0; }
+  .chart-bars span.faint { background: rgba(25,24,22,0.30); }
   .spark { display: flex; align-items: flex-end; gap: 3px; height: 36px; margin-top: 4px; }
-  .spark span { flex: 1; background: var(--brand-clay-light); border-radius: 1px; opacity: 0.85; }
+  .spark span { flex: 1; background: var(--brand-charcoal); border-radius: 1px; opacity: 0.85; }
 
-  /* DataTable (richer than Table) */
+  /* DataTable */
   .dt { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 10px; overflow: hidden; width: 100%; }
   .dt-bar { display: flex; align-items: center; gap: 6px; padding: 10px 12px; border-bottom: 1px solid var(--divider); background: var(--bg-muted); flex-wrap: wrap; }
   .dt-bar .chip { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 999px; font-size: 11.5px; }
@@ -775,9 +822,9 @@
   .dt-table th .sort { display: inline-block; margin-left: 4px; opacity: 0.6; font-size: 9px; }
   .dt-table td { padding: 10px 12px; border-bottom: 1px solid var(--divider); vertical-align: middle; }
   .dt-table tr:last-child td { border-bottom: 0; }
-  .dt-table tr.sel td { background: rgba(171,52,43,0.05); }
+  .dt-table tr.sel td { background: rgba(25,24,22,0.04); }
   .dt-cb { width: 14px; height: 14px; border: 1px solid var(--border-default); border-radius: 3px; display: inline-block; vertical-align: middle; position: relative; background: var(--bg-surface); }
-  .dt-cb.ck { background: var(--brand-clay-light); border-color: var(--brand-clay-light); }
+  .dt-cb.ck { background: var(--brand-charcoal); border-color: var(--brand-charcoal); }
   .dt-cb.ck::after { content: ""; position: absolute; left: 3px; top: 1px; width: 4px; height: 8px; border: solid #fff; border-width: 0 1.5px 1.5px 0; transform: rotate(45deg); }
 
   /* Kanban */
@@ -795,7 +842,7 @@
   /* EntityDetailPanel */
   .edp { width: 360px; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 10px; }
   .edp-head { padding: 14px 16px; border-bottom: 1px solid var(--divider); display: flex; align-items: center; gap: 10px; }
-  .edp-head .av { width: 36px; height: 36px; border-radius: 8px; background: var(--brand-cocoa); color: var(--brand-pearl); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; }
+  .edp-head .av { width: 36px; height: 36px; border-radius: 8px; background: var(--brand-charcoal); color: var(--brand-pearl); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; }
   .edp-head .ttl { font-weight: 600; font-size: 14px; }
   .edp-head .meta { font-size: 11.5px; color: var(--text-muted); }
   .edp-tabs { display: flex; gap: 16px; border-bottom: 1px solid var(--divider); padding: 0 16px; }
@@ -832,11 +879,11 @@
   .sidebar-iso .ni { display: flex; align-items: center; gap: 10px; padding: 8px 10px; font-size: 13px; color: var(--text-secondary); cursor: pointer; border-radius: 6px; position: relative; }
   .sidebar-iso .ni svg { width: 14px; height: 14px; fill: currentColor; }
   .sidebar-iso .ni:hover { background: var(--bg-subtle); }
-  .sidebar-iso .ni.active { background: rgba(171,52,43,0.08); color: var(--text-primary); font-weight: 500; }
+  .sidebar-iso .ni.active { background: rgba(25,24,22,0.06); color: var(--text-primary); font-weight: 500; }
   .sidebar-iso .ni.active::before { content: ""; position: absolute; left: -10px; top: 8px; bottom: 8px; width: 2px; background: var(--brand-red); border-radius: 2px; }
   .sidebar-iso .grp { font-size: 10.5px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; padding: 12px 10px 4px; }
 
-  /* ViewBar (saved-view tabs) */
+  /* ViewBar */
   .viewbar { display: flex; align-items: center; gap: 4px; padding: 6px 10px; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 8px; width: 100%; flex-wrap: wrap; }
   .viewbar .vt { display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px; font-size: 12.5px; color: var(--text-secondary); border-radius: 6px; cursor: pointer; }
   .viewbar .vt.active { background: var(--bg-subtle); color: var(--text-primary); font-weight: 500; }
@@ -856,7 +903,7 @@
   .cl-iso .center .h { font-family: "Iowan Old Style", Georgia, serif; font-size: 22px; font-weight: 400; }
   .cl-iso .center .b { font-size: 13px; color: var(--text-secondary); margin-top: 6px; }
 
-  /* EmptyState presets grid */
+  /* EmptyState presets */
   .preset-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
   .preset { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 18px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 8px; }
   .preset .ic { width: 40px; height: 40px; border-radius: 10px; background: var(--bg-subtle); display: flex; align-items: center; justify-content: center; }
@@ -864,29 +911,845 @@
   .preset .t { font-weight: 600; font-size: 13.5px; }
   .preset .d { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
 
-  /* Card variants row */
+  /* Card variants */
   .card-mini { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 14px 16px; min-width: 200px; max-width: 240px; }
   .card-mini.elevated { box-shadow: rgba(25,24,22,0.08) 0 2px 8px -2px, rgba(25,24,22,0.04) 0 1px 2px 0; border-color: transparent; }
   .card-mini.outline { box-shadow: none; }
   .card-mini.media { padding: 0; overflow: hidden; }
-  .card-mini.media .img { height: 70px; background: linear-gradient(135deg, var(--brand-clay-light), var(--brand-cocoa)); }
-  .card-mini.media .body { padding: 10px 14px; }
+  .card-mini.media .img { height: 70px; background: linear-gradient(135deg, var(--brand-charcoal), #2B2825); }
   .card-mini.interactive { cursor: pointer; transition: transform 150ms, box-shadow 150ms; }
   .card-mini.interactive:hover { transform: translateY(-1px); box-shadow: rgba(25,24,22,0.12) 0 8px 24px -8px, rgba(25,24,22,0.06) 0 2px 6px -2px; }
   .card-mini .eb { font-size: 10.5px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
   .card-mini .tt { font-size: 14px; font-weight: 600; margin-top: 4px; }
   .card-mini .dd { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+  .card-mini.media .body { padding: 10px 14px; }
 
-  /* ResponsiveContainer demo */
+  /* ResponsiveContainer */
   .rc-demo { display: flex; flex-direction: column; gap: 8px; width: 100%; }
   .rc-row { display: grid; grid-template-columns: 64px 1fr; gap: 10px; align-items: center; }
   .rc-row .bp { font-size: 10.5px; font-family: "SF Mono", Menlo, monospace; color: var(--text-muted); }
   .rc-row .bar { height: 22px; background: var(--bg-subtle); border-radius: 4px; position: relative; }
-  .rc-row .bar .fill { position: absolute; top: 0; left: 0; height: 100%; background: var(--brand-clay-light); border-radius: 4px; opacity: 0.85; display: flex; align-items: center; padding: 0 8px; color: var(--brand-pearl); font-size: 11px; font-weight: 500; }
+  .rc-row .bar .fill { position: absolute; top: 0; left: 0; height: 100%; background: var(--brand-charcoal); border-radius: 4px; opacity: 0.85; display: flex; align-items: center; padding: 0 8px; color: var(--brand-pearl); font-size: 11px; font-weight: 500; }
 
   /* Token callout */
   .token-callout { display: inline-flex; align-items: center; gap: 6px; padding: 3px 8px; background: var(--bg-muted); border: 1px solid var(--border-subtle); border-radius: 999px; font-family: "SF Mono", Menlo, monospace; font-size: 11px; color: var(--text-secondary); }
   .token-callout::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--brand-red); }
+
+  /* ═══════════════════════════════════════════════════════════════════
+     AIRBNB-STYLE OVERRIDES on top of Prism (Charcoal) components
+     — Manrope, white canvas, near-true-gray neutrals, generous radii,
+     barely-there shadows, sentence-case, 48px buttons, floating-label inputs.
+     Charcoal stays the workhorse CTA; brand red stays a link-motif accent.
+     ═══════════════════════════════════════════════════════════════════ */
+  :root {
+    --bg-canvas: #FFFFFF;
+    --bg-surface: #FFFFFF;
+    --bg-muted:   #F7F7F7;
+    --bg-subtle:  #F2F2F2;
+
+    --n-50:  #FAFAFA; --n-100: #F7F7F7; --n-200: #EBEBEB;
+    --n-300: #DDDDDD; --n-400: #C2C2C2; --n-500: #717171;
+    --n-600: #6A6A6A; --n-700: #484848; --n-800: #2D2D2D; --n-900: #191816;
+
+    --text-primary:   #191816;
+    --text-secondary: #6A6A6A;
+    --text-muted:     #717171;
+    --text-faint:     #C2C2C2;
+    --border-subtle:  #EBEBEB;
+    --border-default: #DDDDDD;
+    --border-strong:  #191816;
+    --divider:        #EBEBEB;
+
+    --cta-primary-bg: #191816;
+    --cta-primary-bg-hover: #2B2825;
+
+    --r-sm: 4px; --r-md: 8px; --r-lg: 12px; --r-xl: 16px; --r-pill: 9999px;
+
+    --elev-1: 0 0 0 1px rgba(0,0,0,0.02), 0 2px 4px rgba(0,0,0,0.04);
+    --elev-2: 0 0 0 1px rgba(0,0,0,0.02), 0 2px 6px rgba(0,0,0,0.04), 0 4px 8px rgba(0,0,0,0.10);
+    --elev-3: 0 0 0 1px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.06), 0 8px 28px rgba(0,0,0,0.12);
+
+    --cta-hero-grad: linear-gradient(to right, #191816 0%, #2B2825 55%, #484848 100%);
+  }
+
+  body { font-family: 'Manrope', -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif !important; font-feature-settings: 'cv11', 'ss01'; }
+
+  /* Drop the Iowan Old Style serif anchors */
+  h1 { font-family: 'Manrope', sans-serif !important; font-weight: 800 !important; letter-spacing: -0.025em !important; line-height: 1.1 !important; font-size: 40px; }
+  .sec-title { font-family: 'Manrope', sans-serif !important; font-weight: 700 !important; letter-spacing: -0.02em !important; line-height: 1.2 !important; font-size: 26px !important; }
+  .sec-title .count { font-family: 'Manrope', sans-serif !important; font-weight: 500; }
+  .sec-eye { letter-spacing: 0.10em; font-weight: 700; }
+  .subtitle { font-size: 15px; line-height: 1.5; color: var(--text-secondary); }
+
+  /* ─── BUTTONS — 48px tall, sentence case, weight 600 ─── */
+  .btn {
+    height: 48px !important; padding: 0 22px !important; gap: 8px !important;
+    font-weight: 600 !important; font-size: 16px !important;
+    text-transform: none !important; letter-spacing: -0.005em !important;
+    border-radius: var(--r-md) !important;
+  }
+  .btn.primary {
+    background: var(--cta-primary-bg) !important; color: var(--brand-pearl) !important;
+    box-shadow: none !important;
+  }
+  .btn.primary:hover { background: var(--cta-primary-bg-hover) !important; }
+  .btn.primary.gradient { background: var(--cta-hero-grad) !important; }
+  .btn.primary.gradient:hover { filter: brightness(0.95); }
+  .btn.secondary {
+    box-shadow: inset 0 0 0 1px var(--border-strong) !important;
+    background: var(--bg-surface) !important; color: var(--text-primary) !important;
+  }
+  .btn.secondary:hover { background: var(--bg-muted) !important; }
+  .btn.ghost {
+    background: transparent !important; color: var(--text-primary) !important;
+    text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px;
+  }
+  .btn.ghost:hover { background: var(--bg-muted) !important; }
+  .btn.destructive {
+    background: var(--brand-red) !important; box-shadow: none !important;
+  }
+  .btn.sm { height: 36px !important; padding: 0 14px !important; font-size: 14px !important; gap: 6px !important; }
+  .btn.lg { height: 56px !important; padding: 0 28px !important; font-size: 17px !important; gap: 10px !important; }
+  .btn.icon-only { width: 48px !important; padding: 0 !important; }
+  .btn.sm.icon-only { width: 36px !important; }
+  .btn.lg.icon-only { width: 56px !important; }
+  .btn svg { width: 18px !important; height: 18px !important; }
+  .btn.sm svg { width: 14px !important; height: 14px !important; }
+  .btn.lg svg { width: 20px !important; height: 20px !important; }
+
+  /* ─── INPUTS — 48px tall, 8px radius, dark focus ─── */
+  .field { gap: 6px !important; min-width: 240px; }
+  .field .label { font-size: 14px !important; font-weight: 500 !important; color: var(--text-primary) !important; }
+  .field .helper { font-size: 12px !important; }
+  .field .err { font-size: 12px !important; }
+  .input {
+    height: 48px !important;
+    padding: 0 14px !important;
+    border: 1px solid var(--border-default) !important;
+    border-radius: var(--r-md) !important;
+    font-size: 15px !important;
+  }
+  .input::placeholder { color: var(--text-muted) !important; }
+  .input.focused, .input:focus { border: 2px solid var(--text-primary) !important; padding: 0 13px !important; }
+  textarea.input { height: auto !important; padding: 12px 14px !important; min-height: 96px !important; }
+  .select-trigger {
+    height: 48px !important; padding: 0 14px !important;
+    border-radius: var(--r-md) !important;
+    font-size: 15px !important;
+    min-width: 220px;
+  }
+  .input-group .leading { left: 14px !important; }
+  .input-group .leading svg { width: 16px !important; height: 16px !important; }
+  .input-group .input.has-leading { padding-left: 38px !important; }
+
+  /* Checkbox/Radio/Switch */
+  .check-row, .radio-row, .switch-row { font-size: 15px !important; gap: 10px !important; }
+  .check { width: 20px !important; height: 20px !important; border-radius: var(--r-sm) !important; }
+  .check.checked svg { width: 13px !important; height: 13px !important; }
+  .radio { width: 20px !important; height: 20px !important; }
+  .radio.checked::after { width: 10px !important; height: 10px !important; }
+  .switch { width: 32px !important; height: 18px !important; }
+
+  /* SegmentedControl — Airbnb pill */
+  .seg-ctrl { background: var(--bg-muted) !important; padding: 4px !important; border-radius: var(--r-pill) !important; }
+  .seg-ctrl button { padding: 8px 16px !important; font-size: 14px !important; border-radius: var(--r-pill) !important; }
+
+  /* BADGE */
+  .badge { font-size: 12px !important; padding: 4px 10px !important; }
+
+  /* AVATAR */
+  .avatar { background: var(--bg-subtle) !important; border: 0 !important; }
+  .avatar.lg { width: 48px !important; height: 48px !important; font-size: 16px !important; }
+  .avatar.xl { width: 64px !important; height: 64px !important; font-size: 20px !important; }
+
+  /* CARD */
+  .card {
+    border-radius: var(--r-lg) !important;
+    box-shadow: none !important;
+    border: 1px solid var(--border-subtle) !important;
+    transition: box-shadow 200ms;
+    width: 360px !important;
+  }
+  .card:hover { box-shadow: var(--elev-2) !important; }
+  .card-head { padding: 20px 22px 10px !important; }
+  .card-eyebrow { letter-spacing: 0.08em !important; font-weight: 700 !important; }
+  .card-title { font-size: 17px !important; font-weight: 600 !important; letter-spacing: -0.01em !important; }
+  .card-body { padding: 8px 22px 20px !important; font-size: 14px !important; line-height: 1.5 !important; }
+  .card-foot { padding: 16px 22px !important; gap: 10px !important; }
+  .card-mini { border-radius: var(--r-lg) !important; padding: 16px 18px !important; }
+  .card-mini.elevated { box-shadow: var(--elev-2) !important; }
+  .card-mini.media .img { background: linear-gradient(135deg, #191816, #484848) !important; height: 80px !important; }
+  .card-mini.interactive:hover { box-shadow: var(--elev-2) !important; }
+
+  .skel { background: linear-gradient(90deg, #F2F2F2 25%, #FAFAFA 50%, #F2F2F2 75%) !important; background-size: 200% 100%; }
+
+  /* ALERT */
+  .alert { border-radius: var(--r-md) !important; padding: 14px 16px !important; min-width: 360px; }
+  .alert .ttl { font-size: 14px !important; }
+  .alert .desc { font-size: 13.5px !important; }
+
+  /* TOAST */
+  .toast { border-radius: var(--r-md) !important; padding: 14px 16px !important; box-shadow: var(--elev-3) !important; }
+
+  /* EMPTYSTATE */
+  .empty { border-radius: var(--r-lg) !important; padding: 40px 24px !important; max-width: 480px; }
+  .empty .ttl { font-size: 16px !important; }
+  .empty .desc { font-size: 14px !important; }
+
+  /* MODAL */
+  .modal {
+    border-radius: var(--r-xl) !important;
+    box-shadow: var(--elev-3) !important;
+    width: 480px !important;
+  }
+  .modal-head { padding: 22px 24px !important; }
+  .modal-head .t { font-size: 18px !important; font-weight: 700 !important; letter-spacing: -0.01em !important; }
+  .modal-head .d { font-size: 14px !important; }
+  .modal-body { padding: 18px 24px !important; font-size: 14px !important; line-height: 1.5 !important; }
+  .modal-foot { padding: 18px 24px !important; gap: 12px !important; }
+
+  /* DRAWER */
+  .drawer { border-radius: var(--r-xl) !important; box-shadow: var(--elev-3) !important; }
+  .drawer-head .t { font-size: 16px !important; font-weight: 700 !important; }
+
+  /* TOOLTIP */
+  .tooltip { background: var(--text-primary) !important; padding: 6px 12px !important; font-size: 12px !important; font-weight: 500 !important; border-radius: var(--r-sm) !important; }
+  .tooltip::after { border-top-color: var(--text-primary) !important; }
+
+  /* POPOVER, MENU, HOVERCARD */
+  .popover { border-radius: var(--r-lg) !important; padding: 18px !important; box-shadow: var(--elev-3) !important; width: 280px !important; }
+  .popover-t { font-size: 15px !important; font-weight: 600 !important; }
+  .popover-d { font-size: 14px !important; line-height: 1.5 !important; }
+  .menu { border-radius: var(--r-lg) !important; padding: 6px !important; box-shadow: var(--elev-3) !important; width: 220px !important; }
+  .menu .it { padding: 10px 12px !important; border-radius: var(--r-md) !important; font-size: 14px !important; gap: 10px !important; }
+  .menu .it:hover, .menu .it.is-focus { background: var(--bg-muted) !important; }
+  .menu .it svg { width: 16px !important; height: 16px !important; }
+  .menu .it .kbd { font-size: 11px !important; }
+  .menu .sec { font-weight: 700 !important; }
+  .hover-card { border-radius: var(--r-lg) !important; padding: 18px !important; box-shadow: var(--elev-3) !important; width: 280px !important; }
+
+  /* TABS */
+  .tabs .t { padding: 12px 16px !important; font-size: 14px !important; font-weight: 500 !important; }
+  .tabs .t.active { font-weight: 600 !important; }
+  .tabs .t.active::after { background: var(--text-primary) !important; height: 2px !important; left: 16px !important; right: 16px !important; bottom: -1px !important; }
+
+  /* PAGINATION */
+  .pager button {
+    width: 36px !important; height: 36px !important; border-radius: 50% !important;
+    background: transparent !important; border: 1px solid transparent !important;
+    color: var(--text-secondary) !important; font-size: 14px !important; font-weight: 500 !important;
+  }
+  .pager button:hover { background: var(--bg-muted) !important; color: var(--text-primary) !important; }
+  .pager button.active { background: var(--text-primary) !important; color: var(--brand-pearl) !important; border-color: transparent !important; }
+  .pager button svg { width: 14px !important; height: 14px !important; }
+
+  /* BREADCRUMB */
+  .crumb { font-size: 14px !important; }
+
+  /* TABLE */
+  .tbl { border-radius: var(--r-lg) !important; font-size: 14px !important; }
+  .tbl th { padding: 14px 18px !important; font-size: 12px !important; font-weight: 700 !important; letter-spacing: 0.06em !important; background: var(--bg-muted) !important; }
+  .tbl td { padding: 16px 18px !important; }
+
+  /* PATTERNS */
+  .metric { border-radius: var(--r-lg) !important; padding: 18px 20px !important; width: 240px !important; }
+  .metric .k { font-weight: 700 !important; letter-spacing: 0.06em !important; }
+  .metric .v { font-family: 'Manrope', sans-serif !important; font-size: 28px !important; font-weight: 700 !important; letter-spacing: -0.025em !important; }
+  .filter-bar { border-radius: var(--r-lg) !important; padding: 12px 16px !important; gap: 10px !important; }
+  .chip { border-radius: var(--r-pill) !important; padding: 6px 12px !important; font-size: 13px !important; }
+  .record-header { border-radius: var(--r-lg) !important; padding: 22px 24px !important; }
+  .record-header .ttl { font-family: 'Manrope', sans-serif !important; font-weight: 700 !important; font-size: 22px !important; letter-spacing: -0.02em !important; }
+  .record-header .meta { font-size: 13.5px !important; }
+  .bulk-bar {
+    background: var(--text-primary) !important;
+    border-radius: var(--r-pill) !important;
+    padding: 14px 18px !important; box-shadow: var(--elev-2) !important;
+  }
+  .bulk-bar button {
+    background: rgba(255,255,255,0.10) !important; padding: 8px 14px !important;
+    border-radius: var(--r-md) !important; font-size: 13px !important; font-weight: 600 !important;
+    text-transform: none !important; letter-spacing: 0 !important;
+  }
+
+  /* DataTable */
+  .dt { border-radius: var(--r-lg) !important; }
+  .dt-bar { padding: 12px 16px !important; }
+  .dt-table { font-size: 14px !important; }
+  .dt-table th { padding: 12px 16px !important; font-weight: 700 !important; letter-spacing: 0.06em !important; }
+  .dt-table td { padding: 14px 16px !important; }
+
+  /* Kanban */
+  .kcard { border-radius: var(--r-md) !important; padding: 12px 14px !important; box-shadow: none !important; border: 1px solid var(--border-subtle) !important; }
+  .kcard:hover { box-shadow: var(--elev-1) !important; }
+
+  /* EntityDetailPanel */
+  .edp { border-radius: var(--r-lg) !important; width: 380px !important; }
+  .edp-head { padding: 18px 20px !important; }
+  .edp-head .ttl { font-size: 15px !important; font-weight: 700 !important; }
+  .edp-tabs .ti.active { border-bottom-color: var(--text-primary) !important; }
+  .edp-grid { padding: 16px 20px !important; gap: 16px 20px !important; }
+  .edp-grid .lbl { font-weight: 700 !important; }
+  .edp-grid .val { font-size: 14px !important; }
+
+  /* EmptyStatePresets */
+  .preset { border-radius: var(--r-lg) !important; padding: 22px !important; gap: 10px !important; }
+  .preset .ic { width: 48px !important; height: 48px !important; border-radius: 50% !important; }
+  .preset .t { font-size: 15px !important; font-weight: 700 !important; }
+  .preset .d { font-size: 13.5px !important; }
+
+  /* LAYOUTS */
+  .app-shell { border-radius: var(--r-lg) !important; }
+  .as-top { padding: 14px 20px !important; gap: 18px !important; }
+  .as-top .logo .word { font-family: 'Manrope', sans-serif !important; font-size: 17px !important; font-weight: 700 !important; letter-spacing: -0.01em !important; }
+  .as-top nav a { padding: 8px 12px !important; border-radius: var(--r-md) !important; font-size: 14px !important; }
+  .as-top nav a.active::after { background: var(--text-primary) !important; height: 2px !important; }
+  .as-side { padding: 14px 12px !important; }
+  .as-side .ni { padding: 10px 12px !important; border-radius: var(--r-md) !important; font-size: 14px !important; gap: 10px !important; }
+  .as-side .ni svg { width: 16px !important; height: 16px !important; }
+  .as-side .ni.active { background: var(--bg-muted) !important; color: var(--text-primary) !important; }
+  .as-side .ni.active::before { background: var(--brand-red) !important; border-radius: 2px !important; }
+  .as-canvas { padding: 24px 28px !important; }
+  .as-canvas .greeting { font-family: 'Manrope', sans-serif !important; font-weight: 700 !important; font-size: 28px !important; letter-spacing: -0.025em !important; }
+  .as-canvas .sub { font-size: 14px !important; color: var(--text-secondary) !important; }
+
+  .page-header { border-radius: var(--r-lg) !important; padding: 20px 24px !important; }
+  .page-header .t { font-family: 'Manrope', sans-serif !important; font-weight: 700 !important; font-size: 24px !important; letter-spacing: -0.02em !important; }
+  .page-header .d { font-size: 14px !important; color: var(--text-secondary) !important; }
+
+  /* Topbar/Sidebar/ViewBar/EAB/CL isolated */
+  .topbar-iso { border-radius: var(--r-lg) !important; padding: 12px 16px !important; height: 56px !important; }
+  .topbar-iso .logo { font-family: 'Manrope', sans-serif !important; font-weight: 700 !important; }
+  .sidebar-iso { border-radius: var(--r-lg) !important; padding: 14px 12px !important; width: 240px !important; }
+  .sidebar-iso .ni { padding: 10px 12px !important; font-size: 14px !important; gap: 10px !important; border-radius: var(--r-md) !important; }
+  .sidebar-iso .ni svg { width: 16px !important; height: 16px !important; }
+  .sidebar-iso .ni.active { background: var(--bg-muted) !important; color: var(--text-primary) !important; font-weight: 500 !important; }
+  .sidebar-iso .ni.active::before { background: var(--brand-red) !important; border-radius: 2px !important; }
+  .viewbar { border-radius: var(--r-lg) !important; padding: 8px 12px !important; }
+  .viewbar .vt { padding: 8px 14px !important; font-size: 14px !important; border-radius: var(--r-pill) !important; }
+  .viewbar .vt.active { background: var(--bg-muted) !important; }
+  .eab { border-radius: var(--r-lg) !important; padding: 14px 18px !important; }
+  .eab .ttl { font-size: 16px !important; font-weight: 700 !important; letter-spacing: -0.005em !important; }
+  .cl-iso .center { border-radius: var(--r-lg) !important; padding: 28px !important; }
+  .cl-iso .center .h { font-family: 'Manrope', sans-serif !important; font-weight: 700 !important; font-size: 24px !important; letter-spacing: -0.02em !important; }
+  .cl-iso .center .b { font-size: 14px !important; color: var(--text-secondary) !important; }
+
+  /* FOUNDATIONS */
+  .fnd-tile { border-radius: var(--r-lg) !important; padding: 18px !important; }
+  .rad-tile { border-radius: var(--r-lg) !important; padding: 16px !important; }
+  .motion-tile { border-radius: var(--r-lg) !important; padding: 16px !important; }
+  .zlayer { border-radius: var(--r-md) !important; }
+
+  /* ADVANCED COMPONENTS */
+  .dp { border-radius: var(--r-xl) !important; padding: 18px !important; box-shadow: var(--elev-3) !important; width: 320px !important; }
+  .dp .dp-head .m { font-size: 14px !important; font-weight: 700 !important; }
+  .dp .dp-day { padding: 8px 0 !important; font-size: 13px !important; }
+  .dp .dp-day.sel { background: var(--text-primary) !important; color: var(--brand-pearl) !important; border-radius: 50% !important; }
+  .dp .dp-day.in-range { background: var(--bg-muted) !important; }
+
+  .cmdk { border-radius: var(--r-lg) !important; box-shadow: var(--elev-3) !important; }
+  .cmdk-input { padding: 14px 16px !important; }
+  .cmdk-input .ph { font-size: 15px !important; }
+  .cmdk-row { padding: 10px 16px !important; font-size: 14px !important; }
+
+  .rte { border-radius: var(--r-lg) !important; }
+  .rte-tb { padding: 8px !important; border-radius: var(--r-lg) var(--r-lg) 0 0 !important; }
+  .rte-body { padding: 18px 20px !important; font-size: 15px !important; line-height: 1.55 !important; }
+
+  .chart-card { border-radius: var(--r-lg) !important; padding: 20px !important; }
+  .chart-card .v { font-family: 'Manrope', sans-serif !important; font-weight: 700 !important; font-size: 28px !important; letter-spacing: -0.02em !important; }
+  .chart-bars span { background: var(--text-primary) !important; border-radius: 4px 4px 0 0 !important; }
+  .chart-bars span.faint { background: rgba(25,24,22,0.20) !important; }
+  .spark span { background: var(--text-primary) !important; }
+
+  .inline-edit { font-size: 15px !important; padding: 6px 10px !important; border-radius: var(--r-md) !important; }
+  .inline-edit.editing { border: 2px solid var(--text-primary) !important; box-shadow: none !important; padding: 4px 8px !important; }
+
+  .file-drop { border-radius: var(--r-lg) !important; padding: 36px 28px !important; min-width: 420px !important; }
+  .file-drop .t { font-size: 15px !important; }
+  .file-drop .d { font-size: 13px !important; }
+  .file-row { border-radius: var(--r-md) !important; padding: 12px 14px !important; }
+  .file-row .progress span { background: var(--text-primary) !important; }
+
+  .rc-row .bar .fill { background: var(--text-primary) !important; }
+
+  /* Token callout */
+  .token-callout { font-size: 11px !important; padding: 4px 10px !important; border-radius: var(--r-pill) !important; }
+
+  /* Anchor bar — keep link-motif red */
+  .anchor-bar { background: var(--brand-red) !important; }
+
+  /* PAGENAV */
+  .pagenav { border-radius: var(--r-pill) !important; border: 1px solid var(--border-subtle) !important; padding: 6px !important; }
+  .pagenav a { font-size: 13px !important; font-weight: 500 !important; padding: 8px 16px !important; border-radius: var(--r-pill) !important; }
+
+  /* Hide font switcher carryover */
+  .font-switch { display: none !important; }
+
+  /* Specimens */
+  .specimen { border-radius: var(--r-lg) !important; }
+  .spec-head { padding: 14px 20px !important; }
+  .spec-name { font-size: 14px !important; font-weight: 700 !important; letter-spacing: -0.005em !important; }
+  .spec-meta { font-size: 12.5px !important; }
+  .spec-body { padding: 28px 24px !important; gap: 20px !important; }
+  .spec-label { font-size: 11px !important; font-weight: 700 !important; letter-spacing: 0.06em !important; }
+
+  /* Doc-foot */
+  .doc-foot { border-radius: var(--r-lg) !important; padding: 24px 28px !important; border-left: 3px solid var(--brand-red) !important; }
+  .doc-foot h4 { font-family: 'Manrope', sans-serif !important; font-size: 16px !important; font-weight: 700 !important; }
+  .doc-foot p { font-size: 14px !important; line-height: 1.6 !important; }
+
+  /* Icon cells */
+  .icon-cell { border-radius: var(--r-md) !important; padding: 16px 12px !important; gap: 8px !important; }
+  .icon-cell svg { width: 20px !important; height: 20px !important; }
+  .icon-cell .n { font-size: 11px !important; }
+
+  /* Primitives */
+  .prim-box { border-radius: var(--r-md) !important; padding: 16px 18px !important; font-size: 13px !important; }
+
+  /* ═══════════════════════════════════════════════════════════════════
+     NUCLEAR FONT OVERRIDE — Manrope on every text-bearing element.
+     Mono is preserved ONLY for <code> blocks where it's stylistically
+     correct (technical / code reference). Everything else: Manrope.
+     ═══════════════════════════════════════════════════════════════════ */
+  body, body *, h1, h2, h3, h4, h5, h6, p, span, div, label, li, td, th, button, input, select, textarea, a, strong, em, b, i {
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif !important;
+  }
+  /* Manrope universal — no mono anywhere. Code/token labels keep monospace styling
+     via background pill but render in Manrope. */
+  code, pre, kbd, samp, .fnd-name, .token-callout, .rc-row .bp, .icon-cell .n,
+  .zlayer, .zlayer * {
+    font-family: 'Manrope', sans-serif !important;
+  }
+  .icon-cell .n {
+    font-size: 11.5px !important;
+    font-weight: 500 !important;
+  }
+  .fnd-name {
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.005em;
+  }
+  .token-callout {
+    font-weight: 500 !important;
+    letter-spacing: -0.005em;
+  }
+  .rc-row .bp {
+    font-size: 11.5px !important;
+    font-weight: 500 !important;
+  }
+
+  /* ─── Z-INDEX SECTION REDESIGN — concrete UI examples per layer ─── */
+  .zstack-v2 {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    width: 100%;
+    max-width: 880px;
+  }
+  .zlayer-row {
+    display: grid;
+    grid-template-columns: 80px 200px 1fr auto;
+    gap: 24px;
+    align-items: center;
+    padding: 16px 20px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--r-lg);
+    transition: box-shadow 200ms;
+  }
+  .zlayer-row:hover { box-shadow: var(--elev-2); }
+  .zlayer-row .z-num {
+    font-family: 'Manrope', sans-serif !important;
+    font-size: 22px; font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+  }
+  .zlayer-row .z-token {
+    font-family: 'Manrope', sans-serif !important;
+    font-size: 14px; font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: -0.005em;
+  }
+  .zlayer-row .z-token .label {
+    display: block;
+    font-size: 11px; font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+  .zlayer-row .z-mini {
+    display: flex; align-items: center; justify-content: center;
+    height: 56px;
+    padding: 8px 14px;
+    background: var(--bg-muted);
+    border-radius: var(--r-md);
+    overflow: hidden;
+    position: relative;
+  }
+  .zlayer-row .z-use {
+    font-size: 13.5px;
+    color: var(--text-secondary);
+    text-align: right;
+    line-height: 1.4;
+    max-width: 280px;
+  }
+
+  /* Mini visual representations per z-layer */
+  .z-mini-tooltip {
+    background: var(--text-primary);
+    color: var(--brand-pearl);
+    font-size: 11px; font-weight: 500;
+    padding: 5px 10px;
+    border-radius: var(--r-sm);
+    position: relative;
+  }
+  .z-mini-tooltip::after {
+    content: ""; position: absolute;
+    bottom: -4px; left: 50%; transform: translateX(-50%) rotate(45deg);
+    width: 8px; height: 8px;
+    background: var(--text-primary);
+  }
+  .z-mini-toast {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    box-shadow: var(--elev-1);
+    border-left: 3px solid #008A05;
+    padding: 6px 10px;
+    border-radius: var(--r-md);
+    font-size: 11px; font-weight: 500;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .z-mini-toast::before {
+    content: "✓"; color: #008A05; font-weight: 700;
+  }
+  .z-mini-popover {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    box-shadow: var(--elev-2);
+    border-radius: var(--r-md);
+    padding: 4px 0;
+    width: 120px;
+    font-size: 11px;
+  }
+  .z-mini-popover span {
+    display: block; padding: 4px 10px;
+    color: var(--text-primary);
+  }
+  .z-mini-popover span:first-child { background: var(--bg-muted); }
+  .z-mini-modal {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    box-shadow: var(--elev-2);
+    border-radius: var(--r-md);
+    padding: 8px 10px;
+    width: 140px;
+  }
+  .z-mini-modal .t { font-size: 11px; font-weight: 700; color: var(--text-primary); }
+  .z-mini-modal .b { display: inline-block; margin-top: 4px; padding: 2px 8px; background: var(--text-primary); color: var(--brand-pearl); border-radius: var(--r-sm); font-size: 10px; font-weight: 600; }
+  .z-mini-overlay {
+    width: 140px; height: 36px;
+    background: rgba(25,24,22,0.40);
+    border-radius: var(--r-md);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--brand-pearl); font-size: 10px; font-weight: 500;
+  }
+  .z-mini-sticky {
+    width: 160px; height: 32px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--r-md);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+    display: flex; align-items: center; gap: 8px;
+    padding: 0 10px;
+    font-size: 10px; font-weight: 600;
+    color: var(--text-primary);
+  }
+  .z-mini-sticky::before {
+    content: ""; width: 14px; height: 3px; background: var(--brand-red); border-radius: 2px;
+  }
+  .z-mini-dropdown {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    box-shadow: var(--elev-1);
+    border-radius: var(--r-md);
+    padding: 4px 0;
+    width: 130px;
+    font-size: 10.5px;
+  }
+  .z-mini-dropdown span {
+    display: block; padding: 3px 10px;
+    color: var(--text-primary);
+  }
+  .z-mini-dropdown span.sel { background: var(--bg-muted); font-weight: 600; }
+
+  /* Spec-body padding tune — give cramped specimens more breathing room */
+  .spec-body { padding: 32px 24px !important; gap: 24px !important; }
+  .spec-body.col { gap: 16px !important; }
+  .spec-body.center { gap: 20px !important; }
+
+  /* Tighten the foundations grid spacing slightly */
+  .fnd-grid { gap: 16px !important; }
+  .rad-grid { gap: 14px !important; }
+
+  /* Ensure code in body copy keeps Manrope with inline pill appearance */
+  p code, span code, .subtitle code, .fnd-meta code, .doc-foot p code {
+    font-size: 0.9em;
+    background: var(--bg-muted);
+    padding: 1px 6px;
+    border-radius: 4px;
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════
+     COMPONENT INTERNAL ALIGNMENT + PADDING SWEEP
+     Catches the small misalignments that surface after the type+radii
+     register changes — vertical centering, icon offsets, gap rhythm.
+     ═══════════════════════════════════════════════════════════════════ */
+
+  /* ─── BUTTONS — vertical center icons; ensure flex baseline ─── */
+  .btn { display: inline-flex !important; align-items: center !important; justify-content: center !important; line-height: 1 !important; }
+  .btn svg { display: inline-block !important; vertical-align: middle; }
+  .btn .ld { width: 16px !important; height: 16px !important; }
+
+  /* ─── INPUTS — match icon and trailing alignment ─── */
+  .field { display: flex !important; flex-direction: column !important; }
+  .field .label { line-height: 1.3 !important; }
+  .input-group { display: block; }
+  .input-group .leading,
+  .input-group .trailing { display: flex; align-items: center; }
+
+  /* Vertical alignment in checkbox/radio/switch rows */
+  .check-row, .radio-row, .switch-row { align-items: center !important; line-height: 1.3 !important; }
+  .check, .radio, .switch { flex: none; align-self: center; }
+
+  /* SegmentedControl — center pill text, equal padding */
+  .seg-ctrl { display: inline-flex !important; align-items: center !important; }
+  .seg-ctrl button { display: inline-flex !important; align-items: center !important; justify-content: center !important; line-height: 1 !important; min-height: 32px; }
+
+  /* ─── BADGE — center dot+text ─── */
+  .badge { line-height: 1.4 !important; vertical-align: middle; }
+  .badge .dot { flex: none; }
+  .badge .x { flex: none; margin-left: 2px; }
+
+  /* ─── AVATAR — restore status-dot positioning across sizes ─── */
+  .avatar { line-height: 1; }
+  .avatar.xs .status, .avatar.sm .status { width: 6px; height: 6px; border-width: 1.5px; }
+  .avatar.lg .status { width: 10px; height: 10px; }
+  .avatar.xl .status { width: 12px; height: 12px; }
+
+  /* Avatar group overlap — adjust for Airbnb avatar size */
+  .avatar-group .avatar { margin-left: -10px; border: 2px solid var(--bg-surface); }
+  .avatar-group .avatar:first-child { margin-left: 0; }
+
+  /* ─── CARD — consistent footer button alignment ─── */
+  .card-foot { align-items: center !important; }
+  .card-mini { display: flex !important; flex-direction: column !important; gap: 4px; }
+  .card-mini.media .body { display: flex; flex-direction: column; gap: 4px; }
+  .card-mini > .eb, .card-mini > .tt, .card-mini > .dd { margin: 0 !important; }
+
+  /* ─── ALERT — icon vs body alignment ─── */
+  .alert { align-items: flex-start !important; padding: 16px 18px !important; gap: 12px !important; }
+  .alert .icon { width: 18px !important; height: 18px !important; margin-top: 1px !important; }
+  .alert .body { display: flex; flex-direction: column; gap: 2px; }
+  .alert .ttl { line-height: 1.35; }
+  .alert .desc { line-height: 1.5; }
+
+  /* ─── TOAST — center close, tighter rhythm ─── */
+  .toast { align-items: flex-start !important; padding: 14px 16px !important; gap: 12px !important; }
+  .toast .body { display: flex; flex-direction: column; gap: 2px; flex: 1; }
+  .toast .x { margin-top: 2px; flex: none; }
+
+  /* ─── EMPTYSTATE — center children, even spacing ─── */
+  .empty { display: flex !important; flex-direction: column !important; align-items: center !important; gap: 10px; }
+  .empty .ic { margin-bottom: 4px; }
+  .empty .ttl { margin: 0 !important; }
+  .empty .desc { margin: 0 0 6px !important; max-width: 360px; }
+
+  /* ─── MODAL / DRAWER — close X aligned, footer rhythm ─── */
+  .modal-head { align-items: flex-start !important; }
+  .modal-head > div { display: flex; flex-direction: column; gap: 4px; }
+  .modal-head .x, .toast .x, .drawer-head .x { display: inline-flex; align-items: center; cursor: pointer; }
+  .modal-foot, .drawer-foot, .card-foot { gap: 10px !important; }
+
+  /* ─── TOOLTIP — vertical baseline ─── */
+  .tooltip { line-height: 1.4; }
+
+  /* ─── POPOVER / MENU — even row rhythm ─── */
+  .popover { line-height: 1.5; }
+  .menu { display: flex; flex-direction: column; gap: 1px; padding: 6px !important; }
+  .menu .it { line-height: 1.3 !important; }
+  .menu .it svg { flex: none; }
+  .menu .it .kbd { background: var(--bg-muted); padding: 2px 6px; border-radius: 4px; font-size: 11px; }
+  .menu .sep { margin: 4px -6px !important; }
+
+  /* HoverCard inner alignment */
+  .hover-card .row { display: flex; align-items: center; gap: 12px; }
+  .hover-card .desc { margin-top: 10px; line-height: 1.5; font-size: 14px; }
+
+  /* ─── TABS — even spacing, baseline alignment ─── */
+  .tabs { display: flex !important; align-items: center !important; gap: 4px; border-bottom: 1px solid var(--divider); }
+  .tabs .t { display: inline-flex !important; align-items: center !important; gap: 6px; }
+  .tabs .t .badge { transform: translateY(-1px); }
+
+  /* ─── PAGINATION — vertical center digits ─── */
+  .pager { align-items: center !important; }
+  .pager button { display: inline-flex !important; align-items: center !important; justify-content: center !important; line-height: 1 !important; }
+
+  /* ─── BREADCRUMB — vertical center arrows ─── */
+  .crumb { align-items: center !important; gap: 8px !important; }
+  .crumb svg { flex: none; vertical-align: middle; }
+
+  /* ─── TABLE — consistent vertical centering, header tracking ─── */
+  .tbl td, .tbl th { vertical-align: middle !important; }
+  .tbl .co { display: flex; align-items: center; gap: 12px; }
+
+  /* ─── METRIC card alignment ─── */
+  .metric { display: flex !important; flex-direction: column !important; gap: 6px; }
+  .metric .v { line-height: 1.05 !important; }
+  .metric .delta { display: inline-flex; align-items: center; gap: 4px; }
+
+  /* ─── FILTER BAR — consistent chip rhythm ─── */
+  .filter-bar { align-items: center !important; }
+  .chip { display: inline-flex !important; align-items: center !important; line-height: 1.3 !important; gap: 6px !important; }
+
+  /* ─── RECORD HEADER — center content, right-align actions ─── */
+  .record-header { align-items: center !important; gap: 16px; }
+  .record-header .body { display: flex; flex-direction: column; gap: 4px; }
+  .record-header .actions { margin-left: auto; display: flex; gap: 8px; }
+
+  /* ─── ACTIVITY TIMELINE — generous spacing ─── */
+  .timeline .it { padding: 12px 0 !important; align-items: flex-start; gap: 12px !important; }
+  .timeline .body { display: flex; flex-direction: column; gap: 2px; line-height: 1.45; }
+  .timeline .dot { flex: none; margin-top: 7px; width: 8px; height: 8px; }
+
+  /* ─── BULK ACTION BAR — center pill rhythm ─── */
+  .bulk-bar { align-items: center !important; }
+  .bulk-bar button { display: inline-flex; align-items: center; line-height: 1; }
+
+  /* ─── DATATABLE — alignment + cell rhythm ─── */
+  .dt-bar { align-items: center !important; }
+  .dt-bar .right { display: flex; align-items: center; gap: 8px; }
+  .dt-table tr td { vertical-align: middle !important; }
+  .dt-table .co { display: flex; align-items: center; gap: 10px; }
+  .dt-cb { vertical-align: middle; }
+
+  /* ─── KANBAN — rhythm + padding ─── */
+  .kanban { gap: 14px !important; }
+  .kcol { padding: 12px !important; }
+  .kcol .kh { padding: 4px 4px 10px !important; align-items: center; }
+  .kcard { padding: 14px 16px !important; }
+  .kcard .kt { line-height: 1.3 !important; }
+  .kcard .km { align-items: center !important; }
+
+  /* ─── ENTITY DETAIL PANEL ─── */
+  .edp-head { align-items: center !important; }
+  .edp-head > div { flex: 1; min-width: 0; }
+  .edp-tabs { gap: 18px !important; padding: 0 20px !important; }
+  .edp-grid .lbl, .edp-grid .val { line-height: 1.4; }
+
+  /* ─── EMPTYSTATE PRESETS — even card heights ─── */
+  .preset { min-height: 200px; justify-content: center; }
+  .preset .t { margin: 0 !important; }
+  .preset .d { margin: 0 !important; max-width: 220px; line-height: 1.45; }
+
+  /* ─── LAYOUTS ─── */
+  .as-top { align-items: center !important; }
+  .as-top .right { display: flex; align-items: center; gap: 10px; }
+  .as-top nav { align-items: center; }
+  .as-side { gap: 2px !important; }
+  .as-side .ni { line-height: 1.3 !important; align-items: center !important; }
+  .page-header { align-items: center !important; }
+  .page-header > div:first-child { display: flex; flex-direction: column; gap: 4px; }
+
+  /* Topbar / Sidebar / EAB / ViewBar / ContentLayout isolated */
+  .topbar-iso { align-items: center !important; }
+  .topbar-iso .right { display: flex; align-items: center; gap: 10px; }
+  .sidebar-iso { display: flex; flex-direction: column; gap: 2px; }
+  .sidebar-iso .ni { align-items: center !important; line-height: 1.3 !important; }
+  .sidebar-iso .grp { padding: 14px 12px 6px !important; }
+  .viewbar { align-items: center !important; }
+  .viewbar .vt { line-height: 1.3 !important; }
+  .eab { align-items: center !important; gap: 12px; }
+  .eab .actions { display: flex; align-items: center; gap: 8px; }
+  .cl-iso { align-items: stretch !important; }
+
+  /* ─── FOUNDATIONS — Elevation/Radius/Motion tile rhythm ─── */
+  .fnd-tile { gap: 12px !important; }
+  .fnd-meta { line-height: 1.5 !important; }
+  .rad-tile { gap: 10px !important; }
+  .motion-tile { gap: 12px !important; }
+  .motion-strip { gap: 14px !important; }
+
+  /* ─── Z-INDEX — responsive stacking ─── */
+  .zlayer-row { align-items: center !important; }
+  @media (max-width: 880px) {
+    .zlayer-row { grid-template-columns: 60px 1fr; gap: 12px; }
+    .zlayer-row .z-mini, .zlayer-row .z-use { display: none; }
+  }
+
+  /* ─── ADVANCED COMPONENTS ─── */
+  /* DatePicker grid centering */
+  .dp .dp-grid { gap: 4px !important; }
+  .dp .dp-day, .dp .dp-dow { display: flex; align-items: center; justify-content: center; }
+  .dp .dp-head { align-items: center !important; }
+
+  /* CommandPalette */
+  .cmdk-input { align-items: center !important; }
+  .cmdk-row { align-items: center !important; line-height: 1.3 !important; }
+  .cmdk-section { padding: 8px 0 !important; }
+  .cmdk-section .lbl { letter-spacing: 0.06em !important; padding: 6px 16px 4px !important; }
+
+  /* RichTextEditor toolbar alignment */
+  .rte-tb { align-items: center !important; }
+  .rte-tb .gp { align-items: center; }
+  .rte-tb button { display: inline-flex; align-items: center; justify-content: center; line-height: 1 !important; }
+
+  /* Chart card alignment */
+  .chart-card { display: flex; flex-direction: column; gap: 0; }
+  .chart-card .v { display: inline-flex; align-items: baseline; gap: 8px; }
+
+  /* InlineEditableField row alignment */
+  .inline-edit { align-items: center !important; line-height: 1.3 !important; }
+
+  /* FileUpload row alignment */
+  .file-drop { align-items: center !important; gap: 8px !important; }
+  .file-drop .t { line-height: 1.4; }
+  .file-row { align-items: center !important; gap: 12px !important; }
+  .file-row .nm { line-height: 1.3; }
+
+  /* ResponsiveContainer rows */
+  .rc-row { align-items: center !important; }
+
+  /* ─── PRIMITIVES ─── */
+  .prim-flex, .prim-stack { gap: 10px !important; }
+  .prim-grid { gap: 10px !important; }
+
+  /* ─── ICONS — perfectly centered cells, consistent gap ─── */
+  .icons { gap: 10px !important; }
+  .icon-cell { align-items: center !important; min-height: 80px; }
+  .icon-cell svg { display: block; }
+
+  /* ─── PAGENAV vertical center ─── */
+  .pagenav { align-items: center !important; }
+
+  /* ─── SEC-EYE alignment ─── */
+  .sec-eye { display: flex !important; align-items: center !important; }
+
+  /* ─── SPECIMEN HEAD — vertical center the meta + token-callout pills ─── */
+  .spec-head { align-items: center !important; flex-wrap: wrap; gap: 8px; }
+  .spec-name + .spec-meta { line-height: 1.3; }
+
+  /* ─── HERO / SUBTITLE — comfortable line height ─── */
+  .subtitle { line-height: 1.55 !important; max-width: 820px; }
+  .sec-note { line-height: 1.55 !important; max-width: 820px; }
+
+  /* ─── DOC-FOOT — consistent paragraph rhythm ─── */
+  .doc-foot p + p { margin-top: 12px; }
+
+  /* ─── Anchor bar margin ─── */
+  .anchor-bar { margin-bottom: 18px; height: 3px; width: 48px; }
 </style>
 </head>
 <body>
@@ -933,79 +1796,41 @@
 
   <nav class="pagenav" aria-label="Design system pages">
     <a href="system-v1.html"><span class="lk"></span>Prism v1</a>
-    <a href="components.html" class="is-active"><span class="lk"></span>Components</a>
+    <a href="components.html"><span class="lk"></span>Components</a>
     <a href="prism-charcoal.html"><span class="lk"></span>Charcoal</a>
     <a href="prism-airbnb.html"><span class="lk"></span>Airbnb</a>
-    <a href="prism-charcoal-airbnb.html"><span class="lk"></span>Charcoal × Airbnb</a>
+    <a href="prism-charcoal-airbnb.html" class="is-active"><span class="lk"></span>Charcoal × Airbnb</a>
   </nav>
 
   <header class="hero">
     <div class="anchor-bar"></div>
-    <h1>Components</h1>
-    <p class="subtitle">Every component in <code>src/design-system/</code>, rendered with Prism v1 tokens. Visual fidelity using the same CSS custom properties the React components consume — what you see here is what the actual <code>&lt;Button /&gt;</code>, <code>&lt;Modal /&gt;</code>, <code>&lt;Toast /&gt;</code> render at runtime.</p>
+    <h1>Prism components · Airbnb style</h1>
+    <p class="subtitle">The full <strong>Prism component inventory from the Charcoal tab</strong> — every button, input, badge, modal, table, pattern, layout, and the foundations — rendered with <strong>Airbnb's visual language</strong> on top. Manrope, white canvas, near-true-gray neutrals, 8/12/16 radii, barely-there 3-layer shadows, sentence-case CTAs, 48px buttons, dark-border focus, no Iowan serif. Charcoal <code>#191816</code> stays the workhorse CTA; brand red <code>#D21905</code> stays a link-motif accent only (sidenav marker, errors, required asterisk, the one-pixel anchor bar). No Airbnb-specific components here — these are Prism components in Airbnb clothing.</p>
   </header>
 
   <!-- ============ FOUNDATIONS ============ -->
   <section>
     <div class="sec-eye">Foundations — token scales</div>
     <h2 class="sec-title">Elevation, Radius, Motion, Z-index <span class="count">scales now visualized</span></h2>
-    <p class="sec-note">The four token scales that drive depth, corner-language, animation rhythm, and stacking order across every component below. Each card shows the runtime value pulled from <code>tokens/tokens.css</code>.</p>
+    <p class="sec-note">Same scale system as v1 — only the primary-CTA tint in <code>--shadow-primary-btn</code> shifts from Clay Red Light to Charcoal. Everything else is identical: warm Charcoal-alpha shadows, the 7-step radius scale, four motion durations, the seven z-layers.</p>
 
-    <!-- Elevation -->
     <div class="specimen">
-      <div class="spec-head"><span class="spec-name">Elevation — 9 shadow tokens</span><span class="spec-meta">warm Charcoal-alpha, never cool/black</span></div>
+      <div class="spec-head"><span class="spec-name">Elevation — 9 shadow tokens</span><span class="spec-meta">primary-btn now Charcoal-tinted</span></div>
       <div class="spec-body" style="background: var(--bg-canvas);">
         <div class="fnd-grid" style="width:100%">
-          <div class="fnd-tile">
-            <div class="fnd-swatch shadow-border"></div>
-            <div class="fnd-name">--shadow-border</div>
-            <div class="fnd-meta">1px inset hairline. Used as a non-color border on flat tiles.</div>
-          </div>
-          <div class="fnd-tile">
-            <div class="fnd-swatch shadow-sm"></div>
-            <div class="fnd-name">--shadow-sm</div>
-            <div class="fnd-meta">Resting cards, kanban tiles, table rows on hover.</div>
-          </div>
-          <div class="fnd-tile">
-            <div class="fnd-swatch shadow-md"></div>
-            <div class="fnd-name">--shadow-md</div>
-            <div class="fnd-meta">Floating tiles, hover-elevated cards.</div>
-          </div>
-          <div class="fnd-tile">
-            <div class="fnd-swatch shadow-lg"></div>
-            <div class="fnd-name">--shadow-lg</div>
-            <div class="fnd-meta">Detached panels, drag-preview cards.</div>
-          </div>
-          <div class="fnd-tile">
-            <div class="fnd-swatch shadow-xl"></div>
-            <div class="fnd-name">--shadow-xl</div>
-            <div class="fnd-meta">Heaviest standalone elevation; rarely used.</div>
-          </div>
-          <div class="fnd-tile">
-            <div class="fnd-swatch shadow-primary"></div>
-            <div class="fnd-name">--shadow-primary-btn</div>
-            <div class="fnd-meta">Inset highlight + brand-tinted drop on the primary CTA.</div>
-          </div>
-          <div class="fnd-tile">
-            <div class="fnd-swatch shadow-focus"></div>
-            <div class="fnd-name">--shadow-focus-ring</div>
-            <div class="fnd-meta">Brand-red ring at 32%. Inputs, buttons, focused tabs.</div>
-          </div>
-          <div class="fnd-tile">
-            <div class="fnd-swatch shadow-popover"></div>
-            <div class="fnd-name">--shadow-popover</div>
-            <div class="fnd-meta">Popover, DropdownMenu, HoverCard, DatePicker.</div>
-          </div>
-          <div class="fnd-tile">
-            <div class="fnd-swatch shadow-modal"></div>
-            <div class="fnd-name">--shadow-modal</div>
-            <div class="fnd-meta">Modal sheet + Drawer; the heaviest dialog elevation.</div>
-          </div>
+          <div class="fnd-tile"><div class="fnd-swatch shadow-border"></div><div class="fnd-name">--shadow-border</div><div class="fnd-meta">1px inset hairline. Used as a non-color border on flat tiles.</div></div>
+          <div class="fnd-tile"><div class="fnd-swatch shadow-sm"></div><div class="fnd-name">--shadow-sm</div><div class="fnd-meta">Resting cards, kanban tiles, table rows on hover.</div></div>
+          <div class="fnd-tile"><div class="fnd-swatch shadow-md"></div><div class="fnd-name">--shadow-md</div><div class="fnd-meta">Floating tiles, hover-elevated cards.</div></div>
+          <div class="fnd-tile"><div class="fnd-swatch shadow-lg"></div><div class="fnd-name">--shadow-lg</div><div class="fnd-meta">Detached panels, drag-preview cards.</div></div>
+          <div class="fnd-tile"><div class="fnd-swatch shadow-xl"></div><div class="fnd-name">--shadow-xl</div><div class="fnd-meta">Heaviest standalone elevation; rarely used.</div></div>
+          <div class="fnd-tile"><div class="fnd-swatch shadow-primary"></div><div class="fnd-name">--shadow-primary-btn</div><div class="fnd-meta">Inset highlight + Charcoal-tinted drop on the primary CTA.</div></div>
+          <div class="fnd-tile"><div class="fnd-swatch shadow-focus"></div><div class="fnd-name">--shadow-focus-ring</div><div class="fnd-meta">Brand-red ring at 32%. Inputs, buttons, focused tabs.</div></div>
+          <div class="fnd-tile"><div class="fnd-swatch shadow-popover"></div><div class="fnd-name">--shadow-popover</div><div class="fnd-meta">Popover, DropdownMenu, HoverCard, DatePicker.</div></div>
+          <div class="fnd-tile"><div class="fnd-swatch shadow-modal"></div><div class="fnd-name">--shadow-modal</div><div class="fnd-meta">Modal sheet + Drawer; the heaviest dialog elevation.</div></div>
         </div>
       </div>
     </div>
 
-    <!-- Radius -->
     <div class="specimen">
       <div class="spec-head"><span class="spec-name">Radius — 7 corner tokens</span></div>
       <div class="spec-body">
@@ -1021,31 +1846,14 @@
       </div>
     </div>
 
-    <!-- Motion -->
     <div class="specimen">
-      <div class="spec-head"><span class="spec-name">Motion — durations &amp; easings</span><span class="spec-meta">animations slowed 5× for inspection</span></div>
+      <div class="spec-head"><span class="spec-name">Motion — durations &amp; easings</span><span class="spec-meta">slowed 5× for inspection</span></div>
       <div class="spec-body">
         <div class="motion-strip" style="width:100%">
-          <div class="motion-tile fast">
-            <div class="fnd-name">--duration-fast</div>
-            <div class="motion-bar"></div>
-            <div class="fnd-meta">150ms · micro-feedback (toggle, hover)</div>
-          </div>
-          <div class="motion-tile norm">
-            <div class="fnd-name">--duration-normal</div>
-            <div class="motion-bar"></div>
-            <div class="fnd-meta">220ms · default UI transitions</div>
-          </div>
-          <div class="motion-tile slow">
-            <div class="fnd-name">--duration-slow</div>
-            <div class="motion-bar"></div>
-            <div class="fnd-meta">320ms · modals, drawers, page enter</div>
-          </div>
-          <div class="motion-tile delib">
-            <div class="fnd-name">--duration-deliberate</div>
-            <div class="motion-bar"></div>
-            <div class="fnd-meta">480ms · marketing reveals</div>
-          </div>
+          <div class="motion-tile fast"><div class="fnd-name">--duration-fast</div><div class="motion-bar"></div><div class="fnd-meta">150ms · micro-feedback</div></div>
+          <div class="motion-tile norm"><div class="fnd-name">--duration-normal</div><div class="motion-bar"></div><div class="fnd-meta">220ms · default UI</div></div>
+          <div class="motion-tile slow"><div class="fnd-name">--duration-slow</div><div class="motion-bar"></div><div class="fnd-meta">320ms · modals, drawers</div></div>
+          <div class="motion-tile delib"><div class="fnd-name">--duration-deliberate</div><div class="motion-bar"></div><div class="fnd-meta">480ms · marketing reveals</div></div>
         </div>
       </div>
       <div class="spec-body col" style="border-top: 1px solid var(--divider); padding-top: 16px;">
@@ -1061,18 +1869,52 @@
       </div>
     </div>
 
-    <!-- Z-index -->
     <div class="specimen">
-      <div class="spec-head"><span class="spec-name">Z-index — 7 layered surfaces</span></div>
-      <div class="spec-body" style="background: var(--bg-canvas);">
-        <div class="zstack">
-          <div class="zlayer l1">--z-dropdown<span class="v">1000</span></div>
-          <div class="zlayer l2">--z-sticky<span class="v">1100</span></div>
-          <div class="zlayer l3">--z-overlay<span class="v">1200</span></div>
-          <div class="zlayer l4">--z-modal<span class="v">1300</span></div>
-          <div class="zlayer l5">--z-popover<span class="v">1400</span></div>
-          <div class="zlayer l6">--z-toast<span class="v">1500</span></div>
-          <div class="zlayer l7">--z-tooltip<span class="v">1600</span></div>
+      <div class="spec-head"><span class="spec-name">Z-index — 7 layered surfaces</span><span class="spec-meta">stacking order: which surface wins when overlaps happen</span></div>
+      <div class="spec-body col" style="background: var(--bg-muted); padding: 24px !important;">
+        <div class="zstack-v2">
+          <div class="zlayer-row">
+            <div class="z-num">1600</div>
+            <div class="z-token">Tooltip<span class="label">--z-tooltip</span></div>
+            <div class="z-mini"><span class="z-mini-tooltip">Save this listing</span></div>
+            <div class="z-use">Highest layer. Always wins. Used for hover labels and quick hints.</div>
+          </div>
+          <div class="zlayer-row">
+            <div class="z-num">1500</div>
+            <div class="z-token">Toast<span class="label">--z-toast</span></div>
+            <div class="z-mini"><span class="z-mini-toast">Booking confirmed</span></div>
+            <div class="z-use">Ephemeral system notifications, anchored to a viewport corner.</div>
+          </div>
+          <div class="zlayer-row">
+            <div class="z-num">1400</div>
+            <div class="z-token">Popover<span class="label">--z-popover</span></div>
+            <div class="z-mini"><span class="z-mini-popover"><span>3 days</span><span>1 week</span><span>1 month</span></span></div>
+            <div class="z-use">Inline floating menus — date pickers, snooze options, hover cards.</div>
+          </div>
+          <div class="zlayer-row">
+            <div class="z-num">1300</div>
+            <div class="z-token">Modal<span class="label">--z-modal</span></div>
+            <div class="z-mini"><span class="z-mini-modal"><div class="t">Move deal?</div><div class="b">Confirm</div></span></div>
+            <div class="z-use">Blocking dialogs that demand a decision before continuing.</div>
+          </div>
+          <div class="zlayer-row">
+            <div class="z-num">1200</div>
+            <div class="z-token">Overlay<span class="label">--z-overlay</span></div>
+            <div class="z-mini"><span class="z-mini-overlay">Backdrop scrim</span></div>
+            <div class="z-use">Translucent dark layer behind a modal — dims and blocks interaction.</div>
+          </div>
+          <div class="zlayer-row">
+            <div class="z-num">1100</div>
+            <div class="z-token">Sticky<span class="label">--z-sticky</span></div>
+            <div class="z-mini"><span class="z-mini-sticky">Pinned page header</span></div>
+            <div class="z-use">Sticky chrome — page headers, filter bars that pin on scroll.</div>
+          </div>
+          <div class="zlayer-row">
+            <div class="z-num">1000</div>
+            <div class="z-token">Dropdown<span class="label">--z-dropdown</span></div>
+            <div class="z-mini"><span class="z-mini-dropdown"><span>Series A</span><span class="sel">Series B</span><span>Pre-Seed</span></span></div>
+            <div class="z-use">Lowest portal layer. Native-feeling select menus and option panels.</div>
+          </div>
         </div>
       </div>
     </div>
@@ -1127,7 +1969,7 @@
         <div class="spec-row">
           <button class="btn primary">Primary CTA</button>
           <span class="token-callout">--shadow-primary-btn</span>
-          <span class="fnd-meta">inset highlight + Clay-Red-tinted drop</span>
+          <span class="fnd-meta">inset highlight + Charcoal-tinted drop</span>
         </div>
         <div class="spec-row">
           <button class="btn secondary">Secondary</button>
@@ -1135,9 +1977,9 @@
           <span class="fnd-meta">1px hairline only — no drop</span>
         </div>
         <div class="spec-row">
-          <button class="btn primary" style="box-shadow: rgba(0,0,0,0.10) 0 0 0 1px inset, rgba(171,52,43,0.18) 0 2px 4px -2px, rgba(171,52,43,0.10) 0 3px 6px -2px, rgba(210,25,5,0.32) 0 0 0 2px;">Focused</button>
+          <button class="btn primary" style="box-shadow: rgba(0,0,0,0.10) 0 0 0 1px inset, rgba(25,24,22,0.20) 0 2px 4px -2px, rgba(25,24,22,0.10) 0 3px 6px -2px, rgba(210,25,5,0.32) 0 0 0 2px;">Focused</button>
           <span class="token-callout">--shadow-focus-ring</span>
-          <span class="fnd-meta">brand-red ring at 32% opacity stacks on top of any base shadow</span>
+          <span class="fnd-meta">brand-red ring at 32% — link-motif moment, identical across variants</span>
         </div>
       </div>
     </div>
@@ -1323,7 +2165,7 @@
           <div class="body">
             <div class="eb">With media</div>
             <div class="tt">Hero card</div>
-            <div class="dd">Top media slot.</div>
+            <div class="dd">Top media slot — Charcoal gradient.</div>
           </div>
         </div>
         <div class="card-mini" style="background: var(--bg-muted); border-color: var(--border-subtle);">
@@ -1578,7 +2420,7 @@
   <section>
     <div class="sec-eye">Advanced components</div>
     <h2 class="sec-title">InlineEdit, FileUpload, DatePicker, CommandPalette, RichTextEditor, Chart <span class="count">heavy-dep + power-user surfaces</span></h2>
-    <p class="sec-note">These were present in the kit but not yet rendered. Some have heavy dependencies (Tiptap / Recharts / cmdk) listed in <code>optionalDependencies</code>; what you see below is the visual contract — install the deps when you actually wire them up.</p>
+    <p class="sec-note">Same surface contracts as v1, with the primary CTA tint shifted to Charcoal. Selected calendar dates, chart bars, file-upload progress, and DataTable selection accents all swap to Charcoal — focus rings, errors, and the active-tab marker stay brand red (link-motif moments).</p>
 
     <div class="specimen">
       <div class="spec-head"><span class="spec-name">InlineEditableField</span><span class="spec-meta">click-to-edit, focus-ring on edit</span></div>
@@ -1698,7 +2540,7 @@
     </div>
 
     <div class="specimen">
-      <div class="spec-head"><span class="spec-name">Chart — KPI + bar + sparkline</span><span class="spec-meta">Recharts wrapper · palette open in design.md §9</span></div>
+      <div class="spec-head"><span class="spec-name">Chart — KPI + bar + sparkline</span><span class="spec-meta">Recharts wrapper · charcoal series</span></div>
       <div class="spec-body">
         <div class="chart-card">
           <div class="t">Deal velocity · 12 weeks</div>
@@ -2007,8 +2849,7 @@
               <div class="top"></div>
               <div class="mid"><div class="side"></div><div class="canv"><div class="row tall"></div><div class="grid2"><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div></div></div></div>
             </div>
-            <div class="pc-thumb-lbl pc-thumb-lbl">  </div>
-            <div class="lbl" style="text-align:center;font-size:11.5px;color:var(--text-secondary);font-weight:500;padding-top:6px;">Dashboard · KPIs + chart</div>
+            <div style="text-align:center;font-size:11.5px;color:var(--text-secondary);font-weight:500;padding-top:6px;">Dashboard · KPIs + chart</div>
           </div>
           <div>
             <div class="pc-thumb">
@@ -2134,7 +2975,7 @@
           <div class="ni"><svg><use href="#i-set"/></svg>Settings</div>
         </div>
         <div class="fnd-meta" style="max-width: 400px;">
-          The brand-red leading marker on the active item is one of the seven brand-pause budget moments. Hairline border + cool background, no drop shadow.
+          The brand-red leading marker on the active item is one of the seven brand-pause budget moments. Active background is Charcoal at 6% — quieter than the Clay-Red tinted v1.
         </div>
       </div>
     </div>
@@ -2179,7 +3020,7 @@
           <div class="gut"></div>
           <div class="center">
             <div class="h">Investment thesis · Aurelia Health</div>
-            <div class="b">A centered, max-width content column with responsive gutters on either side. The serif heading is the section anchor; body copy uses Switzer.</div>
+            <div class="b">A centered, max-width content column with responsive gutters on either side. Heading and body both use Manrope here — no serif anchor, sans throughout in the Airbnb register.</div>
           </div>
           <div class="gut"></div>
         </div>
@@ -2223,7 +3064,7 @@
     <div class="specimen">
       <div class="spec-head"><span class="spec-name">Heading + Text</span></div>
       <div class="spec-body col">
-        <div style="font-family:'Iowan Old Style',Georgia,serif; font-weight:400; font-size:36px; line-height:44px; letter-spacing:-0.01em;">India's brightest ideas, made global.</div>
+        <div style="font-family:'Manrope',sans-serif; font-weight:800; font-size:36px; line-height:44px; letter-spacing:-0.025em;">India's brightest ideas, made global.</div>
         <div style="font-size:24px; font-weight:600; letter-spacing:-0.01em;">Heading · page</div>
         <div style="font-size:18px; font-weight:600;">Heading · h2</div>
         <div style="font-size:14px;">Body · default — used for ~95% of in-product copy.</div>
@@ -2284,8 +3125,10 @@
   </section>
 
   <div class="doc-foot">
-    <h4>Why this is HTML, not React</h4>
-    <p>This page is a high-fidelity static recreation of the components, using the exact same CSS custom properties (<code>--cta-primary-bg</code>, <code>--bg-canvas</code>, <code>--text-primary</code>, …) that the React components in <code>src/design-system/</code> consume at runtime. Every button, badge, input, alert here renders pixel-aligned to its React counterpart. To run the actual React components — with full interactivity, Radix overlays, focus management — set up a Vite app that imports them; the wiring is documented in <code>src/design-system/README.md</code>.</p>
+    <h4>Prism components, Airbnb style</h4>
+    <p>This page is the inverse experiment of the <a href="prism-airbnb.html">Airbnb</a> tab. There, we showed pure Airbnb components (search pill, listing cards, photo grid, booking card, range picker, etc.). Here, we show <strong>only Prism components</strong> — the same inventory you see on the <a href="prism-charcoal.html">Charcoal</a> tab — but rerendered through Airbnb's visual lens.</p>
+    <p>What changed: <strong>Manrope replaces Switzer; the Iowan Old Style serif anchors are gone; canvas is pure white instead of cool slate; neutrals are near-true-gray; radii are 8 (buttons / inputs / chips), 12 (cards / panels), 16 (modals / drawers), pill (segmented controls / chips / pagination); shadows are 3-layer barely-there with max alpha 0.10; buttons are 48px tall, sentence case, weight 600; inputs are 48px tall with 2px dark focus borders; the bulk-action bar becomes a pill; pagination is circular; the section-anchor headings render Manrope 700 instead of serif.</strong> Charcoal stays the workhorse CTA; brand red stays a link-motif accent only — same discipline as the Charcoal tab.</p>
+    <p>Compare with <a href="prism-charcoal.html">Charcoal</a> to see the same components in the Prism v1 visual language. The components are identical; only the visual register changed.</p>
   </div>
 
 </div>

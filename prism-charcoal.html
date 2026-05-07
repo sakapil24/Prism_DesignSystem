@@ -164,7 +164,7 @@
   .btn:active { transform: scale(0.97); }
   .btn.primary {
     background: var(--cta-primary-bg); color: var(--cta-primary-fg);
-    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.10), 0 2px 4px -2px rgba(171,52,43,0.18), 0 3px 6px -2px rgba(171,52,43,0.10);
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.10), 0 2px 4px -2px rgba(25,24,22,0.20), 0 3px 6px -2px rgba(25,24,22,0.10);
   }
   .btn.primary:hover { background: var(--cta-primary-bg-hover); }
   .btn.secondary {
@@ -692,6 +692,250 @@
   .font-switch .ctrl-note code { color: var(--text-secondary); font-family: "SF Mono", Menlo, monospace; font-size: 0.92em; }
 
   .pagenav { flex-wrap: wrap; }
+
+  /* ─────────── FOUNDATIONS — Elevation, Radius, Motion, Z-index ─────────── */
+  .fnd-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
+  .fnd-tile {
+    background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 10px;
+    padding: 16px; display: flex; flex-direction: column; gap: 10px;
+  }
+  .fnd-swatch { height: 56px; border-radius: 8px; background: var(--bg-surface); }
+  .fnd-swatch.shadow-border    { box-shadow: rgba(25,24,22,0.05) 0 0 0 1px inset; }
+  .fnd-swatch.shadow-sm        { box-shadow: rgba(25,24,22,0.06) 0 1px 2px 0; }
+  .fnd-swatch.shadow-md        { box-shadow: rgba(25,24,22,0.08) 0 2px 8px -2px, rgba(25,24,22,0.04) 0 1px 2px 0; }
+  .fnd-swatch.shadow-lg        { box-shadow: rgba(25,24,22,0.12) 0 8px 24px -8px, rgba(25,24,22,0.06) 0 2px 6px -2px; }
+  .fnd-swatch.shadow-xl        { box-shadow: rgba(25,24,22,0.18) 0 24px 48px -16px, rgba(25,24,22,0.08) 0 4px 12px -4px; }
+  .fnd-swatch.shadow-primary   { box-shadow: rgba(0,0,0,0.10) 0 0 0 1px inset, rgba(25,24,22,0.20) 0 2px 4px -2px, rgba(25,24,22,0.10) 0 3px 6px -2px; background: var(--brand-charcoal); }
+  .fnd-swatch.shadow-focus     { box-shadow: rgba(210,25,5,0.32) 0 0 0 2px; }
+  .fnd-swatch.shadow-popover   { box-shadow: rgba(25,24,22,0.12) 0 8px 24px -8px, rgba(25,24,22,0.06) 0 2px 8px 0, rgba(25,24,22,0.04) 0 0 0 1px; }
+  .fnd-swatch.shadow-modal     { box-shadow: rgba(25,24,22,0.18) 0 24px 48px -16px, rgba(25,24,22,0.08) 0 4px 12px -4px; }
+  .fnd-name { font-family: "SF Mono", Menlo, monospace; font-size: 11.5px; color: var(--text-primary); }
+  .fnd-meta { font-size: 11.5px; color: var(--text-muted); line-height: 1.4; }
+
+  .rad-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 12px; }
+  .rad-tile { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 14px; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 10px; }
+  .rad-swatch { width: 60px; height: 60px; background: var(--brand-charcoal); }
+
+  .motion-strip { display: flex; flex-wrap: wrap; gap: 12px; }
+  .motion-tile { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; min-width: 150px; }
+  .motion-bar { height: 6px; border-radius: 999px; background: var(--bg-subtle); position: relative; overflow: hidden; }
+  .motion-bar::after { content: ""; position: absolute; top: 0; left: 0; height: 100%; width: 24%; background: var(--brand-charcoal); border-radius: 999px; animation: mb 1.6s cubic-bezier(0.2, 0, 0, 1) infinite alternate; }
+  .motion-tile.fast  .motion-bar::after { animation-duration: 600ms; }
+  .motion-tile.norm  .motion-bar::after { animation-duration: 1100ms; }
+  .motion-tile.slow  .motion-bar::after { animation-duration: 1600ms; }
+  .motion-tile.delib .motion-bar::after { animation-duration: 2400ms; }
+  @keyframes mb { from { left: 0; } to { left: 76%; } }
+
+  .zstack { position: relative; height: 240px; padding: 0; width: 100%; }
+  .zlayer { position: absolute; left: 50%; transform: translateX(-50%); background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 8px 14px; font-size: 11.5px; font-family: "SF Mono", Menlo, monospace; color: var(--text-primary); white-space: nowrap; }
+  .zlayer .v { color: var(--text-muted); margin-left: 8px; }
+  .zlayer.l1 { top: 6px;   width: 320px; box-shadow: rgba(25,24,22,0.06) 0 1px 2px 0; }
+  .zlayer.l2 { top: 36px;  width: 296px; box-shadow: rgba(25,24,22,0.08) 0 2px 8px -2px; }
+  .zlayer.l3 { top: 66px;  width: 272px; box-shadow: rgba(25,24,22,0.10) 0 4px 12px -4px; }
+  .zlayer.l4 { top: 96px;  width: 248px; box-shadow: rgba(25,24,22,0.12) 0 6px 16px -6px; }
+  .zlayer.l5 { top: 126px; width: 224px; box-shadow: rgba(25,24,22,0.14) 0 8px 20px -8px; }
+  .zlayer.l6 { top: 156px; width: 200px; box-shadow: rgba(25,24,22,0.16) 0 12px 24px -10px; }
+  .zlayer.l7 { top: 186px; width: 176px; box-shadow: rgba(25,24,22,0.18) 0 16px 28px -12px; }
+
+  /* InlineEditableField */
+  .inline-edit { display: inline-flex; align-items: center; gap: 6px; padding: 4px 8px; border-radius: 6px; cursor: text; font-size: 14px; }
+  .inline-edit:hover { background: var(--bg-subtle); }
+  .inline-edit svg { width: 12px; height: 12px; fill: var(--text-faint); opacity: 0; transition: opacity 120ms; }
+  .inline-edit:hover svg { opacity: 1; }
+  .inline-edit.editing { background: var(--bg-surface); border: 1px solid var(--brand-red); box-shadow: rgba(210,25,5,0.32) 0 0 0 2px; padding: 3px 7px; }
+
+  /* FileUpload */
+  .file-drop { border: 2px dashed var(--border-default); border-radius: 10px; padding: 28px 24px; display: flex; flex-direction: column; gap: 6px; align-items: center; text-align: center; background: var(--bg-muted); color: var(--text-secondary); min-width: 360px; }
+  .file-drop .ic { width: 36px; height: 36px; border-radius: 10px; background: var(--bg-surface); border: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: center; margin-bottom: 4px; }
+  .file-drop .ic svg { width: 16px; height: 16px; fill: var(--text-secondary); }
+  .file-drop .t { font-weight: 600; font-size: 13.5px; color: var(--text-primary); }
+  .file-drop .d { font-size: 12px; color: var(--text-muted); }
+  .file-drop .browse { color: var(--brand-red); text-decoration: underline; cursor: pointer; }
+  .file-row { display: flex; align-items: center; gap: 10px; background: var(--bg-surface); border: 1px solid var(--border-subtle); padding: 8px 12px; border-radius: 8px; }
+  .file-row .nm { font-size: 13px; flex: 1; }
+  .file-row .sz { font-size: 11.5px; color: var(--text-muted); }
+  .file-row .x { width: 14px; height: 14px; fill: var(--text-muted); cursor: pointer; }
+  .file-row .progress { width: 100%; height: 4px; background: var(--bg-subtle); border-radius: 999px; overflow: hidden; margin-top: 6px; }
+  .file-row .progress span { display: block; height: 100%; background: var(--brand-charcoal); border-radius: 999px; }
+
+  /* DatePicker */
+  .dp { width: 280px; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 14px; box-shadow: rgba(25,24,22,0.12) 0 8px 24px -8px, rgba(25,24,22,0.06) 0 2px 8px 0, rgba(25,24,22,0.04) 0 0 0 1px; }
+  .dp .dp-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .dp .dp-head .m { font-size: 13.5px; font-weight: 600; }
+  .dp .dp-head svg { width: 12px; height: 12px; fill: var(--text-muted); cursor: pointer; }
+  .dp .dp-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; font-size: 11.5px; text-align: center; }
+  .dp .dp-dow { color: var(--text-muted); padding: 4px 0; font-weight: 600; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.06em; }
+  .dp .dp-day { padding: 6px 0; border-radius: 4px; cursor: pointer; }
+  .dp .dp-day:hover { background: var(--bg-subtle); }
+  .dp .dp-day.muted { color: var(--text-faint); }
+  .dp .dp-day.today { box-shadow: inset 0 0 0 1px var(--border-default); font-weight: 600; }
+  .dp .dp-day.sel { background: var(--brand-charcoal); color: var(--brand-pearl); }
+  .dp .dp-day.in-range { background: rgba(25,24,22,0.06); }
+
+  /* CommandPalette */
+  .cmdk { width: 480px; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 12px; box-shadow: rgba(25,24,22,0.18) 0 24px 48px -16px, rgba(25,24,22,0.08) 0 4px 12px -4px; overflow: hidden; }
+  .cmdk-input { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-bottom: 1px solid var(--divider); }
+  .cmdk-input svg { width: 14px; height: 14px; fill: var(--text-muted); }
+  .cmdk-input .ph { flex: 1; color: var(--text-secondary); font-size: 14px; }
+  .cmdk-input .kbd { font-size: 10.5px; padding: 2px 6px; border-radius: 4px; border: 1px solid var(--border-subtle); color: var(--text-muted); font-family: "SF Mono", Menlo, monospace; }
+  .cmdk-section { padding: 6px 0; }
+  .cmdk-section .lbl { font-size: 10.5px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; padding: 6px 14px 2px; }
+  .cmdk-row { display: flex; align-items: center; gap: 10px; padding: 8px 14px; cursor: pointer; }
+  .cmdk-row:hover, .cmdk-row.active { background: var(--bg-subtle); }
+  .cmdk-row svg { width: 14px; height: 14px; fill: var(--text-secondary); }
+  .cmdk-row .label { font-size: 13.5px; flex: 1; }
+  .cmdk-row .meta { font-size: 11.5px; color: var(--text-muted); }
+
+  /* RichTextEditor */
+  .rte { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 10px; min-width: 500px; }
+  .rte-tb { display: flex; align-items: center; gap: 2px; padding: 6px; border-bottom: 1px solid var(--divider); flex-wrap: wrap; background: var(--bg-muted); border-radius: 10px 10px 0 0; }
+  .rte-tb .gp { display: flex; gap: 2px; padding: 0 6px; border-right: 1px solid var(--divider); }
+  .rte-tb .gp:last-child { border-right: 0; }
+  .rte-tb button { width: 26px; height: 26px; border: 0; background: transparent; border-radius: 4px; color: var(--text-secondary); cursor: pointer; font-size: 12px; font-weight: 600; }
+  .rte-tb button:hover { background: var(--bg-subtle); color: var(--text-primary); }
+  .rte-tb button.is-active { background: var(--bg-surface); color: var(--text-primary); box-shadow: inset 0 0 0 1px var(--border-subtle); }
+  .rte-tb button svg { width: 14px; height: 14px; fill: currentColor; vertical-align: middle; }
+  .rte-tb button .b { font-style: normal; }
+  .rte-tb button .i { font-style: italic; }
+  .rte-tb button .u { text-decoration: underline; }
+  .rte-body { padding: 14px 16px; font-size: 14px; line-height: 1.55; min-height: 100px; }
+  .rte-body h3 { font-size: 16px; font-weight: 600; margin: 0 0 6px; }
+  .rte-body p { margin: 0 0 8px; }
+  .rte-body ul { margin: 0; padding-left: 20px; }
+
+  /* Chart card */
+  .chart-card { padding: 16px; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 10px; min-width: 320px; }
+  .chart-card .t { font-size: 11.5px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
+  .chart-card .v { font-size: 24px; font-weight: 600; letter-spacing: -0.01em; margin: 4px 0 12px; font-family: "Iowan Old Style", Georgia, serif; }
+  .chart-bars { display: flex; align-items: flex-end; gap: 6px; height: 100px; }
+  .chart-bars span { flex: 1; background: var(--brand-charcoal); border-radius: 3px 3px 0 0; }
+  .chart-bars span.faint { background: rgba(25,24,22,0.30); }
+  .spark { display: flex; align-items: flex-end; gap: 3px; height: 36px; margin-top: 4px; }
+  .spark span { flex: 1; background: var(--brand-charcoal); border-radius: 1px; opacity: 0.85; }
+
+  /* DataTable */
+  .dt { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 10px; overflow: hidden; width: 100%; }
+  .dt-bar { display: flex; align-items: center; gap: 6px; padding: 10px 12px; border-bottom: 1px solid var(--divider); background: var(--bg-muted); flex-wrap: wrap; }
+  .dt-bar .chip { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 999px; font-size: 11.5px; }
+  .dt-bar .chip svg { width: 10px; height: 10px; fill: var(--text-muted); }
+  .dt-bar .right { margin-left: auto; display: flex; gap: 6px; align-items: center; }
+  .dt-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .dt-table th { text-align: left; font-weight: 600; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); padding: 8px 12px; border-bottom: 1px solid var(--divider); background: var(--bg-muted); }
+  .dt-table th .sort { display: inline-block; margin-left: 4px; opacity: 0.6; font-size: 9px; }
+  .dt-table td { padding: 10px 12px; border-bottom: 1px solid var(--divider); vertical-align: middle; }
+  .dt-table tr:last-child td { border-bottom: 0; }
+  .dt-table tr.sel td { background: rgba(25,24,22,0.04); }
+  .dt-cb { width: 14px; height: 14px; border: 1px solid var(--border-default); border-radius: 3px; display: inline-block; vertical-align: middle; position: relative; background: var(--bg-surface); }
+  .dt-cb.ck { background: var(--brand-charcoal); border-color: var(--brand-charcoal); }
+  .dt-cb.ck::after { content: ""; position: absolute; left: 3px; top: 1px; width: 4px; height: 8px; border: solid #fff; border-width: 0 1.5px 1.5px 0; transform: rotate(45deg); }
+
+  /* Kanban */
+  .kanban { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; min-width: 760px; width: 100%; }
+  .kcol { background: var(--bg-muted); border-radius: 8px; padding: 10px; }
+  .kcol .kh { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; padding: 4px 4px 8px; }
+  .kcol .kh .ct { margin-left: auto; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 999px; padding: 1px 7px; color: var(--text-secondary); font-size: 11px; letter-spacing: 0; text-transform: none; font-weight: 500; }
+  .kcard { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 6px; padding: 10px 12px; margin-bottom: 8px; box-shadow: rgba(25,24,22,0.06) 0 1px 2px 0; }
+  .kcard:last-child { margin-bottom: 0; }
+  .kcard .kt { font-size: 13px; font-weight: 600; }
+  .kcard .kd { font-size: 11.5px; color: var(--text-muted); margin-top: 2px; }
+  .kcard .km { display: flex; align-items: center; gap: 6px; margin-top: 8px; }
+  .kcard .km .v { font-size: 11.5px; color: var(--text-secondary); margin-left: auto; }
+
+  /* EntityDetailPanel */
+  .edp { width: 360px; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 10px; }
+  .edp-head { padding: 14px 16px; border-bottom: 1px solid var(--divider); display: flex; align-items: center; gap: 10px; }
+  .edp-head .av { width: 36px; height: 36px; border-radius: 8px; background: var(--brand-charcoal); color: var(--brand-pearl); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; }
+  .edp-head .ttl { font-weight: 600; font-size: 14px; }
+  .edp-head .meta { font-size: 11.5px; color: var(--text-muted); }
+  .edp-tabs { display: flex; gap: 16px; border-bottom: 1px solid var(--divider); padding: 0 16px; }
+  .edp-tabs .ti { padding: 8px 0; font-size: 12.5px; color: var(--text-muted); border-bottom: 2px solid transparent; cursor: pointer; }
+  .edp-tabs .ti.active { color: var(--text-primary); border-bottom-color: var(--brand-red); font-weight: 600; }
+  .edp-grid { padding: 14px 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px 18px; }
+  .edp-grid .lbl { font-size: 10.5px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
+  .edp-grid .val { font-size: 13px; color: var(--text-primary); margin-top: 2px; }
+
+  /* Page composition thumbnails */
+  .pc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+  .pc-thumb { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 8px; aspect-ratio: 16/10; display: flex; flex-direction: column; gap: 4px; }
+  .pc-thumb .top { height: 11%; background: var(--bg-subtle); border-radius: 3px; }
+  .pc-thumb .mid { flex: 1; display: flex; gap: 4px; }
+  .pc-thumb .mid .side { width: 22%; background: var(--bg-subtle); border-radius: 3px; }
+  .pc-thumb .mid .canv { flex: 1; background: var(--bg-muted); border-radius: 3px; display: flex; flex-direction: column; gap: 3px; padding: 6px; }
+  .pc-thumb .mid .canv .row { height: 8px; background: var(--bg-subtle); border-radius: 2px; }
+  .pc-thumb .mid .canv .row.tall { height: 32px; }
+  .pc-thumb .mid .canv .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; }
+  .pc-thumb .mid .canv .grid2 .cell { height: 22px; background: var(--bg-subtle); border-radius: 2px; }
+  .pc-thumb .lbl { font-size: 11.5px; color: var(--text-secondary); text-align: center; padding: 6px 0 2px; font-weight: 500; }
+
+  /* Topbar standalone */
+  .topbar-iso { display: flex; align-items: center; gap: 16px; height: 48px; padding: 0 16px; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 8px; width: 100%; }
+  .topbar-iso .logo { font-family: "Iowan Old Style", Georgia, serif; font-size: 17px; font-weight: 600; }
+  .topbar-iso .logo .lk { display: inline-block; width: 12px; height: 2px; background: var(--brand-red); vertical-align: middle; margin-right: 8px; }
+  .topbar-iso nav { display: flex; gap: 4px; }
+  .topbar-iso nav a { font-size: 13px; color: var(--text-secondary); padding: 6px 10px; border-radius: 6px; cursor: pointer; }
+  .topbar-iso nav a.active { color: var(--text-primary); background: var(--bg-subtle); font-weight: 500; }
+  .topbar-iso .right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+
+  /* Sidebar standalone */
+  .sidebar-iso { width: 220px; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 12px 10px; flex: none; }
+  .sidebar-iso .ni { display: flex; align-items: center; gap: 10px; padding: 8px 10px; font-size: 13px; color: var(--text-secondary); cursor: pointer; border-radius: 6px; position: relative; }
+  .sidebar-iso .ni svg { width: 14px; height: 14px; fill: currentColor; }
+  .sidebar-iso .ni:hover { background: var(--bg-subtle); }
+  .sidebar-iso .ni.active { background: rgba(25,24,22,0.06); color: var(--text-primary); font-weight: 500; }
+  .sidebar-iso .ni.active::before { content: ""; position: absolute; left: -10px; top: 8px; bottom: 8px; width: 2px; background: var(--brand-red); border-radius: 2px; }
+  .sidebar-iso .grp { font-size: 10.5px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; padding: 12px 10px 4px; }
+
+  /* ViewBar */
+  .viewbar { display: flex; align-items: center; gap: 4px; padding: 6px 10px; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 8px; width: 100%; flex-wrap: wrap; }
+  .viewbar .vt { display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px; font-size: 12.5px; color: var(--text-secondary); border-radius: 6px; cursor: pointer; }
+  .viewbar .vt.active { background: var(--bg-subtle); color: var(--text-primary); font-weight: 500; }
+  .viewbar .vt .ct { color: var(--text-muted); font-size: 11px; }
+  .viewbar .add { margin-left: auto; color: var(--text-muted); font-size: 12.5px; padding: 5px 8px; cursor: pointer; }
+
+  /* EntityActionBar */
+  .eab { display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 8px; width: 100%; }
+  .eab .ttl { font-weight: 600; font-size: 14px; }
+  .eab .meta { font-size: 11.5px; color: var(--text-muted); margin-left: 8px; }
+  .eab .actions { margin-left: auto; display: flex; gap: 6px; }
+
+  /* ContentLayout */
+  .cl-iso { display: grid; grid-template-columns: 80px 1fr 80px; gap: 12px; width: 100%; align-items: stretch; }
+  .cl-iso .gut { background: repeating-linear-gradient(45deg, transparent, transparent 5px, var(--border-subtle) 5px, var(--border-subtle) 6px); border-radius: 4px; min-height: 140px; }
+  .cl-iso .center { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 22px; }
+  .cl-iso .center .h { font-family: "Iowan Old Style", Georgia, serif; font-size: 22px; font-weight: 400; }
+  .cl-iso .center .b { font-size: 13px; color: var(--text-secondary); margin-top: 6px; }
+
+  /* EmptyState presets */
+  .preset-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+  .preset { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 18px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .preset .ic { width: 40px; height: 40px; border-radius: 10px; background: var(--bg-subtle); display: flex; align-items: center; justify-content: center; }
+  .preset .ic svg { width: 18px; height: 18px; fill: var(--text-secondary); }
+  .preset .t { font-weight: 600; font-size: 13.5px; }
+  .preset .d { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
+
+  /* Card variants */
+  .card-mini { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 14px 16px; min-width: 200px; max-width: 240px; }
+  .card-mini.elevated { box-shadow: rgba(25,24,22,0.08) 0 2px 8px -2px, rgba(25,24,22,0.04) 0 1px 2px 0; border-color: transparent; }
+  .card-mini.outline { box-shadow: none; }
+  .card-mini.media { padding: 0; overflow: hidden; }
+  .card-mini.media .img { height: 70px; background: linear-gradient(135deg, var(--brand-charcoal), #2B2825); }
+  .card-mini.interactive { cursor: pointer; transition: transform 150ms, box-shadow 150ms; }
+  .card-mini.interactive:hover { transform: translateY(-1px); box-shadow: rgba(25,24,22,0.12) 0 8px 24px -8px, rgba(25,24,22,0.06) 0 2px 6px -2px; }
+  .card-mini .eb { font-size: 10.5px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
+  .card-mini .tt { font-size: 14px; font-weight: 600; margin-top: 4px; }
+  .card-mini .dd { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+  .card-mini.media .body { padding: 10px 14px; }
+
+  /* ResponsiveContainer */
+  .rc-demo { display: flex; flex-direction: column; gap: 8px; width: 100%; }
+  .rc-row { display: grid; grid-template-columns: 64px 1fr; gap: 10px; align-items: center; }
+  .rc-row .bp { font-size: 10.5px; font-family: "SF Mono", Menlo, monospace; color: var(--text-muted); }
+  .rc-row .bar { height: 22px; background: var(--bg-subtle); border-radius: 4px; position: relative; }
+  .rc-row .bar .fill { position: absolute; top: 0; left: 0; height: 100%; background: var(--brand-charcoal); border-radius: 4px; opacity: 0.85; display: flex; align-items: center; padding: 0 8px; color: var(--brand-pearl); font-size: 11px; font-weight: 500; }
+
+  /* Token callout */
+  .token-callout { display: inline-flex; align-items: center; gap: 6px; padding: 3px 8px; background: var(--bg-muted); border: 1px solid var(--border-subtle); border-radius: 999px; font-family: "SF Mono", Menlo, monospace; font-size: 11px; color: var(--text-secondary); }
+  .token-callout::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--brand-red); }
 </style>
 </head>
 <body data-font="switzer">
@@ -740,6 +984,8 @@
     <a href="system-v1.html"><span class="lk"></span>Prism v1</a>
     <a href="components.html"><span class="lk"></span>Components</a>
     <a href="prism-charcoal.html" class="is-active"><span class="lk"></span>Charcoal</a>
+    <a href="prism-airbnb.html"><span class="lk"></span>Airbnb</a>
+    <a href="prism-charcoal-airbnb.html"><span class="lk"></span>Charcoal × Airbnb</a>
   </nav>
 
   <header class="hero">
@@ -758,6 +1004,83 @@
     </div>
     <span class="ctrl-note">*Graphik is licensed; <code>Plus Jakarta Sans</code> renders here as a close free analog.</span>
   </div>
+
+  <!-- ============ FOUNDATIONS ============ -->
+  <section>
+    <div class="sec-eye">Foundations — token scales</div>
+    <h2 class="sec-title">Elevation, Radius, Motion, Z-index <span class="count">scales now visualized</span></h2>
+    <p class="sec-note">Same scale system as v1 — only the primary-CTA tint in <code>--shadow-primary-btn</code> shifts from Clay Red Light to Charcoal. Everything else is identical: warm Charcoal-alpha shadows, the 7-step radius scale, four motion durations, the seven z-layers.</p>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">Elevation — 9 shadow tokens</span><span class="spec-meta">primary-btn now Charcoal-tinted</span></div>
+      <div class="spec-body" style="background: var(--bg-canvas);">
+        <div class="fnd-grid" style="width:100%">
+          <div class="fnd-tile"><div class="fnd-swatch shadow-border"></div><div class="fnd-name">--shadow-border</div><div class="fnd-meta">1px inset hairline. Used as a non-color border on flat tiles.</div></div>
+          <div class="fnd-tile"><div class="fnd-swatch shadow-sm"></div><div class="fnd-name">--shadow-sm</div><div class="fnd-meta">Resting cards, kanban tiles, table rows on hover.</div></div>
+          <div class="fnd-tile"><div class="fnd-swatch shadow-md"></div><div class="fnd-name">--shadow-md</div><div class="fnd-meta">Floating tiles, hover-elevated cards.</div></div>
+          <div class="fnd-tile"><div class="fnd-swatch shadow-lg"></div><div class="fnd-name">--shadow-lg</div><div class="fnd-meta">Detached panels, drag-preview cards.</div></div>
+          <div class="fnd-tile"><div class="fnd-swatch shadow-xl"></div><div class="fnd-name">--shadow-xl</div><div class="fnd-meta">Heaviest standalone elevation; rarely used.</div></div>
+          <div class="fnd-tile"><div class="fnd-swatch shadow-primary"></div><div class="fnd-name">--shadow-primary-btn</div><div class="fnd-meta">Inset highlight + Charcoal-tinted drop on the primary CTA.</div></div>
+          <div class="fnd-tile"><div class="fnd-swatch shadow-focus"></div><div class="fnd-name">--shadow-focus-ring</div><div class="fnd-meta">Brand-red ring at 32%. Inputs, buttons, focused tabs.</div></div>
+          <div class="fnd-tile"><div class="fnd-swatch shadow-popover"></div><div class="fnd-name">--shadow-popover</div><div class="fnd-meta">Popover, DropdownMenu, HoverCard, DatePicker.</div></div>
+          <div class="fnd-tile"><div class="fnd-swatch shadow-modal"></div><div class="fnd-name">--shadow-modal</div><div class="fnd-meta">Modal sheet + Drawer; the heaviest dialog elevation.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">Radius — 7 corner tokens</span></div>
+      <div class="spec-body">
+        <div class="rad-grid" style="width:100%">
+          <div class="rad-tile"><div class="rad-swatch" style="border-radius:2px;"></div><div class="fnd-name">--radius-sm</div><div class="fnd-meta">2px · chips, sm buttons</div></div>
+          <div class="rad-tile"><div class="rad-swatch" style="border-radius:4px;"></div><div class="fnd-name">--radius-md</div><div class="fnd-meta">4px · table cells</div></div>
+          <div class="rad-tile"><div class="rad-swatch" style="border-radius:8px;"></div><div class="fnd-name">--radius-lg</div><div class="fnd-meta">8px · cards, panels</div></div>
+          <div class="rad-tile"><div class="rad-swatch" style="border-radius:12px;"></div><div class="fnd-name">--radius-xl</div><div class="fnd-meta">12px · large cards</div></div>
+          <div class="rad-tile"><div class="rad-swatch" style="border-radius:16px;"></div><div class="fnd-name">--radius-2xl</div><div class="fnd-meta">16px · hero blocks</div></div>
+          <div class="rad-tile"><div class="rad-swatch" style="border-radius:24px;"></div><div class="fnd-name">--radius-3xl</div><div class="fnd-meta">24px · marketing</div></div>
+          <div class="rad-tile"><div class="rad-swatch" style="border-radius:9999px;"></div><div class="fnd-name">--radius-full</div><div class="fnd-meta">pills, avatars</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">Motion — durations &amp; easings</span><span class="spec-meta">slowed 5× for inspection</span></div>
+      <div class="spec-body">
+        <div class="motion-strip" style="width:100%">
+          <div class="motion-tile fast"><div class="fnd-name">--duration-fast</div><div class="motion-bar"></div><div class="fnd-meta">150ms · micro-feedback</div></div>
+          <div class="motion-tile norm"><div class="fnd-name">--duration-normal</div><div class="motion-bar"></div><div class="fnd-meta">220ms · default UI</div></div>
+          <div class="motion-tile slow"><div class="fnd-name">--duration-slow</div><div class="motion-bar"></div><div class="fnd-meta">320ms · modals, drawers</div></div>
+          <div class="motion-tile delib"><div class="fnd-name">--duration-deliberate</div><div class="motion-bar"></div><div class="fnd-meta">480ms · marketing reveals</div></div>
+        </div>
+      </div>
+      <div class="spec-body col" style="border-top: 1px solid var(--divider); padding-top: 16px;">
+        <div class="fnd-meta" style="font-size: 12.5px;">
+          <strong style="color: var(--text-primary);">Easings:</strong>
+          <code>--ease-default</code> cubic-bezier(0.2, 0, 0, 1) ·
+          <code>--ease-in</code> ease-in ·
+          <code>--ease-out</code> ease-out ·
+          <code>--ease-entrance</code> entrance reveals ·
+          <code>--ease-spring</code> overshoot for emphasized motion ·
+          <code>--ease-emphasized</code> hero pop
+        </div>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">Z-index — 7 layered surfaces</span></div>
+      <div class="spec-body" style="background: var(--bg-canvas);">
+        <div class="zstack">
+          <div class="zlayer l1">--z-dropdown<span class="v">1000</span></div>
+          <div class="zlayer l2">--z-sticky<span class="v">1100</span></div>
+          <div class="zlayer l3">--z-overlay<span class="v">1200</span></div>
+          <div class="zlayer l4">--z-modal<span class="v">1300</span></div>
+          <div class="zlayer l5">--z-popover<span class="v">1400</span></div>
+          <div class="zlayer l6">--z-toast<span class="v">1500</span></div>
+          <div class="zlayer l7">--z-tooltip<span class="v">1600</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- ============ BUTTONS ============ -->
   <section>
@@ -801,6 +1124,27 @@
         <button class="btn ghost icon-only" aria-label="Settings"><svg><use href="#i-set"/></svg></button>
       </div>
     </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">Elevation callouts</span><span class="spec-meta">tokens applied per variant</span></div>
+      <div class="spec-body col">
+        <div class="spec-row">
+          <button class="btn primary">Primary CTA</button>
+          <span class="token-callout">--shadow-primary-btn</span>
+          <span class="fnd-meta">inset highlight + Charcoal-tinted drop</span>
+        </div>
+        <div class="spec-row">
+          <button class="btn secondary">Secondary</button>
+          <span class="token-callout">--shadow-border</span>
+          <span class="fnd-meta">1px hairline only — no drop</span>
+        </div>
+        <div class="spec-row">
+          <button class="btn primary" style="box-shadow: rgba(0,0,0,0.10) 0 0 0 1px inset, rgba(25,24,22,0.20) 0 2px 4px -2px, rgba(25,24,22,0.10) 0 3px 6px -2px, rgba(210,25,5,0.32) 0 0 0 2px;">Focused</button>
+          <span class="token-callout">--shadow-focus-ring</span>
+          <span class="fnd-meta">brand-red ring at 32% — link-motif moment, identical across variants</span>
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- ============ INPUTS ============ -->
@@ -812,7 +1156,7 @@
       <div class="spec-head"><span class="spec-name">Input states</span><span class="spec-meta">default · focused · disabled · error</span></div>
       <div class="spec-body">
         <div class="field"><span class="label">Default</span><input class="input" placeholder="Enter value" /></div>
-        <div class="field"><span class="label">Focused</span><div class="input focused">$2,500,000</div></div>
+        <div class="field"><span class="label">Focused</span><div class="input focused">$2,500,000</div><span class="token-callout">--shadow-focus-ring</span></div>
         <div class="field"><span class="label">Disabled</span><input class="input is-disabled" value="Read-only" disabled /></div>
         <div class="field"><span class="label">Error</span><input class="input error-state" value="abc" /><span class="err">Investment amount is required.</span></div>
       </div>
@@ -944,7 +1288,7 @@
     </div>
 
     <div class="specimen">
-      <div class="spec-head"><span class="spec-name">Card</span></div>
+      <div class="spec-head"><span class="spec-name">Card — full anatomy</span></div>
       <div class="spec-body">
         <div class="card">
           <div class="card-head">
@@ -956,6 +1300,40 @@
             <button class="btn ghost sm">Snooze</button>
             <button class="btn primary sm">Open Memo</button>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">Card — variants</span><span class="spec-meta">outline · elevated · interactive · with media</span></div>
+      <div class="spec-body">
+        <div class="card-mini outline">
+          <div class="eb">Outline</div>
+          <div class="tt">Default surface</div>
+          <div class="dd">1px border, no shadow.</div>
+        </div>
+        <div class="card-mini elevated">
+          <div class="eb">Elevated</div>
+          <div class="tt">Floating card</div>
+          <div class="dd">Uses --shadow-md.</div>
+        </div>
+        <div class="card-mini interactive">
+          <div class="eb">Interactive</div>
+          <div class="tt">Hover me</div>
+          <div class="dd">Lifts on hover (–1px, --shadow-lg).</div>
+        </div>
+        <div class="card-mini media">
+          <div class="img"></div>
+          <div class="body">
+            <div class="eb">With media</div>
+            <div class="tt">Hero card</div>
+            <div class="dd">Top media slot — Charcoal gradient.</div>
+          </div>
+        </div>
+        <div class="card-mini" style="background: var(--bg-muted); border-color: var(--border-subtle);">
+          <div class="eb">Subdued</div>
+          <div class="tt">Background variant</div>
+          <div class="dd">Sits inside elevated panels.</div>
         </div>
       </div>
     </div>
@@ -1030,7 +1408,7 @@
     </div>
 
     <div class="specimen">
-      <div class="spec-head"><span class="spec-name">Modal</span></div>
+      <div class="spec-head"><span class="spec-name">Modal</span><span class="spec-meta">elevation</span><span class="token-callout" style="margin-left:auto;">--shadow-modal</span></div>
       <div class="spec-body">
         <div class="modal">
           <div class="modal-head">
@@ -1044,7 +1422,7 @@
     </div>
 
     <div class="specimen">
-      <div class="spec-head"><span class="spec-name">Drawer</span><span class="spec-meta">side sheet, right-aligned at runtime</span></div>
+      <div class="spec-head"><span class="spec-name">Drawer</span><span class="spec-meta">side sheet, right-aligned at runtime</span><span class="token-callout" style="margin-left:auto;">--shadow-modal</span></div>
       <div class="spec-body">
         <div class="drawer">
           <div class="drawer-head"><div class="t">Edit deal</div></div>
@@ -1085,7 +1463,7 @@
     </div>
 
     <div class="specimen">
-      <div class="spec-head"><span class="spec-name">Popover</span></div>
+      <div class="spec-head"><span class="spec-name">Popover</span><span class="token-callout" style="margin-left:auto;">--shadow-popover</span></div>
       <div class="spec-body">
         <div class="popover">
           <div class="popover-t">Snooze deal</div>
@@ -1100,7 +1478,7 @@
     </div>
 
     <div class="specimen">
-      <div class="spec-head"><span class="spec-name">DropdownMenu / ContextMenu</span></div>
+      <div class="spec-head"><span class="spec-name">DropdownMenu / ContextMenu</span><span class="token-callout" style="margin-left:auto;">--shadow-popover</span></div>
       <div class="spec-body">
         <div class="menu">
           <div class="it"><svg><use href="#i-edit"/></svg>Edit deal<span class="kbd">⌘E</span></div>
@@ -1117,7 +1495,7 @@
     </div>
 
     <div class="specimen">
-      <div class="spec-head"><span class="spec-name">HoverCard</span></div>
+      <div class="spec-head"><span class="spec-name">HoverCard</span><span class="token-callout" style="margin-left:auto;">--shadow-popover</span></div>
       <div class="spec-body">
         <div class="hover-card">
           <div class="row">
@@ -1200,6 +1578,178 @@
     </div>
   </section>
 
+  <!-- ============ ADVANCED COMPONENTS ============ -->
+  <section>
+    <div class="sec-eye">Advanced components</div>
+    <h2 class="sec-title">InlineEdit, FileUpload, DatePicker, CommandPalette, RichTextEditor, Chart <span class="count">heavy-dep + power-user surfaces</span></h2>
+    <p class="sec-note">Same surface contracts as v1, with the primary CTA tint shifted to Charcoal. Selected calendar dates, chart bars, file-upload progress, and DataTable selection accents all swap to Charcoal — focus rings, errors, and the active-tab marker stay brand red (link-motif moments).</p>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">InlineEditableField</span><span class="spec-meta">click-to-edit, focus-ring on edit</span></div>
+      <div class="spec-body col">
+        <div class="spec-row"><span class="spec-label">Default</span><span class="inline-edit">$2,500,000<svg><use href="#i-edit"/></svg></span></div>
+        <div class="spec-row"><span class="spec-label">Hover</span><span class="inline-edit" style="background: var(--bg-subtle);">Series A<svg style="opacity:1;"><use href="#i-edit"/></svg></span></div>
+        <div class="spec-row"><span class="spec-label">Editing</span><span class="inline-edit editing">Aurelia Health</span></div>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">FileUpload — drop zone + browse + progress</span></div>
+      <div class="spec-body col">
+        <div class="file-drop">
+          <div class="ic"><svg><use href="#i-file"/></svg></div>
+          <div class="t">Drop files here, or <span class="browse">browse</span></div>
+          <div class="d">PDF, DOCX, XLSX up to 25 MB · max 10 files</div>
+        </div>
+        <div class="file-row">
+          <svg style="width:14px;height:14px;fill:var(--text-secondary);"><use href="#i-file"/></svg>
+          <div style="flex:1;">
+            <div class="nm">aurelia-deck-q2-2026.pdf <span class="sz">· 4.2 MB</span></div>
+            <div class="progress"><span style="width: 68%;"></span></div>
+          </div>
+          <svg class="x"><use href="#i-close"/></svg>
+        </div>
+        <div class="file-row">
+          <svg style="width:14px;height:14px;fill:var(--st-success-fg);"><use href="#i-check"/></svg>
+          <div class="nm">cap-table-final.xlsx</div>
+          <span class="sz">312 KB</span>
+          <svg class="x"><use href="#i-close"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">DatePicker</span><span class="spec-meta">range · today · selection</span><span class="token-callout" style="margin-left:auto;">--shadow-popover</span></div>
+      <div class="spec-body">
+        <div class="dp">
+          <div class="dp-head">
+            <svg><use href="#i-cleft"/></svg>
+            <div class="m">May 2026</div>
+            <svg><use href="#i-cright"/></svg>
+          </div>
+          <div class="dp-grid">
+            <div class="dp-dow">M</div><div class="dp-dow">T</div><div class="dp-dow">W</div><div class="dp-dow">T</div><div class="dp-dow">F</div><div class="dp-dow">S</div><div class="dp-dow">S</div>
+            <div class="dp-day muted">28</div><div class="dp-day muted">29</div><div class="dp-day muted">30</div><div class="dp-day">1</div><div class="dp-day">2</div><div class="dp-day">3</div><div class="dp-day">4</div>
+            <div class="dp-day">5</div><div class="dp-day today">6</div><div class="dp-day">7</div><div class="dp-day">8</div><div class="dp-day">9</div><div class="dp-day">10</div><div class="dp-day">11</div>
+            <div class="dp-day sel">12</div><div class="dp-day in-range">13</div><div class="dp-day in-range">14</div><div class="dp-day in-range">15</div><div class="dp-day in-range">16</div><div class="dp-day sel">17</div><div class="dp-day">18</div>
+            <div class="dp-day">19</div><div class="dp-day">20</div><div class="dp-day">21</div><div class="dp-day">22</div><div class="dp-day">23</div><div class="dp-day">24</div><div class="dp-day">25</div>
+            <div class="dp-day">26</div><div class="dp-day">27</div><div class="dp-day">28</div><div class="dp-day">29</div><div class="dp-day">30</div><div class="dp-day">31</div><div class="dp-day muted">1</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">CommandPalette</span><span class="spec-meta">⌘K / global search</span><span class="token-callout" style="margin-left:auto;">--shadow-modal</span></div>
+      <div class="spec-body" style="background: rgba(25,24,22,0.04); padding: 28px;">
+        <div class="cmdk">
+          <div class="cmdk-input">
+            <svg><use href="#i-search"/></svg>
+            <span class="ph">Search deals, founders, files…</span>
+            <span class="kbd">ESC</span>
+          </div>
+          <div class="cmdk-section">
+            <div class="lbl">Recent</div>
+            <div class="cmdk-row active"><svg><use href="#i-deal"/></svg><span class="label">Aurelia Health · Series A</span><span class="meta">Deal</span></div>
+            <div class="cmdk-row"><svg><use href="#i-person"/></svg><span class="label">Naina Sharma</span><span class="meta">Partner</span></div>
+            <div class="cmdk-row"><svg><use href="#i-file"/></svg><span class="label">Q2-2026 partner memo.pdf</span><span class="meta">File</span></div>
+          </div>
+          <div class="cmdk-section">
+            <div class="lbl">Quick actions</div>
+            <div class="cmdk-row"><svg><use href="#i-plus"/></svg><span class="label">New deal…</span><span class="meta">⌘N</span></div>
+            <div class="cmdk-row"><svg><use href="#i-imp"/></svg><span class="label">Export portfolio CSV</span><span class="meta">⌘E</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">RichTextEditor</span><span class="spec-meta">Tiptap-backed memo surface</span></div>
+      <div class="spec-body">
+        <div class="rte">
+          <div class="rte-tb">
+            <div class="gp">
+              <button class="is-active"><span class="b">B</span></button>
+              <button><span class="i">I</span></button>
+              <button><span class="u">U</span></button>
+            </div>
+            <div class="gp">
+              <button>H1</button>
+              <button class="is-active">H2</button>
+              <button>H3</button>
+            </div>
+            <div class="gp">
+              <button aria-label="Bullet list">•</button>
+              <button aria-label="Numbered list">1.</button>
+              <button aria-label="Quote">"</button>
+            </div>
+            <div class="gp">
+              <button aria-label="Link"><svg><use href="#i-link"/></svg></button>
+              <button aria-label="Image"><svg><use href="#i-file"/></svg></button>
+            </div>
+          </div>
+          <div class="rte-body">
+            <h3>Investment thesis · Aurelia Health</h3>
+            <p>Aurelia is building a <strong>clinical-grade triage assistant</strong> for Tier-2 hospitals. Founders ex-AIIMS + IITM with prior exit.</p>
+            <ul>
+              <li>$2.5M @ $18M post for Series A</li>
+              <li>14 LOIs, 3 design partners signed</li>
+              <li>Path to $5M ARR by Q4 2026</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">Chart — KPI + bar + sparkline</span><span class="spec-meta">Recharts wrapper · charcoal series</span></div>
+      <div class="spec-body">
+        <div class="chart-card">
+          <div class="t">Deal velocity · 12 weeks</div>
+          <div class="v">47 <span style="font-size:12px; color:var(--st-success-fg); font-weight:500; margin-left:6px;">▲ 18%</span></div>
+          <div class="chart-bars">
+            <span class="faint" style="height:30%"></span>
+            <span class="faint" style="height:42%"></span>
+            <span class="faint" style="height:38%"></span>
+            <span style="height:48%"></span>
+            <span style="height:62%"></span>
+            <span style="height:55%"></span>
+            <span style="height:70%"></span>
+            <span style="height:64%"></span>
+            <span style="height:78%"></span>
+            <span style="height:82%"></span>
+            <span style="height:90%"></span>
+            <span style="height:100%"></span>
+          </div>
+        </div>
+        <div class="chart-card" style="min-width:240px;">
+          <div class="t">Pipeline value</div>
+          <div class="v">$48.2M</div>
+          <div class="spark">
+            <span style="height:35%"></span><span style="height:45%"></span><span style="height:30%"></span>
+            <span style="height:50%"></span><span style="height:65%"></span><span style="height:55%"></span>
+            <span style="height:75%"></span><span style="height:60%"></span><span style="height:80%"></span>
+            <span style="height:90%"></span><span style="height:75%"></span><span style="height:100%"></span>
+          </div>
+          <div class="fnd-meta" style="margin-top: 8px;">12 weeks · trailing</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">ResponsiveContainer</span><span class="spec-meta">max-widths per breakpoint</span></div>
+      <div class="spec-body">
+        <div class="rc-demo">
+          <div class="rc-row"><span class="bp">sm · 640</span><div class="bar"><div class="fill" style="width:40%;">640px</div></div></div>
+          <div class="rc-row"><span class="bp">md · 768</span><div class="bar"><div class="fill" style="width:55%;">768px</div></div></div>
+          <div class="rc-row"><span class="bp">lg · 1024</span><div class="bar"><div class="fill" style="width:70%;">1024px</div></div></div>
+          <div class="rc-row"><span class="bp">xl · 1280</span><div class="bar"><div class="fill" style="width:85%;">1280px</div></div></div>
+          <div class="rc-row"><span class="bp">2xl · 1440</span><div class="bar"><div class="fill" style="width:100%;">1440px</div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ============ PATTERNS ============ -->
   <section>
     <div class="sec-eye">Patterns</div>
@@ -1273,12 +1823,240 @@
         </div>
       </div>
     </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">DataTable</span><span class="spec-meta">filter chips · sort · multi-select · richer than plain Table</span></div>
+      <div class="spec-body" style="padding:0">
+        <div class="dt">
+          <div class="dt-bar">
+            <span class="chip">Stage: <strong style="margin-left:2px;">Series A</strong> <svg><use href="#i-close"/></svg></span>
+            <span class="chip">Owner: KV, NS <svg><use href="#i-close"/></svg></span>
+            <span class="chip">Updated this week <svg><use href="#i-close"/></svg></span>
+            <button class="btn ghost sm" style="padding: 0 8px;"><svg><use href="#i-plus"/></svg>Add filter</button>
+            <div class="right">
+              <span class="fnd-meta" style="font-size: 11.5px;">23 of 47</span>
+              <button class="btn secondary sm"><svg><use href="#i-imp"/></svg>Export</button>
+              <button class="btn ghost sm icon-only"><svg><use href="#i-set"/></svg></button>
+            </div>
+          </div>
+          <table class="dt-table">
+            <thead>
+              <tr>
+                <th style="width:32px;"><span class="dt-cb"></span></th>
+                <th>Company <span class="sort">▼</span></th>
+                <th>Stage</th>
+                <th>Owner</th>
+                <th style="text-align:right;">Amount <span class="sort">▼</span></th>
+                <th>Status</th>
+                <th>Updated</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="sel">
+                <td><span class="dt-cb ck"></span></td>
+                <td><div class="co"><span class="avatar sm">AH</span>Aurelia Health</div></td>
+                <td>Series A</td>
+                <td><span class="avatar xs">KV</span></td>
+                <td class="amt" style="text-align:right;">$2,500,000</td>
+                <td><span class="badge amber"><span class="dot"></span>Term Sheet</span></td>
+                <td><span class="fnd-meta">2h ago</span></td>
+              </tr>
+              <tr>
+                <td><span class="dt-cb"></span></td>
+                <td><div class="co"><span class="avatar sm">HX</span>Helix Robotics</div></td>
+                <td>Seed</td>
+                <td><span class="avatar xs">NS</span></td>
+                <td class="amt" style="text-align:right;">$1,200,000</td>
+                <td><span class="badge blue"><span class="dot"></span>Diligence</span></td>
+                <td><span class="fnd-meta">1d ago</span></td>
+              </tr>
+              <tr class="sel">
+                <td><span class="dt-cb ck"></span></td>
+                <td><div class="co"><span class="avatar sm">MA</span>Mosaic AI</div></td>
+                <td>Series B</td>
+                <td><span class="avatar xs">RP</span></td>
+                <td class="amt" style="text-align:right;">$8,000,000</td>
+                <td><span class="badge green"><span class="dot"></span>Closed Won</span></td>
+                <td><span class="fnd-meta">3d ago</span></td>
+              </tr>
+              <tr>
+                <td><span class="dt-cb"></span></td>
+                <td><div class="co"><span class="avatar sm">TL</span>Tundra Logistics</div></td>
+                <td>Pre-Seed</td>
+                <td><span class="avatar xs">KV</span></td>
+                <td class="amt" style="text-align:right;">$400,000</td>
+                <td><span class="badge gray"><span class="dot"></span>Sourced</span></td>
+                <td><span class="fnd-meta">5d ago</span></td>
+              </tr>
+              <tr>
+                <td><span class="dt-cb"></span></td>
+                <td><div class="co"><span class="avatar sm">EV</span>Everest Solar</div></td>
+                <td>Series A</td>
+                <td><span class="avatar xs">NS</span></td>
+                <td class="amt" style="text-align:right;">$3,750,000</td>
+                <td><span class="badge blue"><span class="dot"></span>Diligence</span></td>
+                <td><span class="fnd-meta">1w ago</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">KanbanBoard</span><span class="spec-meta">draggable columns · pipeline view</span></div>
+      <div class="spec-body" style="overflow-x: auto;">
+        <div class="kanban">
+          <div class="kcol">
+            <div class="kh">Sourced <span class="ct">8</span></div>
+            <div class="kcard"><div class="kt">Tundra Logistics</div><div class="kd">Pre-Seed · cold intro</div><div class="km"><span class="badge gray sm"><span class="dot"></span>Sourced</span><span class="v">$400K</span></div></div>
+            <div class="kcard"><div class="kt">Atlas Robotics</div><div class="kd">Seed · warm intro</div><div class="km"><span class="badge gray sm"><span class="dot"></span>Sourced</span><span class="v">$800K</span></div></div>
+          </div>
+          <div class="kcol">
+            <div class="kh">Diligence <span class="ct">5</span></div>
+            <div class="kcard"><div class="kt">Helix Robotics</div><div class="kd">Seed · 3 calls done</div><div class="km"><span class="badge blue sm"><span class="dot"></span>Diligence</span><span class="v">$1.2M</span></div></div>
+            <div class="kcard"><div class="kt">Everest Solar</div><div class="kd">Series A · ref calls</div><div class="km"><span class="badge blue sm"><span class="dot"></span>Diligence</span><span class="v">$3.75M</span></div></div>
+          </div>
+          <div class="kcol">
+            <div class="kh">Term Sheet <span class="ct">2</span></div>
+            <div class="kcard" style="box-shadow: rgba(25,24,22,0.12) 0 8px 24px -8px, rgba(25,24,22,0.06) 0 2px 6px -2px;"><div class="kt">Aurelia Health</div><div class="kd">Series A · partner sign</div><div class="km"><span class="badge amber sm"><span class="dot"></span>Term Sheet</span><span class="v">$2.5M</span></div></div>
+          </div>
+          <div class="kcol">
+            <div class="kh">Closed <span class="ct">12</span></div>
+            <div class="kcard"><div class="kt">Mosaic AI</div><div class="kd">Series B · wired</div><div class="km"><span class="badge green sm"><span class="dot"></span>Closed Won</span><span class="v">$8M</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">EntityDetailPanel</span><span class="spec-meta">right-side detail rail</span></div>
+      <div class="spec-body">
+        <div class="edp">
+          <div class="edp-head">
+            <span class="av">AH</span>
+            <div style="flex:1;">
+              <div class="ttl">Aurelia Health</div>
+              <div class="meta">Series A · Bangalore, IN</div>
+            </div>
+            <svg style="width:12px;height:12px;fill:var(--text-muted);cursor:pointer;"><use href="#i-more"/></svg>
+          </div>
+          <div class="edp-tabs">
+            <span class="ti active">Overview</span>
+            <span class="ti">Diligence</span>
+            <span class="ti">Activity</span>
+            <span class="ti">Files</span>
+          </div>
+          <div class="edp-grid">
+            <div><div class="lbl">Stage</div><div class="val">Term Sheet</div></div>
+            <div><div class="lbl">Owner</div><div class="val">Kapil V.</div></div>
+            <div><div class="lbl">Amount</div><div class="val">$2,500,000</div></div>
+            <div><div class="lbl">Round size</div><div class="val">$8.0M</div></div>
+            <div><div class="lbl">Valuation</div><div class="val">$18.0M post</div></div>
+            <div><div class="lbl">Close date</div><div class="val">May 24, 2026</div></div>
+            <div style="grid-column: 1 / -1;"><div class="lbl">Thesis</div><div class="val">Clinical-grade triage assistant for Tier-2 hospitals. Founders ex-AIIMS + IITM.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">EmptyStatePresets</span><span class="spec-meta">6 catalogued contexts</span></div>
+      <div class="spec-body">
+        <div class="preset-grid" style="width:100%">
+          <div class="preset">
+            <div class="ic"><svg><use href="#i-deal"/></svg></div>
+            <div class="t">No deals yet</div>
+            <div class="d">First-run state for a brand-new workspace.</div>
+            <button class="btn primary sm" style="margin-top: 4px;"><svg><use href="#i-plus"/></svg>Add deal</button>
+          </div>
+          <div class="preset">
+            <div class="ic"><svg><use href="#i-search"/></svg></div>
+            <div class="t">No results</div>
+            <div class="d">Try removing a filter or widening the date range.</div>
+            <button class="btn secondary sm" style="margin-top: 4px;">Clear filters</button>
+          </div>
+          <div class="preset">
+            <div class="ic"><svg style="fill:var(--st-error-fg);"><use href="#i-close"/></svg></div>
+            <div class="t">Something went wrong</div>
+            <div class="d">We couldn't load this view. Refresh to try again.</div>
+            <button class="btn secondary sm" style="margin-top: 4px;">Retry</button>
+          </div>
+          <div class="preset">
+            <div class="ic"><svg><use href="#i-set"/></svg></div>
+            <div class="t">No access</div>
+            <div class="d">Ask an admin for the Reports permission.</div>
+          </div>
+          <div class="preset">
+            <div class="ic"><svg><use href="#i-file"/></svg></div>
+            <div class="t">No files attached</div>
+            <div class="d">Drop a deck, cap table, or memo to get started.</div>
+            <button class="btn secondary sm" style="margin-top: 4px;">Upload</button>
+          </div>
+          <div class="preset">
+            <div class="ic"><svg><use href="#i-act"/></svg></div>
+            <div class="t">No activity yet</div>
+            <div class="d">Notes, calls, and emails will appear here.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">PageCompositions</span><span class="spec-meta">page templates from the kit</span></div>
+      <div class="spec-body">
+        <div class="pc-grid" style="width:100%">
+          <div>
+            <div class="pc-thumb">
+              <div class="top"></div>
+              <div class="mid"><div class="side"></div><div class="canv"><div class="row tall"></div><div class="grid2"><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div></div></div></div>
+            </div>
+            <div style="text-align:center;font-size:11.5px;color:var(--text-secondary);font-weight:500;padding-top:6px;">Dashboard · KPIs + chart</div>
+          </div>
+          <div>
+            <div class="pc-thumb">
+              <div class="top"></div>
+              <div class="mid"><div class="side"></div><div class="canv"><div class="row"></div><div class="row"></div><div class="row"></div><div class="row"></div><div class="row"></div></div></div>
+            </div>
+            <div style="text-align:center;font-size:11.5px;color:var(--text-secondary);font-weight:500;padding-top:6px;">List view · DataTable</div>
+          </div>
+          <div>
+            <div class="pc-thumb">
+              <div class="top"></div>
+              <div class="mid"><div class="side"></div><div class="canv" style="flex-direction:row;"><div style="flex:1;background:var(--bg-subtle);border-radius:2px;"></div><div style="flex:1;background:var(--bg-subtle);border-radius:2px;"></div><div style="flex:1;background:var(--bg-subtle);border-radius:2px;"></div><div style="flex:1;background:var(--bg-subtle);border-radius:2px;"></div></div></div>
+            </div>
+            <div style="text-align:center;font-size:11.5px;color:var(--text-secondary);font-weight:500;padding-top:6px;">Pipeline · Kanban</div>
+          </div>
+          <div>
+            <div class="pc-thumb">
+              <div class="top"></div>
+              <div class="mid"><div class="side"></div><div class="canv"><div class="row tall"></div><div class="row"></div><div class="row"></div></div><div class="side" style="width:30%;"></div></div>
+            </div>
+            <div style="text-align:center;font-size:11.5px;color:var(--text-secondary);font-weight:500;padding-top:6px;">Record detail · Detail rail</div>
+          </div>
+          <div>
+            <div class="pc-thumb">
+              <div class="top"></div>
+              <div class="mid"><div class="canv"><div class="row tall" style="height:50%"></div><div class="row"></div><div class="row"></div></div></div>
+            </div>
+            <div style="text-align:center;font-size:11.5px;color:var(--text-secondary);font-weight:500;padding-top:6px;">Settings · Centered form</div>
+          </div>
+          <div>
+            <div class="pc-thumb">
+              <div class="top"></div>
+              <div class="mid"><div class="canv" style="background: transparent;"><div style="flex:1;background:var(--bg-muted);border-radius:3px;display:flex;align-items:center;justify-content:center;"><div style="width:40px;height:40px;background:var(--bg-subtle);border-radius:50%;"></div></div></div></div>
+            </div>
+            <div style="text-align:center;font-size:11.5px;color:var(--text-secondary);font-weight:500;padding-top:6px;">Empty · Onboarding</div>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- ============ LAYOUTS ============ -->
   <section>
     <div class="sec-eye">Layouts</div>
-    <h2 class="sec-title">AppShell, Sidebar, Topbar, PageHeader</h2>
+    <h2 class="sec-title">AppShell, Sidebar, Topbar, PageHeader, ContentLayout, EntityActionBar, ViewBar <span class="count">7 layout primitives</span></h2>
 
     <div class="specimen">
       <div class="spec-head"><span class="spec-name">AppShell — top bar + sidebar + content</span></div>
@@ -1319,6 +2097,94 @@
             <div class="d">47 deals · sorted by Updated, descending.</div>
           </div>
           <div class="actions"><button class="btn secondary sm"><svg><use href="#i-imp"/></svg>Export</button><button class="btn primary sm"><svg><use href="#i-plus"/></svg>New deal</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">Topbar — isolated</span><span class="spec-meta">logo · nav · search · avatar</span></div>
+      <div class="spec-body">
+        <div class="topbar-iso">
+          <div class="logo"><span class="lk"></span>Prism</div>
+          <nav>
+            <a class="active">Deal Flow</a>
+            <a>Portfolio</a>
+            <a>Contacts</a>
+            <a>Reports</a>
+          </nav>
+          <div class="right">
+            <div class="select-trigger" style="width:200px; height:28px; font-size:12px;"><svg style="width:12px;height:12px;fill:var(--text-muted)"><use href="#i-search"/></svg><span class="placeholder">Search…</span><span class="kbd" style="margin-left:auto;font-size:10.5px;padding:1px 5px;border:1px solid var(--border-subtle);border-radius:3px;color:var(--text-muted);font-family:'SF Mono',Menlo,monospace;">⌘K</span></div>
+            <button class="btn ghost icon-only sm" aria-label="Notifications"><svg><use href="#i-bell"/></svg></button>
+            <span class="avatar sm">KV</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">Sidebar — isolated</span><span class="spec-meta">grouped nav with active marker</span></div>
+      <div class="spec-body">
+        <div class="sidebar-iso">
+          <div class="grp">Workspace</div>
+          <div class="ni"><svg><use href="#i-home"/></svg>Dashboard</div>
+          <div class="ni active"><svg><use href="#i-deal"/></svg>Deal Flow</div>
+          <div class="ni"><svg><use href="#i-company"/></svg>Portfolio</div>
+          <div class="ni"><svg><use href="#i-person"/></svg>Contacts</div>
+          <div class="grp">Insights</div>
+          <div class="ni"><svg><use href="#i-act"/></svg>Reports</div>
+          <div class="ni"><svg><use href="#i-star"/></svg>Saved views</div>
+          <div class="grp">Account</div>
+          <div class="ni"><svg><use href="#i-set"/></svg>Settings</div>
+        </div>
+        <div class="fnd-meta" style="max-width: 400px;">
+          The brand-red leading marker on the active item is one of the seven brand-pause budget moments. Active background is Charcoal at 6% — quieter than the Clay-Red tinted v1.
+        </div>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">EntityActionBar</span><span class="spec-meta">inline action header on detail records</span></div>
+      <div class="spec-body">
+        <div class="eab">
+          <span class="avatar sm">AH</span>
+          <span class="ttl">Aurelia Health</span>
+          <span class="badge amber"><span class="dot"></span>Term Sheet</span>
+          <span class="meta">Series A · last updated 2h ago</span>
+          <div class="actions">
+            <button class="btn ghost sm icon-only" aria-label="Star"><svg><use href="#i-star"/></svg></button>
+            <button class="btn ghost sm"><svg><use href="#i-share"/></svg>Share</button>
+            <button class="btn secondary sm"><svg><use href="#i-edit"/></svg>Edit</button>
+            <button class="btn primary sm">Open Memo</button>
+            <button class="btn ghost sm icon-only" aria-label="More"><svg><use href="#i-more"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">ViewBar</span><span class="spec-meta">saved-view tabs above DataTables</span></div>
+      <div class="spec-body">
+        <div class="viewbar">
+          <span class="vt active">All deals <span class="ct">47</span></span>
+          <span class="vt">My deals <span class="ct">12</span></span>
+          <span class="vt">Term Sheet <span class="ct">2</span></span>
+          <span class="vt">Closed Q2 <span class="ct">8</span></span>
+          <span class="vt">Cold inbound <span class="ct">23</span></span>
+          <span class="add">+ New view</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <div class="spec-head"><span class="spec-name">ContentLayout</span><span class="spec-meta">centered narrow / fluid · responsive gutters</span></div>
+      <div class="spec-body">
+        <div class="cl-iso">
+          <div class="gut"></div>
+          <div class="center">
+            <div class="h">Investment thesis · Aurelia Health</div>
+            <div class="b">A centered, max-width content column with responsive gutters on either side. The serif heading is the section anchor; body copy uses Switzer.</div>
+          </div>
+          <div class="gut"></div>
         </div>
       </div>
     </div>
